@@ -17,7 +17,8 @@
     "isolatedModules": true,
     "noEmit": true,
     "allowImportingTsExtensions": true,
-
+    "typeRoots": ["./node_modules/@types", "./src/typings"],
+    "types": [],
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
@@ -27,10 +28,9 @@
       ],
       
     },
-    "typeRoots": ["./node_modules/@types", "./src/typings"]
+   
   },
   "include": ["src"],
   "exclude": ["vite.config.ts"],
   "extends": ["./tsconfig.app.json", "./tsconfig.node.json"]
-  // "references": [{ "path": "./tsconfig.node.json" },]
 }
