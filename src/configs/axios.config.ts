@@ -1,7 +1,8 @@
+import { EMethod } from '@/constants';
+import i18n from '@/locales';
 import axios from 'axios';
-import { ApiMethod } from '@/constants';
 
-const baseURL = import.meta.env.VITE_BACKEND_URL; // URL cơ bản của API, được lấy từ biến môi trường
+const baseURL = import.meta.env.VITE_PUBLIC_BACKEND_URL; // URL cơ bản của API, được lấy từ biến môi trường'
 const NO_RETRY_HEADER = 'x-no-retry'; // Tên của header dùng để tránh lặp lại việc refresh token
 // Tạo instance axios để gọi API
 export const apiConfig = axios.create({
@@ -9,7 +10,7 @@ export const apiConfig = axios.create({
   withCredentials: true, // Đảm bảo cookie được gửi kèm trong các yêu cầu
 });
 export const apiRequest = (
-  method: ApiMethod,
+  method: EMethod,
   url: string,
   isMultipart: boolean,
   data?: any
@@ -34,7 +35,7 @@ apiConfig.interceptors.request.use(
     }
     const language = localStorage.getItem('i18nextLng');
     if (language) {
-      config.headers['Accept-Language'] = language === 'vn' ? 'vi' : 'en';
+      config.headers['Accept-Language'] = i18n.language;
     }
     return config;
   },

@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     host: '0.0.0.0', // Mở rộng để tất cả các IP có thể kết nối
-    port: 3000,
+    port: 3001,
   },
   resolve: {
     alias: {

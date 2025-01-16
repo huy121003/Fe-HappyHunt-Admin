@@ -1,2 +1,2 @@
-import ApiMethod from './ApiMethod';
-export { ApiMethod };
+import { EMethod } from './EMethod';
+export { EMethod };
