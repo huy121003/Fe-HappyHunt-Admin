@@ -2,3 +2,23 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.ant-pagination-item-active {
+  border-color: #FC6D26 !important;
+  /* Màu viền của mục đang hoạt động */
+  background-color: #FFF5F8 !important;
+  /* Nền mục đang hoạt động */
+
+}
+
+.ant-table-thead>tr>th {
+  background-color: #FC6D26 !important;
+  /* Nền header */
+  color: #ffffff !important;
+  /* Màu chữ */
+  border: 1px solid #FC6D26 !important;
+  /* Viền header */
+  text-align: center;
+  
+  /* Căn giữa chữ */
+}

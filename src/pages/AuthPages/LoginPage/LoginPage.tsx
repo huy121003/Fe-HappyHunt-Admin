@@ -23,7 +23,9 @@ function LoginPage() {
         });
         localStorage.setItem('access_token', res.data.access_token);
         dispatch(loginaction(res.data.result));
-        navigate('/');
+        if (res.data.result.role.name === 'Super Admin') {
+          navigate('/admin');
+        } else navigate('/');
       } else {
         notification.error({
           message: t('common.error'),

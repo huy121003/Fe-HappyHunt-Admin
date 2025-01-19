@@ -1,23 +1,33 @@
+import authApi from '@/apis/authApi';
 import { EMethod } from '@/constants';
 import i18n from '@/locales';
 import axios from 'axios';
 
-const baseURL = import.meta.env.VITE_PUBLIC_BACKEND_URL; // URL cơ bản của API, được lấy từ biến môi trường'
-const NO_RETRY_HEADER = 'x-no-retry'; // Tên của header dùng để tránh lặp lại việc refresh token
-// Tạo instance axios để gọi API
+const baseURL = import.meta.env.VITE_PUBLIC_BACKEND_URL;
+const NO_RETRY_HEADER = 'x-no-retry';
+
+// 🔹 Tạo Axios instance
 export const apiConfig = axios.create({
-  baseURL: baseURL, // Thiết lập URL cơ bản cho mọi yêu cầu
-  withCredentials: true, // Đảm bảo cookie được gửi kèm trong các yêu cầu
+  baseURL: baseURL,
+  withCredentials: true,
 });
+
+// 🔹 Hàm gửi request
 export const apiRequest = (
   method: EMethod,
   url: string,
-  isMultipart: boolean,
+  isFormData: boolean,
   data?: any
 ) => {
-  const headers = {
-    'Content-Type': isMultipart ? 'multipart/form-data' : 'application/json',
-  };
+  const headers: Record<string, string> = {};
+
+  // ✅ Tự động nhận diện JSON hoặc FormData
+  if (isFormData) {
+    console.log('isFormData', isFormData);
+    headers['Content-Type'] = 'multipart/form-data';
+  }
+  headers['Accept'] = 'application/json';
+
   return apiConfig({
     method,
     url,
@@ -25,10 +35,10 @@ export const apiRequest = (
     data,
   });
 };
-// Thêm interceptor cho request (yêu cầu)
+
+// 🔹 Thêm Interceptor Request
 apiConfig.interceptors.request.use(
   function (config) {
-    // Thực hiện thao tác trước khi gửi yêu cầu
     const token = localStorage.getItem('access_token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -40,55 +50,56 @@ apiConfig.interceptors.request.use(
     return config;
   },
   function (error) {
-    // Xử lý lỗi xảy ra khi gửi yêu cầu
     return Promise.reject(error);
   }
 );
-// Hàm xử lý refresh token nếu token hết hạn
+
+// 🔹 Hàm refresh token
 const handelRefreshToken = async () => {
-  const res = await apiConfig.get('/api/v1/auth/refresh'); // Gửi yêu cầu để lấy token mới
-  if (res && res.data)
-    return res.data.access_token; // Nếu có token mới, trả về token
-  else return null; // Nếu không có, trả về null
+  try {
+    const res = await authApi.AGetNewAccessToken();
+    return res?.data?.access_token ?? null;
+  } catch {
+    return null;
+  }
 };
-// Thêm interceptor cho response (phản hồi)
+
+// 🔹 Thêm Interceptor Response
 apiConfig.interceptors.response.use(
-  function (response) {
-    // Bất kỳ mã trạng thái nào trong khoảng 2xx sẽ kích hoạt hàm này
-    // Xử lý dữ liệu trả về từ phản hồi
-    return response && response.data ? response.data : response; // Trả về dữ liệu hoặc toàn bộ phản hồi
-  },
-  async function (error) {
-    // Nếu phản hồi có mã 401 (Unauthorized) và chưa có header NO_RETRY_HEADER
+  (response) => response?.data ?? response,
+  async (error) => {
     if (
       error.config &&
-      error.response &&
-      +error.response.status === 401 &&
+      error.response?.status === 401 &&
       !error.config.headers[NO_RETRY_HEADER]
     ) {
-      const access_token = await handelRefreshToken(); // Gọi hàm để lấy token mới
-      error.config.headers[NO_RETRY_HEADER] = 'true'; // Đặt header để tránh việc lặp lại việc refresh
+      const access_token = await handelRefreshToken();
+      error.config.headers[NO_RETRY_HEADER] = 'true';
+
       if (access_token) {
-        error.config.headers['Authorization'] = `Bearer ${access_token}`; // Cập nhật token mới vào header Authorization
-        localStorage.setItem('access_token', access_token); // Lưu token mới vào localStorage
-        return apiConfig.request(error.config); // Gửi lại yêu cầu với token mới
+        error.config.headers['Authorization'] = `Bearer ${access_token}`;
+        localStorage.setItem('access_token', access_token);
+        return apiConfig.request(error.config);
       }
     }
+
+    // Xử lý trường hợp token hết hạn
     if (
-      error.response &&
-      error.response.status === 400 &&
-      error.config.url === '/api/v1/auth/refresh'
+      error.response?.status === 400 &&
+      error.config.url === 'auth/get-new-access-token'
     ) {
-      // Nếu không lấy được token mới, đăng xuất khỏi hệ thống
       localStorage.removeItem('access_token');
       if (
-        window.location.pathname !== '/login' &&
-        window.location.pathname !== '/register'
-      )
-        window.location.href = '/login'; //
+        !['/login', '/register', '/forgot-password', '/'].includes(
+          window.location.pathname
+        )
+      ) {
+        window.location.href = '/';
+      }
     }
-    // Xử lý lỗi cho những mã trạng thái không thuộc 2xx
-    return error?.response?.data ?? Promise.reject(error); // Trả về dữ liệu lỗi hoặc lỗi được xử lý
+
+    return Promise.reject(error?.response?.data ?? error);
   }
 );
-export default apiConfig; // Xuất đối tượng cấu hình api để sử dụng ở nơi khác
+
+export default apiConfig;

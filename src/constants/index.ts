@@ -1,2 +1,2 @@
-import { EMethod } from './EMethod';
+import EMethod from './EMethod';
 export { EMethod };

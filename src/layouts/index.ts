@@ -1,2 +1,3 @@
 import LAuthLayout from './LAuthLayout';
-export { LAuthLayout };
+import LAdminLayout from './LAdminLayout';
+export { LAuthLayout, LAdminLayout };

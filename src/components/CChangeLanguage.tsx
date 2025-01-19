@@ -10,7 +10,7 @@ function CChangeLanguage() {
   };
   return (
     <div
-      className="flex  justify-end w-screen  overflow-hidden flex-1 pt-2 px-2 items-center cursor-pointer"
+      className="flex  justify-end   overflow-hidden  pt-2 px-2 items-center cursor-pointer"
       onClick={() => {
         if (i18n.language === 'en') {
           changeLanguage('vn');

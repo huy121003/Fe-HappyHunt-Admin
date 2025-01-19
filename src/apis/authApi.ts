@@ -35,10 +35,18 @@ const AForgotPassword = (phoneNumber: string, otp: string): Promise<any> => {
     otp,
   });
 };
+const AGetAccountInfo = (): Promise<any> => {
+  return apiRequest(EMethod.GET, 'auth/get-account-info', true);
+};
+const AGetNewAccessToken = (): Promise<any> => {
+  return apiRequest(EMethod.GET, 'auth/get-new-access-token', true);
+};
 export default {
   ALogin,
   ARegister,
   AForgotPassword,
   ARegisterOtp,
   AForgotPasswordOtp,
+  AGetAccountInfo,
+  AGetNewAccessToken,
 };
