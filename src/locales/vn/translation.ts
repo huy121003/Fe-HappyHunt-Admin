@@ -30,6 +30,9 @@ const vn = {
     noDataFilter: 'Không có dữ liệu sau khi lọc',
     noDataRole: 'Không có quyền truy cập',
     notFound: 'Không tìm thấy trang',
+    prev: 'Trước',
+    next: ' Sau',
+    reset: 'Đặt lại',
   },
   menuAdmin: {
     dashboard: 'Bảng điều khiển',
@@ -42,9 +45,7 @@ const vn = {
     exampleMessage: 'Tin nhắn mẫu',
     policies: 'Chính sách hệ thống',
     feedback: 'Góp ý & phản hồi',
-    postLimits: 'Giới hạn bài đăng',
-    postExpiry: 'Thời gian hết hạn bài đăng',
-    postImages: 'Số lượng ảnh bài đăng',
+    postSettings: 'Cài đặt bài đăng',
     currencyExchange: 'Quy đổi tiền sang coin',
     vipPurchase: 'Mua VIP bằng coin',
   },
@@ -131,6 +132,33 @@ const vn = {
     confirmDelete: 'Bạn có chắc chắn muốn xóa danh mục này không?',
     createdAt: 'Thời gian tạo',
     updatedAt: 'Thời gian cập nhật lần cuối',
+  },
+  policyManagement: {
+    postSettings: 'Cài đặt bài đăng',
+    limitPost:
+      'Giới hạn bài đăng cho tài khoản thường (Mặc định: {{number}}) :',
+    limitPostRequire: 'Vui lòng nhập giới hạn bài đăng cho tài khoản thường',
+    limitPostPlaceholder: 'Nhập giới hạn bài đăng cho tài khoản thường',
+    limitPostVip:
+      'Giới hạn bài đăng cho tài khoản VIP (Mặc định: {{number}}) :',
+    limitPostVipRequire: 'Vui lòng nhập giới hạn bài đăng cho tài khoản VIP',
+    limitPostVipPlaceholder: 'Nhập giới hạn bài đăng cho tài khoản VIP',
+    timeExpired: 'Thời gian hết hạn của bài đăng (Mặc định: {{number}} ngày): ',
+    timeExpiredRequire: 'Vui lòng nhập thời gian hết hạn của bài đăng',
+    timeExpiredPlaceholder: 'Nhập thời gian hết hạn của bài đăng',
+    minImagePost:
+      'Số lượng ảnh tối thiểu cho mỗi bài đăng (Mặc định: {{number}} ảnh) :',
+    minImagePostRequire:
+      'Vui lòng nhập số lượng ảnh tối thiểu cho mỗi bài đăng',
+    minImagePostPlaceholder: 'Nhập số lượng ảnh tối thiểu cho mỗi bài đăng',
+    maxImagePost:
+      'Số lượng ảnh tối đa cho mỗi bài đăng (Mặc định: {{number}} ảnh) :',
+    maxImagePostRequire: 'Vui lòng nhập số lượng ảnh tối đa cho mỗi bài đăng',
+    maxImagePostPlaceholder: 'Nhập số lượng ảnh tối đa cho mỗi bài đăng',
+    updateSuccess: 'Cập nhật cài đặt bài đăng thành công',
+    updateFail: 'Cập nhật cài đặt bài đăng thất bại',
+    resetSuccess: 'Đặt lại cài đặt bài đăng thành công',
+    resetFail: 'Đặt lại cài đặt bài đăng thất bại',
   },
 };
 export default vn;

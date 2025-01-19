@@ -65,12 +65,14 @@ function CategoryPage() {
       dataIndex: 'nameVn',
       key: 'nameVn',
       sorter: true,
+      width: 300,
     },
     {
       title: t('categoryManagement.nameEn'),
       dataIndex: 'nameEn',
       key: 'nameEn',
       sorter: true,
+      width: 300,
     },
 
     {
@@ -78,12 +80,14 @@ function CategoryPage() {
       dataIndex: 'url',
       key: 'url',
       sorter: true,
+      width: 300,
     },
     {
       title: t('categoryManagement.icon'),
       dataIndex: 'icon',
       key: 'icon',
       render: (icon: string) => <Image src={icon} width={50} height={50} />,
+      width: 100,
     },
     {
       title: t('categoryManagement.createdAt'),
@@ -92,6 +96,7 @@ function CategoryPage() {
       sorter: true,
       render: (createdAt: string) =>
         DAY_MONTH_YEAR_HOUR_MINUTE_SECOND(createdAt),
+      width: 200,
     },
     {
       title: t('categoryManagement.updatedAt'),
@@ -100,6 +105,7 @@ function CategoryPage() {
       sorter: true,
       render: (updatedAt: string) =>
         DAY_MONTH_YEAR_HOUR_MINUTE_SECOND(updatedAt),
+      width: 200,
     },
 
     {
@@ -130,7 +136,7 @@ function CategoryPage() {
   ];
 
   return (
-    <div className="bg-white flex-1  p-4 rounded-md m-2 w-full">
+    <div className="bg-white flex-1  p-4 rounded-md m-2 justify-start flex flex-col">
       <div className="flex items-center justify-between">
         <Typography.Title level={2}>
           {t('categoryManagement.categoryTitle')}
@@ -149,6 +155,7 @@ function CategoryPage() {
         dataSource={categories}
         onChange={handleSortChange}
       />
+
       <div className="flex justify-end m-6">
         <CPagination
           total={totalDocuments}

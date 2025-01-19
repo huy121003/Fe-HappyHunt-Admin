@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import  { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Form,
   Input,
@@ -20,7 +20,7 @@ import { useNavigate } from 'react-router-dom';
 import categoryApi from '@/apis/categoryApi';
 import DAttributesCategory from '@/data/DAttributesCategory';
 
-function CategoryCreatepage() {
+function CategoryCreatePage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [form] = Form.useForm();
@@ -339,4 +339,4 @@ function CategoryCreatepage() {
   );
 }
 
-export default CategoryCreatepage;
+export default CategoryCreatePage;

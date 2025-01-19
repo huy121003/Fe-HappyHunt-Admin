@@ -9,10 +9,6 @@ import {
   FundOutlined,
   MessageOutlined,
   CommentOutlined,
-  StopOutlined,
-  HourglassOutlined,
-  PictureOutlined,
-  DollarCircleOutlined,
   CrownOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
@@ -63,24 +59,15 @@ const CMenuAdmin: React.FC<CMenuAdminProps> = ({ collapsed }) => {
       label: t('menuAdmin.policies'),
       icon: <SafetyCertificateOutlined />,
       children: [
-        { key: '10', icon: <StopOutlined />, label: t('menuAdmin.postLimits') },
+        {
+          key: '10',
+          icon: <FileTextOutlined />,
+          label: t('menuAdmin.postSettings'),
+          onClick: () => navigate('/admin/policies/post-settings'),
+        },
+
         {
           key: '11',
-          icon: <HourglassOutlined />,
-          label: t('menuAdmin.postExpiry'),
-        },
-        {
-          key: '12',
-          icon: <PictureOutlined />,
-          label: t('menuAdmin.postImages'),
-        },
-        {
-          key: '13',
-          icon: <DollarCircleOutlined />,
-          label: t('menuAdmin.currencyExchange'),
-        },
-        {
-          key: '14',
           icon: <CrownOutlined />,
           label: t('menuAdmin.vipPurchase'),
         },

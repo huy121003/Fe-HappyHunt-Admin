@@ -1,4 +1,4 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import { Button, Divider, Form, Input, notification } from 'antd';
 import { useTranslation } from 'react-i18next';
 
@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { LAuthLayout } from '@/layouts';
 import OtpInput from 'react18-input-otp';
 import authApi from '@/apis/authApi';
+
 function ForgotPasswordPage() {
   const { t } = useTranslation();
   const [form] = Form.useForm();

@@ -2,10 +2,11 @@ import { createBrowserRouter, Outlet } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
 import LRoleProtectedRoute from '@/layouts/LRoleProtectedRoute';
 import { CLoadingPage, CNotFoundPage } from '@/components';
+import PostSettingPage from '@/pages/AdminPages/PostSettingPage/PostSettingPage';
 
 // Lazy load các trang
-const CategoryCreatepage = lazy(
-  () => import('@/pages/AdminPages/CategoryCreatePage/CategoryCreatepage')
+const CategoryCreatePage = lazy(
+  () => import('@/pages/AdminPages/CategoryCreatePage')
 );
 const HomePage = lazy(() => import('@/pages/UserPages/HomePage/HomePage'));
 const LoginPage = lazy(() => import('@/pages/AuthPages/LoginPage'));
@@ -73,10 +74,20 @@ const router = createBrowserRouter([
             index: true,
             element: <CategoryPage />,
           },
-          { path: 'create', element: <CategoryCreatepage /> },
+          { path: 'create', element: <CategoryCreatePage /> },
           {
             path: 'edit/:id',
-            element: <CategoryCreatepage />,
+            element: <CategoryCreatePage />,
+          },
+        ],
+      },
+      {
+        path: 'policies',
+        element: <Outlet />,
+        children: [
+          {
+            path: 'post-settings',
+            element: <PostSettingPage />,
           },
         ],
       },

@@ -47,7 +47,9 @@ const LAdminLayout: React.FC = () => {
         </div>
 
         {/* Nội dung chính */}
-        <div className="flex-1 flex justify-start bg-gray-200  px-2 py-4 overflow-y-hidden ">
+        <div
+          className={`flex-1 flex justify-start bg-gray-200  px-2 py-4 overflow-y-hidden `}
+        >
           <Outlet />
         </div>
       </div>

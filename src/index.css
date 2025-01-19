@@ -19,6 +19,10 @@
   border: 1px solid #FC6D26 !important;
   /* Viền header */
   text-align: center;
-  
+
   /* Căn giữa chữ */
+}
+
+.ant-table-wrapper .ant-table {
+  scrollbar-color: unset;
 }

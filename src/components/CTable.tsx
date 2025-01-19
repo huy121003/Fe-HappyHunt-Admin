@@ -8,12 +8,15 @@ interface CTableProps {
 const CTable: React.FC<CTableProps> = ({ columns, dataSource, onChange }) => {
   return (
     <Table
+      className="table-container"
       columns={columns}
       dataSource={dataSource}
       pagination={false}
       rowKey={(record) => record?._id}
       onChange={onChange}
-      //scroll={{ y: 'calc(100vh - 436px )' }}
+      // scroll={{ x: 'max-content', y: 55 * 5 }}
+      // scroll={{ y: 'calc(100vh - 500px )', x: '100px' }}
+      //style={{ minWidth: '900px' }} // Đảm bảo bảng có thể cuộn ngang
     />
   );
 };
