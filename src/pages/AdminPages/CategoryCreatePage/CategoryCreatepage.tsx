@@ -1,16 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
-import {
-  Form,
-  Input,
-  Button,
-  Upload,
-  Space,
-  Select,
-  Typography,
-  Divider,
-  notification,
-} from 'antd';
+import { Form, Input, Button, Upload, Space, Select, notification } from 'antd';
 import {
   DeleteOutlined,
   PlusOutlined,
@@ -19,6 +9,9 @@ import {
 import { useNavigate } from 'react-router-dom';
 import categoryApi from '@/apis/categoryApi';
 import DAttributesCategory from '@/data/DAttributesCategory';
+import i18n from '@/locales';
+import { CHeaderFormAdmin } from '@/components';
+import CTextArea from '@/components/CTextArea';
 
 function CategoryCreatePage() {
   const { t } = useTranslation();
@@ -26,7 +19,9 @@ function CategoryCreatePage() {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [isCreate, setIsCreate] = useState(true);
+  const [categoryParent, setCategoryParent] = useState([]);
   const [id, setId] = useState('');
+  const [isParent, setIsParent] = useState(true);
   useEffect(() => {
     const fetchData = async () => {
       if (window.location.pathname.includes('edit')) {
@@ -36,7 +31,11 @@ function CategoryCreatePage() {
         if (_id) {
           setId(_id);
           const result = await categoryApi.AFetchCategoryById(_id);
+
           if (result.statusCode === 200) {
+            if (result.data.parent) {
+              setIsParent(false);
+            }
             form.setFieldsValue({
               ...result.data,
               icon: [
@@ -54,25 +53,35 @@ function CategoryCreatePage() {
     };
     fetchData();
   }, []);
+  useEffect(() => {
+    const fetchCategoryParent = async () => {
+      const categoryParent = await categoryApi.AgetCategoryParent();
+
+      if (categoryParent.statusCode === 200) {
+        const newCategoryParent = categoryParent.data.filter(
+          (item: any) => item._id !== id
+        );
+        setCategoryParent(newCategoryParent);
+        console.log(newCategoryParent);
+      }
+    };
+    fetchCategoryParent();
+  }, [id]);
+
   const handleSubmit = async () => {
     setLoading(true);
     try {
       const values = await form.validateFields();
-      if (values.attributes.length === 0) {
-        console.log('Received values:', values);
-        notification.error({
-          message: t('common.error'),
-          description: 'Vui lòng thêm ít nhất một thuộc tính cho danh mục!',
-        });
-        return;
-      }
+      console.log(values);
+
       console.log('Received values:', values);
       const formData = new FormData();
       formData.append('nameVn', values.nameVn);
       formData.append('nameEn', values.nameEn);
       formData.append('description', values.description);
       formData.append('url', values.url);
-
+      if (isParent) formData.append('parent', 'null');
+      else formData.append('parent', values.parent);
       // Kiểm tra icon có tồn tại không
       if (isCreate) {
         formData.append('icon', values.icon[0].originFileObj);
@@ -128,31 +137,20 @@ function CategoryCreatePage() {
   };
 
   return (
-    <div className="bg-white flex-1  p-4 rounded-md m-2 justify-start flex flex-col">
-      <div className="flex items-center justify-between">
-        <Typography.Title level={2}>
-          {isCreate
+    <div className=" flex-1  justify-start flex flex-col">
+      <CHeaderFormAdmin
+        isCreate={isCreate}
+        onCancel={() => navigate('/admin/categories')}
+        onSave={handleSubmit}
+        title={
+          isCreate
             ? t('categoryManagement.categoryCreate')
-            : t('categoryManagement.categoryUpdate')}
-        </Typography.Title>
-        <div className="gap-4">
-          <Button
-            className="bg-gray-200 text-black m-2"
-            onClick={() => navigate('/admin/categories')}
-          >
-            {t('common.back')}
-          </Button>
-          <Button
-            onClick={handleSubmit}
-            loading={loading}
-            className="bg-flame-orange text-white"
-          >
-            {isCreate ? t('common.create') : t('common.save')}
-          </Button>
-        </div>
-      </div>
-      <Divider />
-      <div className="  overflow-y-auto  flex-1 justify-start p-4 ">
+            : t('categoryManagement.categoryUpdate')
+        }
+        loading={loading}
+      />
+
+      <div className="  bg-white m-2 p-3 rounded-md">
         <Form
           form={form}
           layout="vertical"
@@ -164,6 +162,30 @@ function CategoryCreatePage() {
           }}
         >
           <Form.Item
+            name="parent"
+            label={t('categoryManagement.parentCategory')}
+          >
+            <Select
+              placeholder={t('categoryManagement.parentCategoryPlaceholder')}
+              onChange={(value: any) => {
+                // Kiểm tra giá trị được chọn và thay đổi trạng thái tương ứng
+                if (value === null) {
+                  setIsParent(true);
+                } else {
+                  setIsParent(false);
+                }
+              }}
+            >
+              <Select.Option value={null}>--</Select.Option>
+
+              {categoryParent.map((item: any) => (
+                <Select.Option key={item._id} value={item._id}>
+                  {i18n.language === 'en' ? item.nameEn : item.nameVn}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item
             name="nameVn"
             label={t('categoryManagement.nameVn')}
             rules={[
@@ -173,10 +195,7 @@ function CategoryCreatePage() {
               },
             ]}
           >
-            <Input
-              placeholder={t('categoryManagement.nameVnPlaceholder')}
-              disabled={isCreate ? false : true}
-            />
+            <Input placeholder={t('categoryManagement.nameVnPlaceholder')} />
           </Form.Item>
 
           <Form.Item
@@ -189,10 +208,7 @@ function CategoryCreatePage() {
               },
             ]}
           >
-            <Input
-              placeholder={t('categoryManagement.nameEnPlaceholder')}
-              disabled={isCreate ? false : true}
-            />
+            <Input placeholder={t('categoryManagement.nameEnPlaceholder')} />
           </Form.Item>
 
           <Form.Item
@@ -209,6 +225,15 @@ function CategoryCreatePage() {
               rows={3}
               placeholder={t('categoryManagement.descriptionPlaceholder')}
             />
+            {/* <CTextArea
+              placeholder={t('categoryManagement.descriptionPlaceholder')}
+              maxLenght={500}
+              value={form.getFieldValue('description')}
+              onChange={(value: string) => {
+                console.log(value);
+                form.setFieldsValue({ description: value });
+              }}
+            /> */}
           </Form.Item>
 
           <Form.Item
@@ -218,10 +243,7 @@ function CategoryCreatePage() {
               { required: true, message: t('categoryManagement.urlRequired') },
             ]}
           >
-            <Input
-              placeholder={t('categoryManagement.urlPlaceholder')}
-              disabled={isCreate ? false : true}
-            />
+            <Input placeholder={t('categoryManagement.urlPlaceholder')} />
           </Form.Item>
 
           {/* Upload Icon */}
@@ -242,97 +264,105 @@ function CategoryCreatePage() {
           </Form.Item>
 
           {/* Danh sách thuộc tính */}
-          <Form.List name="attributes" initialValue={DAttributesCategory}>
-            {(fields, { add, remove }) => (
-              <div>
-                {fields.map(({ key, name, ...restField }) => (
-                  <Space
-                    key={key}
-                    style={{ display: 'flex', marginBottom: 4, width: '100%' }}
-                    align="baseline"
-                  >
-                    <Form.Item
-                      {...restField}
-                      name={[name, 'nameVn']}
-                      rules={[
-                        {
-                          required: true,
-                          message: t(
-                            'categoryManagement.attributeNameVnRequired'
-                          ),
-                        },
-                      ]}
+          {isParent ? (
+            <></>
+          ) : (
+            <Form.List name="attributes" initialValue={DAttributesCategory}>
+              {(fields, { add, remove }) => (
+                <div>
+                  {fields.map(({ key, name, ...restField }) => (
+                    <Space
+                      key={key}
+                      style={{
+                        display: 'flex',
+                        marginBottom: 4,
+                        width: '100%',
+                      }}
+                      align="baseline"
                     >
-                      <Input
-                        placeholder={t(
-                          'categoryManagement.attributeNameVnPlaceholder'
-                        )}
-                      />
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, 'nameEn']}
-                      rules={[
-                        {
-                          required: true,
-                          message: t(
-                            'categoryManagement.attributeNameEnRequired'
-                          ),
-                        },
-                      ]}
-                    >
-                      <Input
-                        placeholder={t(
-                          'categoryManagement.attributeNameEnPlaceholder'
-                        )}
-                      />
-                    </Form.Item>
-
-                    <Form.Item
-                      {...restField}
-                      name={[name, 'values']}
-                      rules={[
-                        {
-                          required: true,
-                          message: t(
-                            'categoryManagement.attributeValueRequired'
-                          ),
-                        },
-                      ]}
-                    >
-                      <Select
-                        mode="tags"
-                        placeholder={t(
-                          'categoryManagement.attributeValuePlaceholder'
-                        )}
-                        style={{ minWidth: 200 }}
-                      />
-                    </Form.Item>
-
-                    {fields.length > 1 ? (
-                      <p
-                        className="text-red-500  cursor-pointer hover:text-red-200"
-                        onClick={() => remove(name)}
+                      <Form.Item
+                        {...restField}
+                        name={[name, 'nameVn']}
+                        rules={[
+                          {
+                            required: true,
+                            message: t(
+                              'categoryManagement.attributeNameVnRequired'
+                            ),
+                          },
+                        ]}
                       >
-                        <DeleteOutlined /> {t('common.delete')}
-                      </p>
-                    ) : null}
-                  </Space>
-                ))}
-                <div className="flex flex-1">
-                  <Form.Item>
-                    <Button
-                      className="bg-sunflower-yellow text-white"
-                      onClick={() => add()}
-                      icon={<PlusOutlined />}
-                    >
-                      {t('categoryManagement.addAttribute')}
-                    </Button>
-                  </Form.Item>
+                        <Input
+                          placeholder={t(
+                            'categoryManagement.attributeNameVnPlaceholder'
+                          )}
+                        />
+                      </Form.Item>
+                      <Form.Item
+                        {...restField}
+                        name={[name, 'nameEn']}
+                        rules={[
+                          {
+                            required: true,
+                            message: t(
+                              'categoryManagement.attributeNameEnRequired'
+                            ),
+                          },
+                        ]}
+                      >
+                        <Input
+                          placeholder={t(
+                            'categoryManagement.attributeNameEnPlaceholder'
+                          )}
+                        />
+                      </Form.Item>
+
+                      <Form.Item
+                        {...restField}
+                        name={[name, 'values']}
+                        rules={[
+                          {
+                            required: true,
+                            message: t(
+                              'categoryManagement.attributeValueRequired'
+                            ),
+                          },
+                        ]}
+                      >
+                        <Select
+                          mode="tags"
+                          placeholder={t(
+                            'categoryManagement.attributeValuePlaceholder'
+                          )}
+                          style={{ minWidth: 200 }}
+                        />
+                      </Form.Item>
+
+                      {fields.length > 1 ? (
+                        <p
+                          className="text-red-500  cursor-pointer hover:text-red-200"
+                          onClick={() => remove(name)}
+                        >
+                          <DeleteOutlined /> {t('common.delete')}
+                        </p>
+                      ) : null}
+                    </Space>
+                  ))}
+                  <div className="flex flex-1">
+                    <Form.Item>
+                      <Button
+                        className="bg-sunflower-yellow text-white"
+                        onClick={() => add()}
+                        icon={<PlusOutlined />}
+                      >
+                        {t('categoryManagement.addAttribute')}
+                      </Button>
+                    </Form.Item>
+                  </div>
                 </div>
-              </div>
-            )}
-          </Form.List>
+              )}
+            </Form.List>
+          )}
         </Form>
       </div>
     </div>

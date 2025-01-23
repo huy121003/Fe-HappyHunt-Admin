@@ -16,8 +16,14 @@ const AFetchCategoriesWithPagination = (params: any): Promise<any> => {
 
   return apiRequest(EMethod.GET, `category/pagination?${newParams}`, true);
 };
+const AFetchCategories = (): Promise<any> => {
+  return apiRequest(EMethod.GET, `category`, true);
+};
 const ADeleteCategory = (id: string): Promise<any> => {
   return apiRequest(EMethod.DELETE, `category/${id}`, true);
+};
+const AgetCategoryParent = (): Promise<any> => {
+  return apiRequest(EMethod.GET, `category/parent`, true);
 };
 export default {
   ACreateCategory,
@@ -25,4 +31,6 @@ export default {
   AUpdateCategory,
   AFetchCategoriesWithPagination,
   ADeleteCategory,
+  AgetCategoryParent,
+  AFetchCategories,
 };

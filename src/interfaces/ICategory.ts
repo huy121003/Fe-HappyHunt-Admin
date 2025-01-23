@@ -12,6 +12,7 @@ interface ICategory {
   url: string;
   icon: string;
   attributes: IAttribute[];
+  parent: string;
 }
 
 export default ICategory;

@@ -22,7 +22,7 @@ function LoginPage() {
           description: res.message,
         });
         localStorage.setItem('access_token', res.data.access_token);
-        dispatch(loginaction(res.data.result));
+        dispatch(loginaction(res?.data?.result));
         if (res.data.result.role.name === 'Super Admin') {
           navigate('/admin');
         } else navigate('/');

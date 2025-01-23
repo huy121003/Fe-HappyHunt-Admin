@@ -22,6 +22,8 @@ const CDeleteModal: React.FC<CDeleteModalProps> = ({
       onOk={() => {
         setIsLoading(true);
         onOk();
+        setIsLoading(false);
+        
       }}
       onCancel={() => setOpen(false)}
       okButtonProps={{ loading: isLoading }}

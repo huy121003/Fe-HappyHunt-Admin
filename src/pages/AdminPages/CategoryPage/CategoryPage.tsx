@@ -1,175 +1,235 @@
 import categoryApi from '@/apis/categoryApi';
-import { CTable, CPagination } from '@/components';
-import CDeleteModal from '@/components/CDeleteModal';
-import { DAY_MONTH_YEAR_HOUR_MINUTE_SECOND } from '@/configs';
+import HBuildMenuTree from '@/Helpers/HBuildMenuTree';
 
 import { ICategory } from '@/interfaces';
-import { Button, Divider, Image, Typography } from 'antd';
-import { useEffect, useState } from 'react';
+import i18n from '@/locales';
+import {
+  Button,
+  Divider,
+  Form,
+  FormInstance,
+  Image,
+  Input,
+  Menu,
+  notification,
+  Table,
+  Tag,
+  Typography,
+} from 'antd';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+
+import TextArea from 'antd/es/input/TextArea';
+import { CDeleteModal, CHeaderAdmin } from '@/components';
 
 function CategoryPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [categories, setCategories] = useState<ICategory[]>([]);
-  const [pageSize, setPageSize] = useState<number>(10);
-  const [pageNumber, setPageNumber] = useState<number>(1);
-  const [totalDocuments, setTotalDocuments] = useState<number>(0);
-  const [sort, setSort] = useState<string[]>([]);
-  const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
-  const [setIdDelete, setSetIdDelete] = useState<string>('');
-  const handleChangedPagination = (pageNumber: number, pageSize?: number) => {
-    setPageNumber(pageNumber);
-    setPageSize(pageSize || 10);
-  };
-  const handleSortChange = (_: any, __: any, sorter: any) => {
-    let sortField = '';
-    let sortOrder = '';
-
-    if (sorter && sorter.field) {
-      sortField = sorter.field; // Tên cột sắp xếp
-      sortOrder = sorter.order === 'ascend' ? '' : '-'; // Dùng dấu + cho asc và dấu - cho desc
+  const [menuCategories, setMenuCategories] = useState<ICategory[]>([]);
+  const [category, setCategory] = useState<ICategory | null>(null);
+  const [open, setOpen] = useState(false);
+  const formRef = useRef<FormInstance>(null);
+  const handleDelete = async () => {
+    if (category && category._id) {
+      const result = await categoryApi.ADeleteCategory(category._id);
+      if (result.statusCode === 200) {
+        notification.success({
+          message: t('common.success'),
+          description: t('categoryManagement.deleteSuccess'),
+        });
+        getCategories();
+        setOpen(false);
+        setCategory(null);
+      } else {
+        notification.error({
+          message: t('common.error'),
+          description: t('categoryManagement.deleteFailed'),
+        });
+      }
     }
-
-    const newSort = sortField && sortOrder ? [`${sortOrder}${sortField}`] : [];
-    setSort(newSort); // Cập nhật state sort với thông tin mới
-    setPageNumber(1); // Reset lại trang về 1
-  };
-  const handleDeleteCategory = async (id: string) => {
-    // Gọi API xóa category
-    const result = await categoryApi.ADeleteCategory(id);
-    if (result.statusCode === 200) {
-      // Nếu xóa thành công thì cập nhật lại danh sách
-      getCategories();
-    }
-    setOpenDeleteModal(false);
   };
   const getCategories = async () => {
-    const result = await categoryApi.AFetchCategoriesWithPagination({
-      pageSize: pageSize,
-      pageNumber: pageNumber,
-      sort: sort,
-    });
+    const result = await categoryApi.AFetchCategories();
     if (result.statusCode === 200) {
-      setCategories(result.data.result);
-      setTotalDocuments(result.data.totalDocuments);
+      setMenuCategories(HBuildMenuTree(result.data));
     }
   };
   useEffect(() => {
     getCategories();
-  }, [pageNumber, pageSize, sort]);
-  const column = [
-    {
-      title: <>{t('categoryManagement.nameVn')}</>,
-      dataIndex: 'nameVn',
-      key: 'nameVn',
-      sorter: true,
-      width: 300,
-    },
-    {
-      title: t('categoryManagement.nameEn'),
-      dataIndex: 'nameEn',
-      key: 'nameEn',
-      sorter: true,
-      width: 300,
-    },
+  }, []);
+  useEffect(() => {
+    // Khi category thay đổi, cập nhật lại các trường trong form
+    if (category) {
+      formRef.current?.setFieldsValue(category);
+    }
+  }, [category]); // Khi category thay đổi, chạy lại useEffect
 
-    {
-      title: t('categoryManagement.url'),
-      dataIndex: 'url',
-      key: 'url',
-      sorter: true,
-      width: 300,
-    },
-    {
-      title: t('categoryManagement.icon'),
-      dataIndex: 'icon',
-      key: 'icon',
-      render: (icon: string) => <Image src={icon} width={50} height={50} />,
-      width: 100,
-    },
-    {
-      title: t('categoryManagement.createdAt'),
-      dataIndex: 'createdAt',
-      key: 'createdAt',
-      sorter: true,
-      render: (createdAt: string) =>
-        DAY_MONTH_YEAR_HOUR_MINUTE_SECOND(createdAt),
-      width: 200,
-    },
-    {
-      title: t('categoryManagement.updatedAt'),
-      dataIndex: 'updatedAt',
-      key: 'updatedAt',
-      sorter: true,
-      render: (updatedAt: string) =>
-        DAY_MONTH_YEAR_HOUR_MINUTE_SECOND(updatedAt),
-      width: 200,
-    },
-
-    {
-      title: t('common.action'),
-      dataIndex: 'action',
-      key: 'action',
-      render: (_: string, record: ICategory) => (
-        <div className="flex gap-2">
-          <p
-            className="cursor-pointer text-blue-500"
-            onClick={() => navigate(`/admin/categories/edit/${record._id}`)}
-          >
-            {t('common.edit')}
-          </p>
-          <p
-            className="cursor-pointer text-red-500"
-            onClick={() => {
-              setOpenDeleteModal(true);
-              setSetIdDelete(record._id);
-            }}
-          >
-            {t('common.delete')}
-          </p>
-        </div>
-      ),
-      width: 150,
-    },
-  ];
+  const renderMenuItems = (items: any) =>
+    items.map((item: any) =>
+      item.children?.length > 0 ? (
+        <Menu.SubMenu
+          key={item._id}
+          title={i18n.language === 'en' ? item.nameEn : item.nameVn}
+          onTitleClick={() => setCategory(item)}
+        >
+          {renderMenuItems(item.children)}
+        </Menu.SubMenu>
+      ) : (
+        <Menu.Item key={item._id} onClick={() => setCategory(item)}>
+          {i18n.language === 'en' ? item.nameEn : item.nameVn}
+        </Menu.Item>
+      )
+    );
 
   return (
-    <div className="bg-white flex-1  p-4 rounded-md m-2 justify-start flex flex-col">
-      <div className="flex items-center justify-between">
-        <Typography.Title level={2}>
-          {t('categoryManagement.categoryTitle')}
-        </Typography.Title>
-        <Button
-          className="bg-flame-orange text-white"
-          onClick={() => navigate('/admin/categories/create')}
-        >
-          {t('common.create')}
-        </Button>
-      </div>
-      <Divider />
+    <div className="flex-1  flex flex-col">
+      {/* Tiêu đề & Nút thêm danh mục */}
 
-      <CTable
-        columns={column}
-        dataSource={categories}
-        onChange={handleSortChange}
+      <CHeaderAdmin
+        title={t('categoryManagement.categoryTitle')}
+        onClick={() => navigate('/admin/categories/create')}
       />
 
-      <div className="flex justify-end m-6">
-        <CPagination
-          total={totalDocuments}
-          pageSize={pageSize}
-          current={pageNumber}
-          onChange={handleChangedPagination}
-        />
+      {/* Giao diện chính */}
+      <div className="flex flex-row flex-1 h-full bg-white m-2 p-3  rounded-md">
+        {/* Danh mục (Có thanh cuộn) */}
+        <div className="w-[280px] bg-white flex-col overflow-y-auto overflow-x-hidden max-h-[calc(100vh-250px)] p-2 border rounded-md shadow-sm">
+          <Menu mode="inline">{renderMenuItems(menuCategories)}</Menu>
+        </div>
+
+        {/* Chi tiết danh mục */}
+        <div className="flex flex-1 p-4 flex-col overflow-hidden">
+          {category ? (
+            <div className=" rounded-lg w-full  flex-1  p-2 ">
+              <div className="flex items-center justify-between mb-6">
+                <Typography.Title level={4} className="text-gray-800">
+                  {t('categoryManagement.categoryDetail')}
+                </Typography.Title>
+                <div className="flex gap-4">
+                  <Button
+                    className="bg-gray-300 text-black hover:bg-gray-400 transition-all"
+                    onClick={() => setOpen(true)}
+                  >
+                    {t('common.delete')}
+                  </Button>
+                  <Button
+                    className="bg-flame-orange text-white hover:bg-orange-600 transition-all"
+                    onClick={() =>
+                      navigate(`/admin/categories/edit/${category._id}`)
+                    }
+                  >
+                    {t('common.edit')}
+                  </Button>
+                </div>
+              </div>
+              <Divider />
+
+              {/* Hiển thị thông tin chi tiết */}
+              <Form layout="vertical" ref={formRef}>
+                <div className="px-4 overflow-y-auto overflow-x-hidden max-h-[calc(100vh-400px)]">
+                  <Form.Item
+                    label={t('categoryManagement.nameVn')}
+                    name="nameVn"
+                  >
+                    <Input disabled />
+                  </Form.Item>
+
+                  <Form.Item
+                    label={t('categoryManagement.nameEn')}
+                    name="nameEn"
+                  >
+                    <Input disabled />
+                  </Form.Item>
+
+                  <Form.Item label={t('categoryManagement.url')} name="url">
+                    <Input disabled />
+                  </Form.Item>
+
+                  <Form.Item
+                    label={t('categoryManagement.description')}
+                    name="description"
+                  >
+                    <TextArea rows={4} disabled />
+                  </Form.Item>
+
+                  {/* Hiển thị icon */}
+                  <Form.Item label={t('categoryManagement.icon')}>
+                    <Image
+                      src={category?.icon}
+                      width={150}
+                      className="rounded-md"
+                    />
+                  </Form.Item>
+
+                  {/* Hiển thị attributes nếu có */}
+                  {category?.parent !== null && (
+                    <>
+                      <Typography.Title
+                        level={4}
+                        className="text-gray-700 font-semibold"
+                      >
+                        {t('categoryManagement.attributes')}
+                      </Typography.Title>
+                      {category?.attributes.length > 0 ? (
+                        <Table
+                          dataSource={category.attributes}
+                          rowKey={(record) => record?.nameVn}
+                          pagination={false}
+                          columns={[
+                            {
+                              title: t('categoryManagement.attributeNameVn'),
+                              dataIndex: 'nameVn',
+                              key: 'nameVn',
+                              render: (text) => <Tag color="cyan">{text}</Tag>,
+                            },
+                            {
+                              title: t('categoryManagement.attributeNameEn'),
+                              dataIndex: 'nameEn',
+                              key: 'nameEn',
+                              render: (text) => (
+                                <Tag color="purple">{text}</Tag>
+                              ),
+                            },
+                            {
+                              title: t('categoryManagement.attributeValue'),
+                              dataIndex: 'values',
+                              key: 'values',
+                              render: (values: string[]) =>
+                                values.map((value, index) => (
+                                  <Tag color="green" key={index}>
+                                    {value}
+                                  </Tag>
+                                )),
+                            },
+                          ]}
+                        />
+                      ) : null}
+                    </>
+                  )}
+                </div>
+              </Form>
+
+              <CDeleteModal
+                open={open}
+                setOpen={setOpen}
+                message={t('categoryManagement.confirmDelete')}
+                onOk={handleDelete}
+              />
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center flex-1 ">
+              <i className="fas fa-info-circle text-[50px] mr-2" />
+              <Typography.Text
+                className="text-gray-500 text-2xl"
+                type="secondary"
+              >
+                {t('categoryManagement.selectCategory')}
+              </Typography.Text>
+            </div>
+          )}
+        </div>
       </div>
-      <CDeleteModal
-        message={t('categoryManagement.confirmDelete')}
-        open={openDeleteModal}
-        setOpen={setOpenDeleteModal}
-        onOk={() => handleDeleteCategory(setIdDelete)}
-      />
     </div>
   );
 }

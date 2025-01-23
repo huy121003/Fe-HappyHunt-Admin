@@ -33,6 +33,8 @@ const vn = {
     prev: 'Trước',
     next: ' Sau',
     reset: 'Đặt lại',
+    createdAt: 'Thời gian tạo',
+    updatedAt: 'Thời gian cập nhật lần cuối',
   },
   menuAdmin: {
     dashboard: 'Bảng điều khiển',
@@ -95,14 +97,21 @@ const vn = {
     back: 'Quay lại trang đăng nhập',
   },
   categoryManagement: {
+    noCategorySelected: 'Chưa chọn danh mục nào',
     categoryTitle: 'Quản lý danh mục',
     categoryCreate: 'Tạo mới danh mục',
     categoryUpdate: 'Cập nhật danh mục',
+    categoryDetail: 'Chi tiết danh mục',
+    parentCategory: 'Danh mục cha',
+    parentCategoryPlaceholder: 'Chọn danh mục cha',
+    parentCategoryRequired: 'Vui lòng chọn danh mục cha',
+
     nameVn: 'Tên Tiếng Việt',
     nameEn: 'Tên Tiếng Anh',
     description: 'Mô tả',
     url: 'URL',
     icon: 'Icon',
+    attributes: 'Thuộc tính',
     attributeNameVn: 'Tên thuộc tính tiếng việt',
     attributeNameEn: 'Tên thuộc tính tiếng anh',
     attributeValue: 'Giá trị thuộc tính',
@@ -130,8 +139,10 @@ const vn = {
     createSuccess: 'Tạo mới danh mục thành công',
     updateSuccess: 'Cập nhật danh mục thành công',
     confirmDelete: 'Bạn có chắc chắn muốn xóa danh mục này không?',
-    createdAt: 'Thời gian tạo',
-    updatedAt: 'Thời gian cập nhật lần cuối',
+    deleteSuccess: 'Xóa danh mục thành công',
+    deleteFail: 'Xóa danh mục thất bại',
+
+    selectCategory: 'Chọn danh mục để xem chi tiết',
   },
   policyManagement: {
     postSettings: 'Cài đặt bài đăng',
