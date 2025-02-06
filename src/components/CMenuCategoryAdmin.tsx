@@ -2,7 +2,7 @@ import categoryApi from '@/apis/categoryApi';
 import HBuildMenuTree from '@/Helpers/HBuildMenuTree';
 import { ICategory } from '@/interfaces';
 import { Menu } from 'antd';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const CMenuCategoryAdmin = () => {
   const [categories, setCategories] = useState<ICategory[]>([]);
