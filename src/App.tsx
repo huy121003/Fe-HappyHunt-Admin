@@ -11,11 +11,28 @@ import authApi from './apis/authApi';
 import { getUserAction } from './redux/slice/SAuthSlice';
 import { Suspense, useEffect } from 'react';
 import { CLoadingPage } from './components';
+import { useQuery } from '@tanstack/react-query';
+
 
 function App() {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
+  const { data, isLoading } = useQuery({
+    queryKey: ['GET_ACCOUNT', window.location.pathname],
+    queryFn: async () => {
+      const response = await authApi.AGetAccountInfo();
+      if (response.statusCode === 200) {
+        return response.data;
+      } else {
+        notification.error({
+          message: t('common.error'),
+          description: t('common.systemError'),
+        });
+      }
+    },
+  });
+
   const getAccount = async () => {
     if (
       window.location.pathname === '/login' ||
@@ -25,22 +42,13 @@ function App() {
     ) {
       return;
     }
-    try {
-      const res = await authApi.AGetAccountInfo();
-      if (res.statusCode === 200) {
-        dispatch(getUserAction(res.data));
-      }
-    } catch {
-      notification.error({
-        message: t('common.error'),
-        description: t('common.systemError'),
-      });
-    }
+    if (isLoading) return;
+    dispatch(getUserAction(data));
   };
 
   useEffect(() => {
     getAccount();
-  }, [window.location.pathname]);
+  }, [window.location.pathname, data, dispatch]);
   if (
     isAuthenticated === true ||
     window.location.pathname === '/login' ||

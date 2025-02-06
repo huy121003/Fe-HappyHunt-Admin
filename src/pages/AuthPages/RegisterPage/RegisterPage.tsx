@@ -1,12 +1,13 @@
 import { useState } from 'react';
-import { Button, Divider, Form, Input, notification } from 'antd';
+import { Button, Divider, Form, notification } from 'antd';
 import { useTranslation } from 'react-i18next';
 
 import { useNavigate } from 'react-router-dom';
 import { LAuthLayout } from '@/layouts';
-import { VPassword, VPhone } from '@/validators';
 import OtpInput from 'react18-input-otp';
 import authApi from '@/apis/authApi';
+import { useMutation } from '@tanstack/react-query';
+import CInput from '@/components/CInput';
 function RegisterPage() {
   const { t } = useTranslation();
   const [form] = Form.useForm();
@@ -18,88 +19,60 @@ function RegisterPage() {
     password: '',
   });
 
-  const handleChange = (enteredOtp: any) => {
-    setOtp(enteredOtp);
-  };
-  const handleRegister = async () => {
-    try {
-      const result = await authApi.ARegister(
+  const registerMutation = useMutation({
+    mutationFn: async () => {
+      const res = await authApi.ARegister(
         register.phoneNumber,
         register.password,
         otp
       );
-      if (result.statusCode === 200) {
-        notification.success({
-          message: t('common.success'),
-          description: result.message,
-        });
-        navigate('/login');
-      } else {
-        notification.error({
-          message: t('common.error'),
-          description: result.message,
-        });
-      }
-    } catch {
+      return res;
+    },
+    onSuccess: (res) => {
+      notification.success({
+        message: t('common.success'),
+        description: res.message,
+      });
+      navigate('/login');
+    },
+    onError: (res) => {
       notification.error({
         message: t('common.error'),
-        description: t('common.systemError'),
+        description: res.message,
       });
-    }
-  };
-
-  const handelRegisterOTP = async () => {
-    try {
+    },
+  });
+  const registerOtpMutation = useMutation({
+    mutationFn: async () => {
       const values = await form.validateFields();
-      const { phoneNumber, password, rePassword } = values;
-
-      if (VPhone(phoneNumber) === false) {
-        notification.error({
-          message: t('common.error'),
-          description: t('registerPage.phoneRequired'),
-        });
-        return;
-      }
-      if (VPassword(password) === false) {
-        notification.error({
-          message: t('common.error'),
-          description: t('registerPage.validatePassword'),
-        });
-        return;
-      }
-      if (password !== rePassword) {
-        notification.error({
-          message: t('common.error'),
-          description: t('registerPage.passwordNotMatch'),
-        });
-        return;
-      }
-
-      const result = await authApi.ARegisterOtp(phoneNumber);
-      if (result.statusCode === 200) {
-        setRegister({
-          phoneNumber,
-          password,
-        });
-        setOpenOTP(true);
-        notification.success({
-          message: t('common.success'),
-          description: t('sendOtp.OTPSend') + phoneNumber,
-        });
-        form.resetFields();
-      } else {
-        notification.error({
-          message: t('common.error'),
-          description: result.message,
-        });
-      }
-    } catch {
+      const res = await authApi.ARegisterOtp(values?.phoneNumber);
+      return res;
+    },
+    onSuccess: (res) => {
+      notification.success({
+        message: t('common.success'),
+        description: t('sendOtp.OTPSend'),
+      });
+      setRegister({
+        phoneNumber: res.phoneNumber,
+        password: res.password,
+      });
+      setOpenOTP(true);
+    },
+    onError: (res) => {
       notification.error({
         message: t('common.error'),
-        description: t('common.systemError'),
+        description: res.message,
       });
-    }
+    },
+  });
+  const handleRegister = async () => {
+    await registerMutation.mutate();
   };
+  const handelRegisterOTP = async () => {
+    await registerOtpMutation.mutate();
+  };
+
   return (
     <LAuthLayout>
       <div className="flex flex-col items-center justify center lg:w-[500px] w-[300px] ">
@@ -119,6 +92,7 @@ function RegisterPage() {
               wrapperCol={{
                 span: 16,
               }}
+              requiredMark={false}
             >
               <Form.Item
                 name="phoneNumber"
@@ -127,9 +101,13 @@ function RegisterPage() {
                     required: true,
                     message: t('registerPage.phoneRequired'),
                   },
+                  {
+                    pattern: /^[0-9]+$/,
+                    message: t('registerPage.phoneValidate'),
+                  },
                 ]}
               >
-                <Input
+                <CInput
                   placeholder={t('registerPage.phoneNumber')}
                   size="large"
                   className="text-lg rounded-md border-gray-300 lg:w-[500px] w-[300px]"
@@ -142,9 +120,14 @@ function RegisterPage() {
                     required: true,
                     message: t('registerPage.passwordRequired'),
                   },
+                  {
+                    pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+                    message: t('registerPage.validatePassword'),
+                  },
                 ]}
               >
-                <Input.Password
+                <CInput
+                  type="password"
                   placeholder={t('registerPage.password')}
                   className="text-lg rounded-md border-gray-300 lg:w-[500px] w-[300px]"
                   size="large"
@@ -159,7 +142,8 @@ function RegisterPage() {
                   },
                 ]}
               >
-                <Input.Password
+                <CInput
+                  type="password"
                   placeholder={t('registerPage.rePassword')}
                   className="text-lg rounded-md border-gray-300 lg:w-[500px] w-[300px]"
                   size="large"
@@ -170,6 +154,7 @@ function RegisterPage() {
             <Button
               className="lg:w-[400px] w-[250px] h-[50px] text-lg bg-flame-orange text-white"
               onClick={handelRegisterOTP}
+              loading={registerOtpMutation.isPending}
             >
               {t('registerPage.register')}
             </Button>
@@ -197,7 +182,7 @@ function RegisterPage() {
             </div>
             <OtpInput
               value={otp}
-              onChange={handleChange}
+              onChange={(value) => setOtp(value)}
               numInputs={6}
               separator={<span> </span>}
               isInputNum={true}
@@ -207,6 +192,7 @@ function RegisterPage() {
             />
 
             <Button
+              loading={registerMutation.isPending}
               onClick={handleRegister}
               disabled={otp.length !== 6}
               size="large"

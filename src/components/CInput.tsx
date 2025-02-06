@@ -1,24 +1,25 @@
-import React from 'react';
-import { Input } from 'antd';
+import { Input, InputProps } from 'antd';
 
-interface CInputProps {
-  placeholder?: string;
-  value?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  rest?: any;
-}
+const CInput = ({ maxLength = 255, onInput, ...rest }: InputProps) => {
+  const handleInput: InputProps['onInput'] = (e) => {
+    const target = e.target as HTMLInputElement;
 
-const CInput: React.FC<CInputProps> = ({
-  placeholder,
-  value,
-  onChange,
-  rest,
-}) => {
+    if (target.value?.length > maxLength) {
+      target.blur();
+      setTimeout(() => {
+        target.focus();
+      }, 0);
+    }
+
+    if (onInput) onInput(e);
+  };
+
   return (
     <Input
-      placeholder={placeholder}
-      value={value}
-      onChange={onChange}
+      maxLength={maxLength}
+      size="large"
+      className="w-full"
+      onInput={handleInput}
       {...rest}
     />
   );

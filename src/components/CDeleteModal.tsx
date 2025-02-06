@@ -6,27 +6,26 @@ interface CDeleteModalProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   onOk: () => void;
+  loading?: boolean;
 }
 const CDeleteModal: React.FC<CDeleteModalProps> = ({
   message,
   open,
   setOpen,
   onOk,
+  loading,
 }) => {
   const { t } = useTranslation();
-  const [isLoading, setIsLoading] = React.useState(false);
+
   return (
     <Modal
       title={t('common.confirm')}
       open={open}
       onOk={() => {
-        setIsLoading(true);
         onOk();
-        setIsLoading(false);
-        
       }}
       onCancel={() => setOpen(false)}
-      okButtonProps={{ loading: isLoading }}
+      okButtonProps={{ loading: loading }}
     >
       <p>{message}</p>
     </Modal>

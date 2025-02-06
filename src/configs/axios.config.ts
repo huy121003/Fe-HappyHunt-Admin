@@ -23,7 +23,6 @@ export const apiRequest = (
 
   // ✅ Tự động nhận diện JSON hoặc FormData
   if (isFormData) {
-    console.log('isFormData', isFormData);
     headers['Content-Type'] = 'multipart/form-data';
   }
   headers['Accept'] = 'application/json';

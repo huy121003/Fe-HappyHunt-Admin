@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { LAuthLayout } from '@/layouts';
 import OtpInput from 'react18-input-otp';
 import authApi from '@/apis/authApi';
+import { useMutation } from '@tanstack/react-query';
 
 function ForgotPasswordPage() {
   const { t } = useTranslation();
@@ -17,53 +18,52 @@ function ForgotPasswordPage() {
   const handleChange = (enteredOtp: any) => {
     setOtp(enteredOtp);
   };
-  const handleSendOTP = async () => {
-    try {
-      const values = await form.validateFields();
-      const { phoneNumber } = values;
+  const senOtpMutation = useMutation({
+    mutationFn: async (phoneNumber: string) => {
+      const res = await authApi.AForgotPasswordOtp(phoneNumber);
+      return res;
+    },
+    onSuccess: (res) => {
+      notification.success({
+        message: t('common.success'),
+        description: res.message,
+      });
+      setOpenOTP(true);
+    },
+    onError: (res) => {
+      notification.error({
+        message: t('common.error'),
+        description: res.message,
+      });
+    },
+  });
 
-      const otp = await authApi.AForgotPasswordOtp(phoneNumber);
-      if (otp.statusCode === 200) {
-        setOpenOTP(true);
-        notification.success({
-          message: t('common.success'),
-          description: otp.message,
-        });
-        setPhoneNumber(phoneNumber);
-      } else {
-        notification.error({
-          message: t('common.error'),
-          description: otp.message,
-        });
-      }
-    } catch {
-      notification.error({
-        message: t('common.error'),
-        description: t('common.systemError'),
-      });
-    }
+  const handleSendOTP = async () => {
+    const values = await form.validateFields();
+    setPhoneNumber(values.phoneNumber);
+    senOtpMutation.mutate(values.phoneNumber);
   };
-  const handleForgotPassword = async () => {
-    try {
-      const result = await authApi.AForgotPassword(phoneNumber, otp);
-      if (result.statusCode === 200) {
-        notification.success({
-          message: t('common.success'),
-          description: result.message,
-        });
-        navigate('/login');
-      } else {
-        notification.error({
-          message: t('common.error'),
-          description: result.message,
-        });
-      }
-    } catch {
+  const forgotPasswordMutation = useMutation({
+    mutationFn: async () => {
+      const res = await authApi.AForgotPassword(phoneNumber, otp);
+      return res;
+    },
+    onSuccess: (res) => {
+      notification.success({
+        message: t('common.success'),
+        description: res.message,
+      });
+      navigate('/login');
+    },
+    onError: (res) => {
       notification.error({
         message: t('common.error'),
-        description: t('common.systemError'),
+        description: res.message,
       });
-    }
+    },
+  });
+  const handleForgotPassword = async () => {
+    await forgotPasswordMutation.mutate();
   };
 
   return (

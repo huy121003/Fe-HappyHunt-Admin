@@ -22,42 +22,52 @@ import { useNavigate } from 'react-router-dom';
 
 import TextArea from 'antd/es/input/TextArea';
 import { CDeleteModal, CHeaderAdmin } from '@/components';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 function CategoryPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [menuCategories, setMenuCategories] = useState<ICategory[]>([]);
+
   const [category, setCategory] = useState<ICategory | null>(null);
   const [open, setOpen] = useState(false);
   const formRef = useRef<FormInstance>(null);
   const handleDelete = async () => {
     if (category && category._id) {
-      const result = await categoryApi.ADeleteCategory(category._id);
+      deleteMutation.mutate(category._id);
+    }
+  };
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const res = await categoryApi.ADeleteCategory(id);
+      return res;
+    },
+    onError: (res) => {
+      notification.error({
+        message: t('common.error'),
+        description: res.message,
+      });
+    },
+    onSuccess: (res) => {
+      notification.success({
+        message: t('common.success'),
+        description: res.message,
+      });
+      fetchCategoryQuery.refetch();
+      setOpen(false);
+      setCategory(null);
+    },
+  });
+
+  const fetchCategoryQuery = useQuery({
+    queryKey: ['fetchCategories'],
+    queryFn: async () => {
+      const result = await categoryApi.AFetchCategories();
       if (result.statusCode === 200) {
-        notification.success({
-          message: t('common.success'),
-          description: t('categoryManagement.deleteSuccess'),
-        });
-        getCategories();
-        setOpen(false);
-        setCategory(null);
-      } else {
-        notification.error({
-          message: t('common.error'),
-          description: t('categoryManagement.deleteFailed'),
-        });
+        return HBuildMenuTree(result.data);
       }
-    }
-  };
-  const getCategories = async () => {
-    const result = await categoryApi.AFetchCategories();
-    if (result.statusCode === 200) {
-      setMenuCategories(HBuildMenuTree(result.data));
-    }
-  };
-  useEffect(() => {
-    getCategories();
-  }, []);
+      return [];
+    },
+  });
   useEffect(() => {
     // Khi category thay đổi, cập nhật lại các trường trong form
     if (category) {
@@ -83,9 +93,7 @@ function CategoryPage() {
     );
 
   return (
-    <div className="flex-1  flex flex-col">
-      {/* Tiêu đề & Nút thêm danh mục */}
-
+    <div className="flex-1  flex flex-col l">
       <CHeaderAdmin
         title={t('categoryManagement.categoryTitle')}
         onClick={() => navigate('/admin/categories/create')}
@@ -95,7 +103,10 @@ function CategoryPage() {
       <div className="flex flex-row flex-1 h-full bg-white m-2 p-3  rounded-md">
         {/* Danh mục (Có thanh cuộn) */}
         <div className="w-[280px] bg-white flex-col overflow-y-auto overflow-x-hidden max-h-[calc(100vh-250px)] p-2 border rounded-md shadow-sm">
-          <Menu mode="inline">{renderMenuItems(menuCategories)}</Menu>
+          <Menu mode="inline">
+            {fetchCategoryQuery.data &&
+              renderMenuItems(fetchCategoryQuery.data)}
+          </Menu>
         </div>
 
         {/* Chi tiết danh mục */}
@@ -215,6 +226,7 @@ function CategoryPage() {
                 setOpen={setOpen}
                 message={t('categoryManagement.confirmDelete')}
                 onOk={handleDelete}
+                loading={deleteMutation.isPending}
               />
             </div>
           ) : (

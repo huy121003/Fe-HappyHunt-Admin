@@ -15,6 +15,7 @@ const CHeaderFormAdmin: React.FC<Props> = ({
   onCancel,
   onSave,
   title,
+  loading,
 }) => {
   const { t } = useTranslation();
   return (
@@ -24,7 +25,11 @@ const CHeaderFormAdmin: React.FC<Props> = ({
         <Button className="bg-gray-200 text-black m-2" onClick={onCancel}>
           {t('common.back')}
         </Button>
-        <Button onClick={onSave} className="bg-flame-orange text-white">
+        <Button
+          onClick={onSave}
+          className="bg-flame-orange text-white"
+          loading={loading}
+        >
           {isCreate ? t('common.create') : t('common.save')}
         </Button>
       </div>

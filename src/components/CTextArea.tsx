@@ -1,33 +1,33 @@
-import React from 'react';
-import InputEmoji from 'react-input-emoji';
+import { Input } from 'antd';
+import { TextAreaProps } from 'antd/es/input';
 
-interface Props {
-  placeholder?: string;
-  value?: string;
-  onChange?: (value: string) => void;
-  maxLenght?: number;
-}
+const CTextArea = ({
+  maxLength = 2000,
+  autoSize = { minRows: 3, maxRows: 10 },
+  onInput,
+  ...rest
+}: TextAreaProps) => {
+  const handleInput: TextAreaProps['onInput'] = (e) => {
+    const target = e.target as HTMLInputElement;
 
-const CTextArea: React.FC<Props> = ({
-  placeholder,
-  value = '',
-  onChange = () => {},
-  maxLenght,
-}) => {
-  // Giữ nguyên giá trị của value, không thay đổi thẻ HTML
-  const processedValue = value; // Không thay đổi gì ở đây
+    if (target.value?.length > maxLength) {
+      target.blur();
+      setTimeout(() => {
+        target.focus();
+      }, 0);
+    }
+
+    if (onInput) onInput(e);
+  };
 
   return (
-    <InputEmoji
-      borderRadius={10}
-      maxLength={maxLenght}
-      value={processedValue} // Giá trị của tin nhắn
-      onChange={onChange} // Hàm xử lý khi thay đổi giá trị
-      placeholder={placeholder} // Placeholder
-      cleanOnEnter={false} // Không tự động dọn sạch khi nhấn Enter
-      shouldReturn={true} // Cho phép xuống dòng khi nhấn Enter
-      shouldConvertEmojiToImage={true} // Chuyển emoji thành hình ảnh
-      theme="light"
+    <Input.TextArea
+      {...rest}
+      maxLength={maxLength}
+      autoSize={autoSize}
+      size="large"
+      className="w-full"
+      onInput={handleInput}
     />
   );
 };

@@ -23,12 +23,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
-      "react": [
-        "@types/react"
-      ],
-      
-    },
-   
+      "react": ["@types/react"]
+    }
   },
   "include": ["src"],
   "exclude": ["vite.config.ts"],

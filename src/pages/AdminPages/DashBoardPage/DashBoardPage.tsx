@@ -1,6 +1,3 @@
-
-
-
 function DashBoardPage() {
   return <div>eeee</div>;
 }

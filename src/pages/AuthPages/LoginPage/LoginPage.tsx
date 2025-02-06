@@ -1,44 +1,46 @@
 import authApi from '@/apis/authApi';
+import CInput from '@/components/CInput';
 import { LAuthLayout } from '@/layouts';
 import { useAppDispatch } from '@/redux/reduxHook';
 import { loginaction } from '@/redux/slice/SAuthSlice';
-import { Button, Divider, Form, Input, notification } from 'antd';
+import { useMutation } from '@tanstack/react-query';
+import { Button, Divider, Form, notification } from 'antd';
+import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 function LoginPage() {
   const { t } = useTranslation();
   const [form] = Form.useForm();
   const dispatch = useAppDispatch();
-  const handleLogin = async () => {
-    try {
-      const values = await form.validateFields();
-
+  const loginMutation = useMutation({
+    mutationFn: async (values: { phoneNumber: string; password: string }) => {
       const { phoneNumber, password } = values;
-
       const res = await authApi.ALogin(phoneNumber, password);
-      if (res.statusCode === 200) {
-        notification.success({
-          message: t('common.success'),
-          description: res.message,
-        });
-        localStorage.setItem('access_token', res.data.access_token);
-        dispatch(loginaction(res?.data?.result));
-        if (res.data.result.role.name === 'Super Admin') {
-          navigate('/admin');
-        } else navigate('/');
-      } else {
-        notification.error({
-          message: t('common.error'),
-          description: res.message,
-        });
-      }
-    } catch {
+      return res;
+    },
+    onError: (res) => {
       notification.error({
         message: t('common.error'),
-        description: t('common.systemError'),
+        description: res.message,
       });
-    }
-  };
+    },
+    onSuccess: (res) => {
+      notification.success({
+        message: t('common.success'),
+        description: res.message,
+      });
+      localStorage.setItem('access_token', res.data.access_token);
+      dispatch(loginaction(res?.data?.result));
+      if (res.data.result.role.name === 'Super Admin') {
+        navigate('/admin');
+      } else navigate('/');
+    },
+  });
+  const handleLogin = useCallback(async () => {
+    const values = await form.validateFields();
+
+    await loginMutation.mutate(values);
+  }, []);
   const navigate = useNavigate();
   return (
     <LAuthLayout>
@@ -73,7 +75,7 @@ function LoginPage() {
                 },
               ]}
             >
-              <Input
+              <CInput
                 placeholder={t('loginPage.phoneNumber')}
                 size="large"
                 className="text-lg rounded-md border-gray-300 lg:w-[500px] w-[300px]"
@@ -88,7 +90,8 @@ function LoginPage() {
                 },
               ]}
             >
-              <Input.Password
+              <CInput
+                type="password"
                 placeholder={t('loginPage.password')}
                 className="text-lg rounded-md border-gray-300 lg:w-[500px] w-[300px]"
                 size="large"
@@ -106,6 +109,7 @@ function LoginPage() {
           <Button
             className="lg:w-[400px] w-[250px] h-[50px] text-lg bg-flame-orange text-white"
             onClick={handleLogin}
+            loading={loginMutation.isPending}
           >
             {t('loginPage.loginButton')}
           </Button>

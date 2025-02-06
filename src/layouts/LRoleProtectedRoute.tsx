@@ -13,14 +13,12 @@ const LRoleProtectedRoute: React.FC<RoleProtectedRouteProps> = ({
 }) => {
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
   const userRole = useAppSelector((state) => state.auth.account.role.name); // Giả sử bạn lưu role người dùng trong Redux
-  console.log(userRole);
+
   if (!isAuthenticated) {
-    console.log('Chưa đăng nhập');
     return <Navigate to="/" />; // Nếu chưa đăng nhập, điều hướng đến trang home
   }
 
   if (userRole !== requiredRole) {
-    console.log('Role không khớp');
     return <Navigate to="/" />; // Nếu role không khớp, điều hướng về trang chủ hoặc trang khác
   }
 

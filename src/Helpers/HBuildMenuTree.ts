@@ -1,4 +1,4 @@
-import { ICategory } from "@/interfaces";
+import { ICategory } from '@/interfaces';
 
 const HBuildMenuTree = (categories: ICategory[]): ICategory[] => {
   const map = new Map<string, ICategory & { children: ICategory[] }>();

@@ -6,7 +6,6 @@ const theme: ThemeConfig = {
     colorLink: '#3437b3',
     fontSize: 16,
     wireframe: false,
-    
   },
   components: {
     Button: {

@@ -1,6 +1,9 @@
 const vn = {
   language: 'VI',
   common: {
+    number: 'STT',
+    no: 'Không',
+    yes: 'Có',
     success: 'Thành công',
     error: 'Lỗi',
     fail: 'Thất bại',
@@ -35,6 +38,22 @@ const vn = {
     reset: 'Đặt lại',
     createdAt: 'Thời gian tạo',
     updatedAt: 'Thời gian cập nhật lần cuối',
+  },
+  validation: {
+    required: 'Vui lòng nhập {{field}}',
+    min: '{{field}} phải có ít nhất {{min}} ký tự',
+    max: '{{field}} chỉ được tối đa {{max}} ký tự',
+    len: '{{field}} phải có đúng {{len}} ký tự',
+    pattern: '{{field}} không đúng định dạng',
+    email: 'Email không hợp lệ',
+    phone: 'Số điện thoại không hợp lệ',
+    whitespace: '{{field}} không được chứa khoảng trắng',
+    password_strength:
+      'Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt',
+    password_match: 'Mật khẩu không trùng khớp',
+    url: 'Đường dẫn URL không hợp lệ',
+    number: '{{field}} phải là số',
+    custom: '{{message}}',
   },
   menuAdmin: {
     dashboard: 'Bảng điều khiển',
