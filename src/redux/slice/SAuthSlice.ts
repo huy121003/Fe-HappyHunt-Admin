@@ -7,11 +7,15 @@ export const initialState = {
     fullName: '',
     phoneNumber: '',
     avatar: '',
+    isVip: false,
+    isBanned: false,
     role: {
-      _id: '',
+      _id: null,
       name: '',
+      permissions: [],
     },
-    _id: '',
+    address: '',
+    _id: null,
   },
 };
 
@@ -23,6 +27,12 @@ export const SAuthSlice = createSlice({
       state.isAuthenticated = true;
       state.account = action.payload;
       state.isLoading = false;
+    },
+    updateAccountAction: (state, action) => {
+      state.account = {
+        ...state.account,
+        ...action.payload,
+      };
     },
     getUserAction: (state, action) => {
       state.isAuthenticated = true;
@@ -36,11 +46,15 @@ export const SAuthSlice = createSlice({
         fullName: '',
         phoneNumber: '',
         avatar: '',
+        isVip: false,
+        isBanned: false,
         role: {
-          _id: '',
+          _id: null,
           name: '',
+          permissions: [],
         },
-        _id: '',
+        address: '',
+        _id: null,
       };
     },
   },
