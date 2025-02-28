@@ -8,7 +8,6 @@ import { useMutation } from '@tanstack/react-query';
 import { useCallback } from 'react';
 
 function CategoryCreatePage() {
-
   const { onSuccess, onError } = useCategoryState();
   const { mutate, isPending } = useMutation({
     mutationFn: async (data: ICategoryPayload) => {
@@ -21,9 +20,12 @@ function CategoryCreatePage() {
     onError,
   });
 
-  const onSubmit = useCallback((values: ICategoryPayload) => {
-    mutate(values);
-  }, []);
+  const onSubmit = useCallback(
+    (values: ICategoryPayload) => {
+      mutate(values);
+    },
+    [mutate]
+  );
 
   return (
     <div className="flex flex-1 flex-col gap-4">

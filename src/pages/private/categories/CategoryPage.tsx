@@ -1,4 +1,5 @@
-import CButton from '@/components/CButton';
+
+import CButtonCreateNew from '@/components/buttons/CButtonCreateNew';
 import CHeaderCard from '@/components/CHeaderCard';
 import MenuCategory from '@/features/categories/components/ui/MenuCategoryDetail';
 import { API_KEY } from '@/features/categories/data/constant';
@@ -26,13 +27,7 @@ const CategoryPage: React.FC<IProps> = ({ children }) => {
         title="Category Management"
         actions={
           <Flex gap={8}>
-            <CButton
-              type="primary"
-              size="large"
-              onClick={() => navigate('/categories/create')}
-            >
-              Create
-            </CButton>
+            <CButtonCreateNew onClick={() => navigate('/categories/create')} />
           </Flex>
         }
       />

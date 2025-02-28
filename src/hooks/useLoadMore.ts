@@ -3,11 +3,11 @@ import { useQuery } from '@tanstack/react-query';
 import { debounce } from 'lodash';
 import { useRef, useState } from 'react';
 
-const SIZE = 5;
+const SIZE = 10;
 
 export interface IFilters {
-  pageNumber: number;
-  pageSize: number;
+  page: number;
+  size: number;
   search?: string | null;
 }
 interface IProps<T> {
@@ -19,8 +19,8 @@ const useLoadMore = <T>({ key, fetchFn }: IProps<T>) => {
   const [items, setItems] = useState<T[]>([]);
   const [hasMore, setHasMore] = useState(false);
   const filters = useRef<IFilters>({
-    pageNumber: 1,
-    pageSize: SIZE,
+    page: 0,
+    size: SIZE,
     search: null,
   });
 
@@ -45,20 +45,20 @@ const useLoadMore = <T>({ key, fetchFn }: IProps<T>) => {
   const fetchData = async () => {
     const response = await refetch();
 
-    if (filters.current.pageNumber === 1) setItems(() => []);
+    if (filters.current.page === 1) setItems(() => []);
     if (response.isFetched && response.isSuccess)
       onSuccess(response.data as T[]);
   };
 
   const fetchMore = () => {
-    filters.current.pageSize += 1;
+    filters.current.size += 1;
     fetchData();
   };
 
   const onSearch = debounce((value: string) => {
     setItems(() => []);
 
-    filters.current.pageNumber = 1;
+    filters.current.page = 1;
     filters.current.search = value || null;
     fetchData();
   }, 500);

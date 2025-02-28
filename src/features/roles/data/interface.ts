@@ -1,14 +1,17 @@
-import { IPermission } from '@/features/permissions/data/interface';
+import {
+
+  IPermissionItem,
+} from '@/features/permissions/data/interface';
 import { ISearchParams } from '@/interfaces';
 
 export interface IRole {
-  _id: string;
-  name: string;
-  permissions: IPermission[];
+  permissions: IPermissionItem[];
   description?: string;
+  _id?: number;
+  name?: string;
 }
 export interface IRoleItem {
-  _id: string;
+  _id: number;
   name: string;
   description?: string;
 }

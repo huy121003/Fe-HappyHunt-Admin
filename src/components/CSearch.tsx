@@ -17,7 +17,7 @@ const CSearch = ({ maxLength = 255, onInput, ...rest }: SearchProps) => {
   return (
     <Search
       maxLength={maxLength}
-      size="middle"
+      size="large"
       className="w-full"
       onInput={handleInput}
       {...rest}

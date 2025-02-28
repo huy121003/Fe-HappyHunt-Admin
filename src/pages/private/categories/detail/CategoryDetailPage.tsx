@@ -1,5 +1,5 @@
 import { CDeleteModal } from '@/components';
-import CButton from '@/components/CButton';
+import CButton from '@/components/buttons/CButton';
 import CHeaderCard from '@/components/CHeaderCard';
 import CategoryForm from '@/features/categories/components/form/CategoryForm';
 import { API_KEY } from '@/features/categories/data/constant';

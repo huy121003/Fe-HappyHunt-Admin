@@ -17,9 +17,9 @@ export interface IPagedResponse<L = unknown>
   extends ICommonResponse<IPage<L>> {}
 
 export interface ISearchParams {
-  pageNumber: number;
-  pageSize: number;
-  sort?: string;
+  page?: number;
+  size?: number;
+  sort?: string[];
 }
 export interface ITableProps<T> extends Pick<TableProps<T>, 'onChange'> {
   data?: T[];
@@ -35,4 +35,10 @@ type FileType = Parameters<NonNullable<UploadProps['beforeUpload']>>[0];
 export interface IFileType extends FileType {}
 export interface IFormRef {
   submit: () => void;
+}
+
+export interface IPagination {
+  pageNumber?: number;
+  pageSize?: number;
+  totalDocuments?: number;
 }

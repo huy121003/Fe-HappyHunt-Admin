@@ -1,4 +1,4 @@
-import CButton from '@/components/CButton';
+import CButton from '@/components/buttons/CButton';
 import CInput from '@/components/CInput';
 import { Form } from 'antd';
 import { ILoginRequest } from '../../data/interface';

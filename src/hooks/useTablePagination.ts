@@ -20,7 +20,7 @@ const useTablePagination = (props?: IProps) => {
     }
 
     return props?.defaultPagination || { page: 0, size: 10 };
-  }, [pagination]);
+  }, [pagination, props?.defaultPagination]);
 
   const handleResetPagination = () => {
     setPagination((prev) => ({

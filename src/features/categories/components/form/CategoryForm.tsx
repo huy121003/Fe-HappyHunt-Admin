@@ -21,7 +21,7 @@ import {
   UploadOutlined,
 } from '@ant-design/icons';
 import DAttributesCategory from '@/data/DAttributesCategory';
-import CButton from '@/components/CButton';
+import CButton from '@/components/buttons/CButton';
 import SelectCategoryParent from './SelectCategoryParent';
 interface ICategoryFormProps {
   onSubmit: (values: ICategoryPayload, id?: number) => void;

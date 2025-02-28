@@ -15,13 +15,12 @@ const SelectCategoryParent: React.FC<IProps> = ({
   defaultSelected,
   ...props
 }) => {
-;
   const fetchFn = ({ search, ...filter }: IFilters) => {
     return CategoryService.getParent({
       ...filter,
       ...(search && { name: search }),
-      pageNumber: filter.pageNumber,
-      pageSize: filter.pageSize,
+      page: filter.page,
+      size: filter.size,
     });
   };
 

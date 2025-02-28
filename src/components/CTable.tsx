@@ -1,24 +1,55 @@
-import { Table } from 'antd';
-import React from 'react';
-interface CTableProps {
-  columns: any[];
-  dataSource: any[];
-  onChange: (_: any, __: any, sorted: any) => void;
+import { Empty, Table, Typography } from 'antd';
+import type { TableProps } from 'antd/es/table';
+const { Text } = Typography;
+interface CTableProps<T> extends TableProps<T> {
+  notFound?: boolean;
 }
-const CTable: React.FC<CTableProps> = ({ columns, dataSource, onChange }) => {
+
+function CTable<T>(props: CTableProps<T>) {
+  const {
+    columns,
+    dataSource = [],
+    loading,
+    pagination,
+    rowKey,
+    scroll,
+    notFound,
+    onChange,
+  } = props;
+
   return (
-    <Table
+    <Table<T>
+      onChange={onChange}
+      locale={{
+        emptyText: (
+          <Empty
+            description={
+              <Text type="secondary">
+                {notFound ? 'No data found' : 'No data'}
+              </Text>
+            }
+          />
+        ),
+      }}
       className="table-container"
       columns={columns}
       dataSource={dataSource}
-      pagination={false}
-      rowKey={(record) => record?._id}
-      onChange={onChange}
-      // scroll={{ x: 'max-content', y: 55 * 5 }}
-      // scroll={{ y: 'calc(100vh - 500px )', x: '100px' }}
-      //style={{ minWidth: '900px' }} // Đảm bảo bảng có thể cuộn ngang
+      loading={loading}
+      pagination={
+        pagination === false
+          ? false
+          : {
+              showSizeChanger: true,
+              pageSizeOptions: ['10', '20', '50', '100'],
+              ...pagination,
+            }
+      }
+      showSorterTooltip={false}
+      rowKey={rowKey}
+      scroll={scroll}
+      sticky
     />
   );
-};
+}
 
 export default CTable;

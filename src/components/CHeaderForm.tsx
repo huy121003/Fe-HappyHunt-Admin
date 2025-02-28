@@ -1,7 +1,7 @@
 import { Flex } from 'antd';
 import React from 'react';
 import CHeaderCard from './CHeaderCard';
-import CButton from './CButton';
+import CButton from './buttons/CButton';
 
 interface HeaderProps {
   title: string;
