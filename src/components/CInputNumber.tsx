@@ -29,6 +29,7 @@ const CInputNumber = ({ maxLength = 255, ...props }: TNumericInputProps) => {
 
   return (
     <Input
+      type="number"
       {...props}
       maxLength={maxLength}
       onChange={handleChange}

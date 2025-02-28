@@ -4,6 +4,10 @@ import path from 'path';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  preview: {
+    host: '0.0.0.0',
+    port: 3000,
+  },
   server: {
     host: '0.0.0.0', // Mở rộng để tất cả các IP có thể kết nối
     port: 3000,

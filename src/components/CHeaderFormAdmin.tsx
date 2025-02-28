@@ -7,7 +7,7 @@ interface Props {
   onCancel?: () => void;
   onSave?: () => void;
   title: string;
-  loading;
+  loading: boolean;
 }
 
 const CHeaderFormAdmin: React.FC<Props> = ({

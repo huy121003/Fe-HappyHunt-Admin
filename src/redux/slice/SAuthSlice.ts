@@ -10,11 +10,12 @@ export const initialState = {
     isVip: false,
     isBanned: false,
     role: {
-      _id: '',
+      _id: null,
       name: '',
+      permissions: [],
     },
     address: '',
-    _id: '',
+    _id: null,
   },
 };
 
@@ -48,11 +49,12 @@ export const SAuthSlice = createSlice({
         isVip: false,
         isBanned: false,
         role: {
-          _id: '',
+          _id: null,
           name: '',
+          permissions: [],
         },
         address: '',
-        _id: '',
+        _id: null,
       };
     },
   },

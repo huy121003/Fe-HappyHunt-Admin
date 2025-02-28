@@ -1,70 +1,82 @@
 import { createBrowserRouter, Outlet } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
-import LRoleProtectedRoute from '@/layouts/LRoleProtectedRoute';
 import { CLoadingPage, CNotFoundPage } from '@/components';
-import PostSettingPage from '@/pages/AdminPages/PostSettingPage/PostSettingPage';
+import RoleProtectedRoute from '@/components/layouts/RoleProtectedRoute';
+import AdminLayout from '@/components/layouts/AdminLayout';
+import AuthLayout from '@/components/layouts/AuthLayout';
+import NoCategory from '@/features/categories/components/ui/NoCategory';
 
 // Lazy load các trang
+
+const LoginPage = lazy(() => import('@/pages/public/login/LoginPage'));
+const CategoryPage = lazy(
+  () => import('@/pages/private/categories/CategoryPage')
+);
 const CategoryCreatePage = lazy(
-  () => import('@/pages/AdminPages/CategoryCreatePage')
+  () => import('@/pages/private/categories/create/CategoryCreatePage')
 );
-const HomePage = lazy(() => import('@/pages/UserPages/HomePage/HomePage'));
-const LoginPage = lazy(() => import('@/pages/AuthPages/LoginPage'));
-const RegisterPage = lazy(() => import('@/pages/AuthPages/RegisterPage'));
-const ForgotPasswordPage = lazy(
-  () => import('@/pages/AuthPages/ForgotPasswordPage')
+const CategoryUpdatePage = lazy(
+  () => import('@/pages/private/categories/update/CategoryUpdatePage')
 );
-const LAdminLayout = lazy(() => import('@/layouts/LAdminLayout'));
-const DashBoardPage = lazy(() => import('@/pages/AdminPages/DashBoardPage'));
-const CategoryPage = lazy(() => import('@/pages/AdminPages/CategoryPage'));
+const CategoryDetailPage = lazy(
+  () => import('@/pages/private/categories/detail/CategoryDetailPage')
+);
+const PostSettingPage = lazy(
+  () => import('@/pages/private/post-settings/PostSettingPage')
+);
+const DashboardPage = lazy(
+  () => import('@/pages/private/dashboard/DashBoardPage')
+);
+const VipActivationPage = lazy(
+  () => import('@/pages/private/vip-activations/VipActivationPage')
+);
+const RolePage = lazy(() => import('@/pages/private/roles/RolePage'));
+const RoleCreatePage = lazy(
+  () => import('@/pages/private/roles/create/RoleCreatePage')
+);
+const RoleUpdatePage = lazy(
+  () => import('@/pages/private/roles/update/RoleUpdatePage')
+);
+
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: <HomePage />,
-  },
-  {
     path: '*',
-    element: <CNotFoundPage />,
-  },
-  {
-    path: '/login',
-    element: <LoginPage />,
-  },
-  {
-    path: '/register',
     element: (
       <Suspense fallback={<CLoadingPage />}>
-        <RegisterPage />
+        <CNotFoundPage />
       </Suspense>
     ),
   },
   {
-    path: '/forgot-password',
-    element: <ForgotPasswordPage />,
-  },
-  {
-    path: '/admin',
+    path: '/login',
     element: (
-      <LRoleProtectedRoute requiredRole="Super Admin">
-        <LAdminLayout />
-      </LRoleProtectedRoute>
+      <Suspense fallback={<CLoadingPage />}>
+        <AuthLayout>
+          <LoginPage />
+        </AuthLayout>
+      </Suspense>
+    ),
+  },
+
+  {
+    path: '/',
+    element: (
+      <Suspense fallback={<CLoadingPage />}>
+        <RoleProtectedRoute>
+          <AdminLayout>
+            <Outlet />
+          </AdminLayout>
+        </RoleProtectedRoute>
+      </Suspense>
     ),
     children: [
       {
         index: true,
-        element: (
-          <LRoleProtectedRoute requiredRole="Super Admin">
-            <DashBoardPage />
-          </LRoleProtectedRoute>
-        ),
+        element: <DashboardPage />,
       },
       {
         path: 'dashboard',
-        element: (
-          <LRoleProtectedRoute requiredRole="Super Admin">
-            <DashBoardPage />
-          </LRoleProtectedRoute>
-        ),
+        element: <DashboardPage />,
       },
       {
         path: 'categories',
@@ -72,12 +84,28 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <CategoryPage />,
+            element: (
+              <CategoryPage>
+                <NoCategory />
+              </CategoryPage>
+            ),
           },
-          { path: 'create', element: <CategoryCreatePage /> },
           {
-            path: 'edit/:id',
+            path: ':categoryId/detail',
+            element: (
+              <CategoryPage>
+                <CategoryDetailPage />
+              </CategoryPage>
+            ),
+          },
+
+          {
+            path: 'create',
             element: <CategoryCreatePage />,
+          },
+          {
+            path: ':categoryId/update',
+            element: <CategoryUpdatePage />,
           },
         ],
       },
@@ -88,6 +116,28 @@ const router = createBrowserRouter([
           {
             path: 'post-settings',
             element: <PostSettingPage />,
+          },
+          {
+            path: 'vip',
+            element: <VipActivationPage />,
+          },
+        ],
+      },
+      {
+        path: 'roles',
+        element: <Outlet />,
+        children: [
+          {
+            index: true,
+            element: <RolePage />,
+          },
+          {
+            path: 'create',
+            element: <RoleCreatePage />,
+          },
+          {
+            path: ':roleId/update',
+            element: <RoleUpdatePage />,
           },
         ],
       },

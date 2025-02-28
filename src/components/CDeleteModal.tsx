@@ -1,6 +1,6 @@
 import { Modal } from 'antd';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+
 interface CDeleteModalProps {
   message: string;
   open: boolean;
@@ -15,11 +15,9 @@ const CDeleteModal: React.FC<CDeleteModalProps> = ({
   onOk,
   loading,
 }) => {
-  const { t } = useTranslation();
-
   return (
     <Modal
-      title={t('common.confirm')}
+      title="Delete"
       open={open}
       onOk={() => {
         onOk();

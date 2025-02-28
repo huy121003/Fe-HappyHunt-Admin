@@ -1,15 +1,16 @@
-import { Spin } from 'antd';
+import { Flex, Spin } from 'antd';
 
 function CLoadingPage() {
   return (
-    <div className="flex-1 h-screen w-full flex justify-center items-center bg-white">
+    <Flex justify="center" align="center" style={{ height: '100vh' }}>
       <Spin
         size="large"
         style={{
           fontSize: 24,
+          color: '#dd4904',
         }}
       />
-    </div>
+    </Flex>
   );
 }
 

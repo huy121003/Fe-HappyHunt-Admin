@@ -1,85 +1,85 @@
 import React from 'react';
-import {
-  BarChartOutlined,
-  IdcardOutlined,
-  SolutionOutlined,
-  SafetyCertificateOutlined,
-  AppstoreOutlined,
-  FileTextOutlined,
-  FundOutlined,
-  MessageOutlined,
-  CommentOutlined,
-  CrownOutlined,
-} from '@ant-design/icons';
-import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import type { MenuProps } from 'antd';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 type MenuItem = Required<MenuProps>['items'][number];
+
 interface CMenuAdminProps {
   collapsed: boolean;
-  setCollapsed: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const CMenuAdmin: React.FC<CMenuAdminProps> = ({ collapsed }) => {
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const location = useLocation();
+
+  const getItem = (
+    label: string,
+    key: string,
+    iconClass?: string,
+    path?: string,
+    children?: MenuItem[]
+  ): MenuItem => ({
+    key,
+    icon: iconClass ? <i className={`fa ${iconClass}`} /> : undefined,
+    label,
+    children,
+    onClick: path ? () => navigate(path) : undefined,
+  });
 
   const items: MenuItem[] = [
-    {
-      key: '1',
-      icon: <BarChartOutlined />,
-      label: t('menuAdmin.dashboard'),
-      onClick: () => navigate('/admin/dashboard'),
-    },
-    { key: '2', icon: <IdcardOutlined />, label: t('menuAdmin.account') },
-    { key: '3', icon: <SolutionOutlined />, label: t('menuAdmin.roles') },
-    {
-      key: '4',
-      icon: <SafetyCertificateOutlined />,
-      label: t('menuAdmin.permissions'),
-    },
-    {
-      key: '5',
-      icon: <AppstoreOutlined />,
-      label: t('menuAdmin.categories'),
-      onClick: () => navigate('/admin/categories'),
-    },
-    { key: '6', icon: <FileTextOutlined />, label: t('menuAdmin.post') },
-    { key: '7', icon: <FundOutlined />, label: t('menuAdmin.reports') },
-    {
-      key: '8',
-      icon: <MessageOutlined />,
-      label: t('menuAdmin.exampleMessage'),
-    },
-    { key: '9', icon: <CommentOutlined />, label: t('menuAdmin.feedback') },
-    {
-      key: 'sub10',
-      label: t('menuAdmin.policies'),
-      icon: <SafetyCertificateOutlined />,
-      children: [
-        {
-          key: '10',
-          icon: <FileTextOutlined />,
-          label: t('menuAdmin.postSettings'),
-          onClick: () => navigate('/admin/policies/post-settings'),
-        },
-
-        {
-          key: '11',
-          icon: <CrownOutlined />,
-          label: t('menuAdmin.vipPurchase'),
-        },
-      ],
-    },
+    getItem('Dashboard', '/dashboard', 'fa-chart-bar', '/dashboard'),
+    getItem('Account Management', 'account_management', 'fa-users', undefined, [
+      getItem('User Management', '/account/users', 'fa-user', '/account/users'),
+      getItem(
+        'Admin Management',
+        '/account/admins',
+        'fa-user-shield',
+        '/account/admins'
+      ),
+      getItem('User Reports', '/reports/users', 'fa-flag', '/reports/users'),
+    ]),
+    getItem('Role Management', '/roles', 'fa-shield-alt', '/roles'),
+    getItem(
+      'Category Management',
+      '/categories',
+      'fa-layer-group',
+      '/categories'
+    ),
+    getItem('Post Management', 'post_management', 'fa-newspaper', undefined, [
+      getItem('All Posts', '/posts', 'fa-file-alt', '/posts'),
+      getItem('Post Reports', '/reports/posts', 'fa-flag', '/reports/posts'),
+    ]),
+    getItem('Messages Setting', '/messages', 'fa-envelope', '/messages'),
+    getItem('User Feedback', '/feedback', 'fa-comments', '/feedback'),
+    getItem('System Policies', 'system_policies', 'fa-shield-alt', undefined, [
+      getItem(
+        'Post Settings',
+        '/policies/post-settings',
+        'fa-cogs',
+        '/policies/post-settings'
+      ),
+      getItem('VIP Activation', '/policies/vip', 'fa-crown', '/policies/vip'),
+    ]),
   ];
+
+  const findSelectedKey = (path: string): string | undefined => {
+    const matchedItem = items
+      .flatMap((item) =>
+        item && 'children' in item && item.children
+          ? [item, ...item.children]
+          : item
+      )
+      .find((item) => path.startsWith(item?.key as string));
+
+    return matchedItem?.key as string | undefined;
+  };
 
   return (
     <div className="w-[280px] bg-white">
       <Menu
-        defaultSelectedKeys={['1']}
-        defaultOpenKeys={['sub10']}
+        selectedKeys={[findSelectedKey(location.pathname) ?? '']}
+        defaultOpenKeys={['account_management', 'system_policies']}
         mode="inline"
         inlineCollapsed={collapsed}
         items={items}
