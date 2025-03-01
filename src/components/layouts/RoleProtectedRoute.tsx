@@ -10,15 +10,13 @@ const RoleProtectedRoute: React.FC<RoleProtectedRouteProps> = ({
   children,
 }) => {
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
-  const userRole = useAppSelector((state) => state.auth?.account?.role?.name);
+  // const userRole = useAppSelector((state) => state.auth?.account?.role);
 
-  if (!isAuthenticated || !userRole) {
-    return <Navigate to="/" />;
+  if (!isAuthenticated) {
+    return <Navigate to="/login" />;
   }
 
-  if (userRole) {
-    return <>{children}</>;
-  }
+  return <>{children}</>;
 };
 
 export default RoleProtectedRoute;

@@ -1,10 +1,16 @@
 import { createBrowserRouter, Outlet } from 'react-router-dom';
-import { Suspense, lazy } from 'react';
+import { ReactNode, Suspense, lazy } from 'react';
 import { CLoadingPage, CNotFoundPage } from '@/components';
 import RoleProtectedRoute from '@/components/layouts/RoleProtectedRoute';
 import AdminLayout from '@/components/layouts/AdminLayout';
 import AuthLayout from '@/components/layouts/AuthLayout';
 import NoCategory from '@/features/categories/components/ui/NoCategory';
+const withSuspense = (
+  node: ReactNode,
+  fallback: NonNullable<ReactNode> | null = null
+) => {
+  return <Suspense fallback={fallback}>{node}</Suspense>;
+};
 
 // Lazy load các trang
 
@@ -41,42 +47,35 @@ const RoleUpdatePage = lazy(
 const router = createBrowserRouter([
   {
     path: '*',
-    element: (
-      <Suspense fallback={<CLoadingPage />}>
-        <CNotFoundPage />
-      </Suspense>
-    ),
+    element: withSuspense(<CNotFoundPage />, <CLoadingPage />),
   },
   {
     path: '/login',
-    element: (
-      <Suspense fallback={<CLoadingPage />}>
-        <AuthLayout>
-          <LoginPage />
-        </AuthLayout>
-      </Suspense>
+    element: withSuspense(
+      <AuthLayout>
+        <LoginPage />
+      </AuthLayout>,
+      <CLoadingPage />
     ),
   },
 
   {
     path: '/',
     element: (
-      <Suspense fallback={<CLoadingPage />}>
-        <RoleProtectedRoute>
-          <AdminLayout>
-            <Outlet />
-          </AdminLayout>
-        </RoleProtectedRoute>
-      </Suspense>
+      <RoleProtectedRoute>
+        <AdminLayout>
+          <Outlet />
+        </AdminLayout>
+      </RoleProtectedRoute>
     ),
     children: [
       {
         index: true,
-        element: <DashboardPage />,
+        element: withSuspense(<DashboardPage />, <CLoadingPage />),
       },
       {
         path: 'dashboard',
-        element: <DashboardPage />,
+        element: withSuspense(<DashboardPage />, <CLoadingPage />),
       },
       {
         path: 'categories',
@@ -84,28 +83,30 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: (
+            element: withSuspense(
               <CategoryPage>
                 <NoCategory />
-              </CategoryPage>
+              </CategoryPage>,
+              <CLoadingPage />
             ),
           },
           {
             path: ':categoryId/detail',
-            element: (
+            element: withSuspense(
               <CategoryPage>
                 <CategoryDetailPage />
-              </CategoryPage>
+              </CategoryPage>,
+              <CLoadingPage />
             ),
           },
 
           {
             path: 'create',
-            element: <CategoryCreatePage />,
+            element: withSuspense(<CategoryCreatePage />, <CLoadingPage />),
           },
           {
             path: ':categoryId/update',
-            element: <CategoryUpdatePage />,
+            element: withSuspense(<CategoryUpdatePage />, <CLoadingPage />),
           },
         ],
       },
@@ -115,11 +116,11 @@ const router = createBrowserRouter([
         children: [
           {
             path: 'post-settings',
-            element: <PostSettingPage />,
+            element: withSuspense(<PostSettingPage />, <CLoadingPage />),
           },
           {
             path: 'vip',
-            element: <VipActivationPage />,
+            element: withSuspense(<VipActivationPage />, <CLoadingPage />),
           },
         ],
       },
@@ -129,15 +130,15 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <RolePage />,
+            element: withSuspense(<RolePage />, <CLoadingPage />),
           },
           {
             path: 'create',
-            element: <RoleCreatePage />,
+            element: withSuspense(<RoleCreatePage />, <CLoadingPage />),
           },
           {
             path: ':roleId/update',
-            element: <RoleUpdatePage />,
+            element: withSuspense(<RoleUpdatePage />, <CLoadingPage />),
           },
         ],
       },

@@ -59,7 +59,7 @@ const RoleForm: React.FC<RoleFormProps> = ({
           disable={disabled}
         />
       )}
-      <Card className={`flex-1  overflow-y-auto h-[750px]`}>
+      <Card className={`flex-1  overflow-y-auto h-[680px]`}>
         <Form<IRolePayload>
           form={form}
           layout="vertical"
