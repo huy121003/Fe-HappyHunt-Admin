@@ -11,11 +11,12 @@ import RolesService from '@/features/roles/service';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { Card } from 'antd';
 
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function RolePage() {
   const naviagte = useNavigate();
+  const [openModal, setOpenModal] = useState(false);
   const { onSuccess, onError } = useRoleState();
   const {
     handleChangePagination,
@@ -36,7 +37,9 @@ function RolePage() {
       return response;
     },
     onSuccess: () => {
-      onSuccess('Role deleted successfully');
+      onSuccess('Role deleted successfully', () => {
+        setOpenModal(false);
+      });
     },
     onError,
   });
@@ -51,16 +54,12 @@ function RolePage() {
   return (
     <div className="bg-gray-100 h-screen overflow-hidden">
       <CHeaderCard
-        title="User Management Listing"
+        title="Role Listing"
         actions={<CButtonCreateNew onClick={() => naviagte('/roles/create')} />}
       />
       <Card>
         <FilterLayout>
-          <CSearch
-            placeholder="Search by name"
-            onInput={handleInputSearch}
-            className="!w-96"
-          />
+          <CSearch placeholder="Search by name" onInput={handleInputSearch} />
         </FilterLayout>
 
         <RoleTable
@@ -74,6 +73,8 @@ function RolePage() {
           }}
           notFound={isFetched && !data?.totalDocuments}
           onChange={handleChangePagination}
+          openModal={openModal}
+          setOpenModal={setOpenModal}
         />
       </Card>
     </div>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Menu } from 'antd';
 import type { MenuProps } from 'antd';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -56,7 +56,7 @@ const CMenuAdmin: React.FC<CMenuAdminProps> = ({ collapsed }) => {
       'fa-envelope',
       '/messages-settings'
     ),
-    getItem('Address Management', '/addresses', 'fa-map-location', undefined, [
+    getItem('Address Management', 'addresses', 'fa-map-location', undefined, [
       getItem(
         'Provinces',
         '/addresses/provinces',
@@ -94,12 +94,19 @@ const CMenuAdmin: React.FC<CMenuAdminProps> = ({ collapsed }) => {
 
     return matchedItem?.key as string | undefined;
   };
+  const [openKeys, setOpenKeys] = useState<string[]>([]);
+
+  const handleOpenChange = (keys: string[]) => {
+    setOpenKeys(keys.length > 0 ? [keys[keys.length - 1]] : []);
+  };
 
   return (
+    //chir cos 1  sub mo thoi
     <Menu
-      className="[&>.ant-menu-item-selected>svg>path]:stroke-white "
+      className="[&>.ant-menu-item-selected>svg>path]:stroke-white"
       selectedKeys={[findSelectedKey(location.pathname) ?? '']}
-      defaultOpenKeys={['account_management', 'system_policies']}
+      openKeys={openKeys} // Chỉ mở 1 submenu
+      onOpenChange={handleOpenChange} // Xử lý mở submenu
       mode="inline"
       inlineCollapsed={collapsed}
       items={items}

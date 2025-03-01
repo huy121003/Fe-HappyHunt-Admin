@@ -27,11 +27,14 @@ const CHeaderForm: React.FC<HeaderProps> = ({
           <CButton size="large" type="default" onClick={onCancel}>
             Cancel
           </CButton>
+
           <CButton
-            loading={loading}
             size="large"
+            type="primary"
             onClick={onSave}
+            loading={loading}
             disabled={disable}
+            hidden={!onSave}
           >
             Save
           </CButton>

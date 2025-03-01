@@ -1,6 +1,7 @@
-import { Button, Card, Form, InputNumber, Spin } from 'antd';
+import { Button, Card, Form, Spin } from 'antd';
 import React, { useCallback, useEffect } from 'react';
 import { IVipActivation } from '../../data/interface';
+import CInput from '@/components/CInput';
 interface IVipActivationFormProps {
   onSubmit: (values: IVipActivation) => void;
   data?: IVipActivation;
@@ -12,7 +13,6 @@ interface IVipActivationFormProps {
 const VipActivationForm: React.FC<IVipActivationFormProps> = ({
   onSubmit,
   data,
-  disabled,
   loading,
   isEdit,
   setIsEdit,
@@ -48,8 +48,8 @@ const VipActivationForm: React.FC<IVipActivationFormProps> = ({
           layout="vertical"
           name="vipActivationForm"
           onFinish={onFinish}
-          style={{ maxWidth: 600 }}
-          disabled={disabled}
+          style={{ width: '100%' }}
+          disabled={!isEdit}
         >
           <Form.Item
             name="moneyToCoin"
@@ -61,11 +61,7 @@ const VipActivationForm: React.FC<IVipActivationFormProps> = ({
               },
             ]}
           >
-            <InputNumber
-              placeholder="Money to Coin"
-              className="w-full"
-              disabled={!isEdit}
-            />
+            <CInput placeholder="Money to Coin" type="number" />
           </Form.Item>
           <Form.Item
             name="coinToVip"
@@ -77,11 +73,7 @@ const VipActivationForm: React.FC<IVipActivationFormProps> = ({
               },
             ]}
           >
-            <InputNumber
-              placeholder="Coin to Vip"
-              className="w-full"
-              disabled={!isEdit}
-            />
+            <CInput placeholder="Coin to Vip" type="number" />
           </Form.Item>
         </Form>
         <div className="flex justify-end m-6 gap-4">

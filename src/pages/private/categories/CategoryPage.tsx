@@ -1,4 +1,3 @@
-
 import CButtonCreateNew from '@/components/buttons/CButtonCreateNew';
 import CHeaderCard from '@/components/CHeaderCard';
 import MenuCategory from '@/features/categories/components/ui/MenuCategoryDetail';
@@ -24,7 +23,7 @@ const CategoryPage: React.FC<IProps> = ({ children }) => {
   return (
     <div className=" flex-1 flex flex-col h-full overflow-hidden">
       <CHeaderCard
-        title="Category Management"
+        title="Category Listing"
         actions={
           <Flex gap={8}>
             <CButtonCreateNew onClick={() => navigate('/categories/create')} />

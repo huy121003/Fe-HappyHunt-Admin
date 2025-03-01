@@ -5,6 +5,7 @@ import { Card, Form, Spin } from 'antd';
 import CHeaderForm from '@/components/CHeaderForm';
 import CInput from '@/components/CInput';
 import PermissionForm from './PermissionForm';
+import CTextArea from '@/components/CTextArea';
 
 interface RoleFormProps {
   loading: boolean;
@@ -51,15 +52,14 @@ const RoleForm: React.FC<RoleFormProps> = ({
   };
   return (
     <Spin spinning={loading}>
-      {!isView && (
-        <CHeaderForm
-          onCancel={onCancel}
-          onSave={form.submit}
-          title={title || 'Role Create'}
-          disable={disabled}
-        />
-      )}
-      <Card className={`flex-1  overflow-y-auto h-[680px]`}>
+      <CHeaderForm
+        onCancel={onCancel}
+        onSave={isView ? undefined : form.submit}
+        title={title || 'Role Create'}
+        disable={disabled}
+      />
+
+      <Card className={`flex-1  overflow-y-auto h-[670px]`}>
         <Form<IRolePayload>
           form={form}
           layout="vertical"
@@ -82,7 +82,7 @@ const RoleForm: React.FC<RoleFormProps> = ({
             <CInput placeholder="Input role name" />
           </Form.Item>
           <Form.Item label="Description" name="description">
-            <CInput placeholder="Input role description" />
+            <CTextArea placeholder="Input role description" />
           </Form.Item>
           <PermissionForm permissions={data?.permissions || []} form={form} />
         </Form>

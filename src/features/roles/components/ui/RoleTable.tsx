@@ -10,6 +10,8 @@ import dayjs from 'dayjs';
 
 interface IRoleTableProps extends ITableProps<IRoleItem> {
   isDeleteLoading?: boolean;
+  openModal: boolean;
+  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const RoleTable: React.FC<IRoleTableProps> = ({
   data,
@@ -19,8 +21,9 @@ const RoleTable: React.FC<IRoleTableProps> = ({
   onDelete,
   isDeleteLoading,
   onChange,
+  openModal,
+  setOpenModal,
 }) => {
-  const [openModal, setOpenModal] = useState(false);
   const [record, setRecord] = useState<IRoleItem | null>(null);
   const navigate = useNavigate();
   const columns = [
@@ -37,7 +40,12 @@ const RoleTable: React.FC<IRoleTableProps> = ({
       title: 'Role Name',
       dataIndex: 'name',
       key: 'name',
-      width: 200,
+      width: 150,
+      render: (value: string, record: IRoleItem) => (
+        <Typography.Link onClick={() => navigate(`${record._id}/detail`)}>
+          {value}
+        </Typography.Link>
+      ),
     },
     {
       title: 'Description',
@@ -50,7 +58,7 @@ const RoleTable: React.FC<IRoleTableProps> = ({
       dataIndex: 'createdAt',
       key: 'createdAt',
       render: (value: string) => (
-        <>{dayjs(value).format('MM/DD/YYYY HH:mm:ss')}</>
+        <Typography.Text>{dayjs(value).format('DD MMM YYYY')}</Typography.Text>
       ),
       width: 200,
     },
@@ -61,21 +69,17 @@ const RoleTable: React.FC<IRoleTableProps> = ({
       key: 'action',
       render: (_: any, record: IRoleItem) => (
         <Flex gap={8}>
-          {record._id !== 1 && (
-            <>
-              <CButtonEdit
-                onClick={() => {
-                  navigate(`${record._id}/update`);
-                }}
-              />
-              <CButtonDelete
-                onClick={() => {
-                  setRecord(record);
-                  setOpenModal(true);
-                }}
-              />
-            </>
-          )}
+          <CButtonEdit
+            onClick={() => {
+              navigate(`${record._id}/update`);
+            }}
+          />
+          <CButtonDelete
+            onClick={() => {
+              setRecord(record);
+              setOpenModal(true);
+            }}
+          />
         </Flex>
       ),
       width: 150,
@@ -90,7 +94,6 @@ const RoleTable: React.FC<IRoleTableProps> = ({
         pagination={pagination}
         rowKey="_id"
         notFound={notFound}
-      
         onChange={onChange}
       />
       <CDeleteModal

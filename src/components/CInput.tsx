@@ -18,7 +18,7 @@ const CInput = ({ maxLength = 255, onInput, ...rest }: InputProps) => {
     <Input
       maxLength={maxLength}
       size="large"
-      className="w-full"
+      className="w-1/2"
       onInput={handleInput}
       {...rest}
     />

@@ -1,13 +1,15 @@
-import { Flex } from 'antd';
+
 import React from 'react';
 interface IProps {
   children: React.ReactNode;
 }
 const FilterLayout: React.FC<IProps> = ({ children }) => {
   return (
-    <Flex wrap className="mb-4" justify="space-between" align="center" gap={8}>
+    <div
+      className={`grid gap-6 w-full pb-6 grid-cols-[repeat(auto-fit,minmax(200px,1fr))] ${((children as Array<unknown>)?.length || 1) < 3 ? 'grid-cols-[repeat(auto-fit,minmax(200px,350px))]' : ''}`}
+    >
       {children}
-    </Flex>
+    </div>
   );
 };
 

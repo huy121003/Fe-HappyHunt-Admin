@@ -5,6 +5,7 @@ import RoleProtectedRoute from '@/components/layouts/RoleProtectedRoute';
 import AdminLayout from '@/components/layouts/AdminLayout';
 import AuthLayout from '@/components/layouts/AuthLayout';
 import NoCategory from '@/features/categories/components/ui/NoCategory';
+
 const withSuspense = (
   node: ReactNode,
   fallback: NonNullable<ReactNode> | null = null
@@ -43,7 +44,43 @@ const RoleCreatePage = lazy(
 const RoleUpdatePage = lazy(
   () => import('@/pages/private/roles/update/RoleUpdatePage')
 );
-
+const ProvincePage = lazy(
+  () => import('@/pages/private/provinces/ProvincePage')
+);
+const ProvinceCreatePage = lazy(
+  () => import('@/pages/private/provinces/create/ProvinceCreatePage')
+);
+const ProvinceUpdatePage = lazy(
+  () => import('@/pages/private/provinces/update/ProvinceUpdatePage')
+);
+const ProvinceDetailPage = lazy(
+  () => import('@/pages/private/provinces/detail/ProvinceDetailPage')
+);
+const RoleDetailPage = lazy(
+  () => import('@/pages/private/roles/detail/RoleDetailPage')
+);
+const DistrictPage = lazy(
+  () => import('@/pages/private/districts/DistrictPage')
+);
+const DistrictCreatePage = lazy(
+  () => import('@/pages/private/districts/create/DistrictCreatePage')
+);
+const DistrictUpdatePage = lazy(
+  () => import('@/pages/private/districts/update/DistrictUpdatePage')
+);
+const DistrictDetailPage = lazy(
+  () => import('@/pages/private/districts/detail/DistrictDetailPage')
+);
+const WardPage = lazy(() => import('@/pages/private/wards/WardPage'));
+const WardCreatePage = lazy(
+  () => import('@/pages/private/wards/create/WardCreatePage')
+);
+const WardUpdatePage = lazy(
+  () => import('@/pages/private/wards/update/WardUpdatePage')
+);
+const WardDetailPage = lazy(
+  () => import('@/pages/private/wards/detail/WardDetailPage')
+);
 const router = createBrowserRouter([
   {
     path: '*',
@@ -139,6 +176,82 @@ const router = createBrowserRouter([
           {
             path: ':roleId/update',
             element: withSuspense(<RoleUpdatePage />, <CLoadingPage />),
+          },
+          {
+            path: ':roleId/detail',
+            element: withSuspense(<RoleDetailPage />, <CLoadingPage />),
+          },
+        ],
+      },
+      {
+        path: 'addresses',
+        element: <Outlet />,
+        children: [
+          {
+            path: 'provinces',
+            element: <Outlet />,
+            children: [
+              {
+                index: true,
+                element: withSuspense(<ProvincePage />, <CLoadingPage />),
+              },
+              {
+                path: 'create',
+                element: withSuspense(<ProvinceCreatePage />, <CLoadingPage />),
+              },
+              {
+                path: ':provinceId/update',
+                element: withSuspense(<ProvinceUpdatePage />, <CLoadingPage />),
+              },
+              {
+                path: ':provinceId/detail',
+                element: withSuspense(<ProvinceDetailPage />, <CLoadingPage />),
+              },
+            ],
+          },
+          {
+            path: 'districts',
+            element: <Outlet />,
+            children: [
+              {
+                index: true,
+                element: withSuspense(<DistrictPage />, <CLoadingPage />),
+              },
+              {
+                path: 'create',
+                element: withSuspense(<DistrictCreatePage />, <CLoadingPage />),
+              },
+              {
+                path: ':districtId/update',
+                element: withSuspense(<DistrictUpdatePage />, <CLoadingPage />),
+              },
+              {
+                path: ':districtId/detail',
+                element: withSuspense(<DistrictDetailPage />, <CLoadingPage />),
+              },
+            ],
+          },
+          {
+            path: 'wards',
+            element: <Outlet />,
+            children: [
+              {
+                index: true,
+                element: withSuspense(<WardPage />, <CLoadingPage />),
+              },
+              {
+                path: 'create',
+                element: withSuspense(<WardCreatePage />, <CLoadingPage />),
+              },
+              {
+                path: ':wardId/update',
+                element: withSuspense(<WardUpdatePage />, <CLoadingPage />),
+              },
+              {
+                path: ':wardId/detail',
+                element: withSuspense(<WardDetailPage />, <CLoadingPage />),
+              },
+            ],
           },
         ],
       },
