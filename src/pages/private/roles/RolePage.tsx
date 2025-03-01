@@ -41,9 +41,12 @@ function RolePage() {
     onError,
   });
 
-  const onDelete = useCallback((record: IRoleItem) => {
-    mutate(Number(record._id));
-  }, [mutate]);
+  const onDelete = useCallback(
+    (record: IRoleItem) => {
+      mutate(Number(record._id));
+    },
+    [mutate]
+  );
 
   return (
     <div className="bg-gray-100 h-screen overflow-hidden">
@@ -51,7 +54,7 @@ function RolePage() {
         title="User Management Listing"
         actions={<CButtonCreateNew onClick={() => naviagte('/roles/create')} />}
       />
-      <Card className="!mt-4 overflow-auto">
+      <Card>
         <FilterLayout>
           <CSearch
             placeholder="Search by name"

@@ -37,11 +37,13 @@ const RoleTable: React.FC<IRoleTableProps> = ({
       title: 'Role Name',
       dataIndex: 'name',
       key: 'name',
+      width: 200,
     },
     {
       title: 'Description',
       dataIndex: 'description',
       key: 'description',
+      width: 200,
     },
     {
       title: 'Created At',
@@ -88,7 +90,7 @@ const RoleTable: React.FC<IRoleTableProps> = ({
         pagination={pagination}
         rowKey="_id"
         notFound={notFound}
-        scroll={{ y: 450 }}
+      
         onChange={onChange}
       />
       <CDeleteModal

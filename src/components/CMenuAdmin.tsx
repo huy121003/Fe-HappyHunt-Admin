@@ -6,7 +6,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 type MenuItem = Required<MenuProps>['items'][number];
 
 interface CMenuAdminProps {
-  collapsed: boolean;
+  collapsed?: boolean;
 }
 
 const CMenuAdmin: React.FC<CMenuAdminProps> = ({ collapsed }) => {
@@ -50,8 +50,28 @@ const CMenuAdmin: React.FC<CMenuAdminProps> = ({ collapsed }) => {
       getItem('All Posts', '/posts', 'fa-file-alt', '/posts'),
       getItem('Post Reports', '/reports/posts', 'fa-flag', '/reports/posts'),
     ]),
-    getItem('Messages Setting', '/messages', 'fa-envelope', '/messages'),
-    getItem('User Feedback', '/feedback', 'fa-comments', '/feedback'),
+    getItem(
+      'Messages Setting',
+      '/message-settings',
+      'fa-envelope',
+      '/messages-settings'
+    ),
+    getItem('Address Management', '/addresses', 'fa-map-location', undefined, [
+      getItem(
+        'Provinces',
+        '/addresses/provinces',
+        'fa-globe-asia',
+        '/addresses/provinces'
+      ),
+      getItem(
+        'Districts',
+        '/addresses/districts',
+        'fa-city',
+        '/addresses/districts'
+      ),
+      getItem('Wards', '/addresses/wards', 'fa-house-user', '/addresses/wards'),
+    ]),
+
     getItem('System Policies', 'system_policies', 'fa-shield-alt', undefined, [
       getItem(
         'Post Settings',
@@ -76,15 +96,14 @@ const CMenuAdmin: React.FC<CMenuAdminProps> = ({ collapsed }) => {
   };
 
   return (
-    <div className="w-[280px] bg-white">
-      <Menu
-        selectedKeys={[findSelectedKey(location.pathname) ?? '']}
-        defaultOpenKeys={['account_management', 'system_policies']}
-        mode="inline"
-        inlineCollapsed={collapsed}
-        items={items}
-      />
-    </div>
+    <Menu
+      className="[&>.ant-menu-item-selected>svg>path]:stroke-white "
+      selectedKeys={[findSelectedKey(location.pathname) ?? '']}
+      defaultOpenKeys={['account_management', 'system_policies']}
+      mode="inline"
+      inlineCollapsed={collapsed}
+      items={items}
+    />
   );
 };
 

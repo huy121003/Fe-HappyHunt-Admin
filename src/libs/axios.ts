@@ -20,35 +20,52 @@ apiConfig.interceptors.request.use((config) => {
 });
 
 // Interceptor Response
+
+// Xử lý thông báo lỗi
+const showError = (message: string) => {
+  postMessageHandler({ type: 'error', text: message });
+};
+
+// Interceptor xử lý response
 apiConfig.interceptors.response.use(
   (response: AxiosResponse) => response?.data ?? response,
+
   async (error: AxiosError) => {
-    console.log('error', error);
-    const { config, response, code, request } = error;
+    console.error('API Error:', error);
+
+    const { config, response, code } = error;
+
     if (code === 'ECONNABORTED') {
-      postMessageHandler({
-        type: 'error',
-        text: 'Request timeout, please try again!',
-      });
-    } else if (response && config) {
-      if (response.status === 401 && !config.headers[NO_RETRY_HEADER]) {
+      showError('Request timeout, please try again!');
+      return Promise.reject(error);
+    }
+
+    if (!config || !response) {
+      showError('Request error, please try again!');
+      return Promise.reject(error);
+    }
+
+    const { status } = response;
+
+    // Xử lý lỗi 401 - Unauthorized
+    if (status === 401 && !config.headers[NO_RETRY_HEADER]) {
+      try {
         const res = await AuthService.getNewAccessToken();
         const accessToken = res.data?.access_token;
+
         if (accessToken) {
           localStorage.setItem('access_token', accessToken);
+
+          // Gán token mới vào request header
           config.headers.Authorization = `Bearer ${accessToken}`;
           config.headers[NO_RETRY_HEADER] = 'true';
+
+          // Gửi lại request đã bị lỗi
           return apiConfig.request(config);
         }
-      }
-      if (
-        response.status === 400 &&
-        config.url?.includes('auth/get-new-access-token')
-      ) {
-        postMessageHandler({
-          type: 'error',
-          text: 'Token expired, please login again!',
-        });
+      } catch (refreshError) {
+        console.error('Token refresh failed:', refreshError);
+        showError('Token expired, please login again!');
         localStorage.removeItem('access_token');
         if (
           !['/login', '/register', '/forgot-password'].includes(
@@ -58,18 +75,23 @@ apiConfig.interceptors.response.use(
           window.location.href = '/login';
         }
       }
-      return Promise.reject(response.data);
-    } else if (request) {
-      postMessageHandler({
-        type: 'error',
-        text: 'Request error, please try again!',
-      });
-    } else {
-      postMessageHandler({
-        type: 'error',
-        text: 'Request error, please try again!',
-      });
     }
+
+    // Xử lý lỗi 400 - Token refresh thất bại
+    if (status === 400 && config.url?.includes('auth/get-new-access-token')) {
+      showError('Token expired, please login again!');
+      localStorage.removeItem('access_token');
+      if (
+        !['/login', '/register', '/forgot-password'].includes(
+          window.location.pathname
+        )
+      ) {
+        window.location.href = '/login';
+      }
+    }
+
+    // Trả về lỗi để các hàm gọi API có thể xử lý tiếp
+    return Promise.reject(response.data ?? error);
   }
 );
 

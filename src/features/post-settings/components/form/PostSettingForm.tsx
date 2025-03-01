@@ -34,7 +34,6 @@ const PostSettingForm: React.FC<IPostSettingFormProps> = ({
         ...values,
       };
       onSubmit(payload);
-      
     } else {
       if (setIsEdit) setIsEdit(true);
     }
@@ -42,17 +41,18 @@ const PostSettingForm: React.FC<IPostSettingFormProps> = ({
 
   return (
     <Spin spinning={loading}>
-      <Card className={`flex-1  overflow-y-auto  `}>
+      <Card className={`flex-1 w-full  overflow-y-auto  `}>
         <Form<IPostSetting>
           initialValues={data}
           form={form}
           layout="vertical"
           name="postSettingForm"
           onFinish={onFinish}
-          style={{ maxWidth: 600 }}
           disabled={disabled}
+          className="w-full"
         >
           <Form.Item
+            className="w-full"
             label="Limit Post Number"
             name="limitPost"
             rules={[
@@ -62,11 +62,7 @@ const PostSettingForm: React.FC<IPostSettingFormProps> = ({
               },
             ]}
           >
-            <InputNumber
-              style={{ minWidth: 600 }}
-              disabled={!isEdit}
-              placeholder="Limit Post Number"
-            />
+            <InputNumber disabled={!isEdit} placeholder="Limit Post Number" />
           </Form.Item>
           <Form.Item
             label="Limit Post Vip Number"
@@ -79,7 +75,6 @@ const PostSettingForm: React.FC<IPostSettingFormProps> = ({
             ]}
           >
             <InputNumber
-              style={{ minWidth: 600 }}
               disabled={!isEdit}
               placeholder="Limit Post Vip Number"
             />
@@ -94,11 +89,7 @@ const PostSettingForm: React.FC<IPostSettingFormProps> = ({
               },
             ]}
           >
-            <InputNumber
-              style={{ minWidth: 600 }}
-              disabled={!isEdit}
-              placeholder="Time Expired"
-            />
+            <InputNumber disabled={!isEdit} placeholder="Time Expired" />
           </Form.Item>
           <Form.Item
             label="Min Image Post"
@@ -110,11 +101,7 @@ const PostSettingForm: React.FC<IPostSettingFormProps> = ({
               },
             ]}
           >
-            <InputNumber
-              style={{ minWidth: 600 }}
-              disabled={!isEdit}
-              placeholder="Min Image Post"
-            />
+            <InputNumber disabled={!isEdit} placeholder="Min Image Post" />
           </Form.Item>
           <Form.Item
             label="Max Image Post"
@@ -126,11 +113,7 @@ const PostSettingForm: React.FC<IPostSettingFormProps> = ({
               },
             ]}
           >
-            <InputNumber
-              style={{ minWidth: 600 }}
-              disabled={!isEdit}
-              placeholder="Max Image Post"
-            />
+            <InputNumber disabled={!isEdit} placeholder="Max Image Post" />
           </Form.Item>
         </Form>
         <div className="flex justify-end m-6 gap-4">

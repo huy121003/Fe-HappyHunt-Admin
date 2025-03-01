@@ -1,4 +1,4 @@
-import { Card, Empty, Flex, Menu, Spin } from 'antd';
+import { Empty, Flex, Menu, Spin } from 'antd';
 import { ICategoryItem } from '../../data/interface';
 import { useNavigate, useParams } from 'react-router-dom';
 import BuildMenuTree from '@/helpers/BuildMenuTree';
@@ -53,17 +53,15 @@ const MenuCategory: React.FC<IMenuCategoryProps> = ({
   }
   return (
     <Spin spinning={loading}>
-      <div>
-        <Card className="w-64 h-[600px] overflow-y-auto mr-3">
-          <Menu
-            mode="inline"
-            selectedKeys={categoryId ? [categoryId] : []}
-            defaultOpenKeys={['sub1']}
-            style={{ height: '100%', borderRight: 0 }}
-          >
-            {renderMenuItems(categoryTree)}
-          </Menu>
-        </Card>
+      <div className="lg:w-64 w-40 h-[600px] overflow-y-auto mr-3">
+        <Menu
+          mode="inline"
+          selectedKeys={categoryId ? [categoryId] : []}
+          defaultOpenKeys={['sub1']}
+          style={{ height: '100%', borderRight: 0 }}
+        >
+          {renderMenuItems(categoryTree)}
+        </Menu>
       </div>
     </Spin>
   );

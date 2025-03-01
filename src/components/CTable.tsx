@@ -12,7 +12,7 @@ function CTable<T>(props: CTableProps<T>) {
     loading,
     pagination,
     rowKey,
-    scroll,
+
     notFound,
     onChange,
   } = props;
@@ -46,7 +46,7 @@ function CTable<T>(props: CTableProps<T>) {
       }
       showSorterTooltip={false}
       rowKey={rowKey}
-      scroll={scroll}
+      scroll={{ x: 800, y: 400 }}
       sticky
     />
   );

@@ -5,7 +5,7 @@ interface IProps {
 }
 const FilterLayout: React.FC<IProps> = ({ children }) => {
   return (
-    <Flex wrap className="my-4" justify="space-between" align="center" gap={8}>
+    <Flex wrap className="mb-4" justify="space-between" align="center" gap={8}>
       {children}
     </Flex>
   );
