@@ -56,16 +56,15 @@ const BannerForm: React.FC<IBannerFormProps> = ({
   };
   return (
     <Spin spinning={loading}>
-      {!isView && (
-        <CHeaderForm
-          onCancel={onCancel}
-          onSave={isView ? undefined : form.submit}
-          title={title || 'Category Create'}
-          disable={disabled}
-        />
-      )}
+      <CHeaderForm
+        onCancel={onCancel}
+        onSave={isView ? undefined : form.submit}
+        title={title || 'Category Create'}
+        disable={disabled}
+      />
+
       <Card className={`flex-1  overflow-y-auto h-[660px] `}>
-        <Form
+        <Form<IForm>
           form={form}
           layout="vertical"
           onFinish={onFinish}

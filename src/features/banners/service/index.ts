@@ -13,7 +13,9 @@ const convertObjectToFormData = (data: IBannerPayload) => {
 
   formData.append('link', data.link);
 
-  formData.append('image', data.image as unknown as Blob);
+  if (data.image) {
+    formData.append('image', data.image as unknown as Blob);
+  }
   if (data.description) {
     formData.append('description', data.description);
   }

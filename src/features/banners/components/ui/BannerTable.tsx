@@ -112,7 +112,7 @@ const BannerTable: React.FC<IBannerTableProps> = ({
       render: (_: any, record: IBannerItem) => (
         <Flex>
           <CButtonEdit
-            onClick={() => navigate(`${record._id}/edit`)}
+            onClick={() => navigate(`${record._id}/update`)}
             disabled={isLoading}
           />
           <CButtonDelete
