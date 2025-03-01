@@ -28,6 +28,12 @@ export interface ITableProps<T> extends Pick<TableProps<T>, 'onChange'> {
   pagination: TablePaginationConfig;
   onDelete: (someThing: T) => void;
   onUpdate?: (someThing: T) => void;
+  onActive?: (someThing: T) => void;
+  onInactive?: (someThing: T) => void;
+  openModal: boolean;
+  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
+  openActiveModal?: boolean;
+  setOpenActiveModal?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 type FileType = Parameters<NonNullable<UploadProps['beforeUpload']>>[0];

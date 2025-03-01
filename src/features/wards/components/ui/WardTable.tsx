@@ -6,7 +6,8 @@ import { Flex, Typography } from 'antd';
 import { CDeleteModal, CTable } from '@/components';
 import CButtonEdit from '@/components/buttons/CButtonEdit';
 import CButtonDelete from '@/components/buttons/CButtonDelete';
-import dayjs from 'dayjs';
+import CTableParagraph from '@/components/CTableParagraph';
+import { dayFormat } from '@/configs/date.';
 
 interface IWardTableProps extends ITableProps<IWardItem> {
   isDeleteLoading?: boolean;
@@ -32,7 +33,7 @@ const WardTable: React.FC<IWardTableProps> = ({
       dataIndex: 'index',
       key: 'index',
       render: (_: any, __: any, index: number) => (
-        <Typography.Text>{index + 1}</Typography.Text>
+        <CTableParagraph children={index + 1} />
       ),
       width: 100,
     },
@@ -42,9 +43,13 @@ const WardTable: React.FC<IWardTableProps> = ({
       key: 'name',
       width: 200,
       render: (value: string, record: IWardItem) => (
-        <Typography.Link onClick={() => navigate(`${record._id}/detail`)}>
-          {value}
-        </Typography.Link>
+        <CTableParagraph
+          children={
+            <Typography.Link onClick={() => navigate(`${record._id}/detail`)}>
+              {value}
+            </Typography.Link>
+          }
+        />
       ),
     },
     {
@@ -52,34 +57,41 @@ const WardTable: React.FC<IWardTableProps> = ({
       dataIndex: 'codeName',
       key: 'codeName',
       width: 200,
+      render: (_: any, record: IWardItem) => (
+        <CTableParagraph children={record.codeName} />
+      ),
     },
     {
       title: 'Short Code Name',
       dataIndex: 'shortCodeName',
       key: 'shortCodeName',
+      width: 200,
+      render: (_: any, record: IWardItem) => (
+        <CTableParagraph children={record.shortCodeName} />
+      ),
     },
     {
       title: 'District Name',
       dataIndex: 'districtId',
       key: 'districtId',
       width: 200,
-      render: (value: any) => <Typography.Text>{value?.name}</Typography.Text>,
+      render: (value: any) => <CTableParagraph children={value?.name} />,
     },
     {
       title: 'Province Name',
       dataIndex: 'provinceId',
       key: 'provinceId',
       width: 200,
-      render: (value: any) => <Typography.Text>{value?.name}</Typography.Text>,
+      render: (value: any) => <CTableParagraph children={value?.name} />,
     },
     {
       title: 'Created At',
       dataIndex: 'createdAt',
       key: 'createdAt',
       render: (value: string) => (
-        <Typography.Text>{dayjs(value).format('DD MMM YYYY')}</Typography.Text>
+        <CTableParagraph children={dayFormat(value)} />
       ),
-      width: 200,
+      width: 150,
     },
     {
       title: 'Action',

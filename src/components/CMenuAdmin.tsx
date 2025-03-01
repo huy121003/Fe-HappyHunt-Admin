@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Menu } from 'antd';
 import type { MenuProps } from 'antd';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { get } from 'lodash';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -29,17 +30,24 @@ const CMenuAdmin: React.FC<CMenuAdminProps> = ({ collapsed }) => {
 
   const items: MenuItem[] = [
     getItem('Dashboard', '/dashboard', 'fa-chart-bar', '/dashboard'),
-    getItem('Account Management', 'account_management', 'fa-users', undefined, [
-      getItem('User Management', '/account/users', 'fa-user', '/account/users'),
+    getItem('Admins & Roles', 'admin_roles', 'fa-user-shield', undefined, [
       getItem(
-        'Admin Management',
-        '/account/admins',
-        'fa-user-shield',
-        '/account/admins'
+        'Admin Accounts',
+        '/admin_roles/admins',
+        'fa-user-lock',
+        '/admin_roles/admins'
       ),
-      getItem('User Reports', '/reports/users', 'fa-flag', '/reports/users'),
+      getItem(
+        'Role Management',
+        '/admin_roles/roles',
+        'fa-shield-alt',
+        '/admin_roles/roles'
+      ),
     ]),
-    getItem('Role Management', '/roles', 'fa-shield-alt', '/roles'),
+    getItem('User Management', 'user_management', 'fa-user', undefined, [
+      getItem('User Accounts', '/account/users', 'fa-users', '/account/users'),
+      getItem('Reported Users', '/reports/users', 'fa-flag', '/reports/users'),
+    ]),
     getItem(
       'Category Management',
       '/categories',
@@ -50,6 +58,7 @@ const CMenuAdmin: React.FC<CMenuAdminProps> = ({ collapsed }) => {
       getItem('All Posts', '/posts', 'fa-file-alt', '/posts'),
       getItem('Post Reports', '/reports/posts', 'fa-flag', '/reports/posts'),
     ]),
+    getItem('Banner Management', '/banners', 'fa-image', '/banners'),
     getItem(
       'Messages Setting',
       '/message-settings',

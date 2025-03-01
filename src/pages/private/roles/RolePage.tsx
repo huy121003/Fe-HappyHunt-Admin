@@ -55,7 +55,7 @@ function RolePage() {
     <div className="bg-gray-100 h-screen overflow-hidden">
       <CHeaderCard
         title="Role Listing"
-        actions={<CButtonCreateNew onClick={() => naviagte('/roles/create')} />}
+        actions={<CButtonCreateNew onClick={() => naviagte('create')} />}
       />
       <Card>
         <FilterLayout>

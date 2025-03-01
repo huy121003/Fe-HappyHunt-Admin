@@ -26,7 +26,7 @@ const RoleForm: React.FC<RoleFormProps> = ({
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const onCancel = useCallback(() => {
-    navigate('/roles');
+    navigate('/admin_roles/roles');
   }, [navigate]);
   useEffect(() => {
     if (data) {

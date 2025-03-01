@@ -6,7 +6,8 @@ import { Flex, Typography } from 'antd';
 import { CDeleteModal, CTable } from '@/components';
 import CButtonEdit from '@/components/buttons/CButtonEdit';
 import CButtonDelete from '@/components/buttons/CButtonDelete';
-import dayjs from 'dayjs';
+import CTableParagraph from '@/components/CTableParagraph';
+import { dayFormat } from '@/configs/date.';
 
 interface IDistrictTableProps extends ITableProps<IDistrictItem> {
   isDeleteLoading?: boolean;
@@ -32,7 +33,7 @@ const DistrictTable: React.FC<IDistrictTableProps> = ({
       dataIndex: 'index',
       key: 'index',
       render: (_: any, __: any, index: number) => (
-        <Typography.Text>{index + 1}</Typography.Text>
+        <CTableParagraph children={index + 1} />
       ),
       width: 100,
     },
@@ -42,9 +43,13 @@ const DistrictTable: React.FC<IDistrictTableProps> = ({
       key: 'name',
       width: 200,
       render: (value: string, record: IDistrictItem) => (
-        <Typography.Link onClick={() => navigate(`${record._id}/detail`)}>
-          {value}
-        </Typography.Link>
+        <CTableParagraph
+          children={
+            <Typography.Link onClick={() => navigate(`${record._id}/detail`)}>
+              {value}
+            </Typography.Link>
+          }
+        />
       ),
     },
     {
@@ -52,6 +57,9 @@ const DistrictTable: React.FC<IDistrictTableProps> = ({
       dataIndex: 'codeName',
       key: 'codeName',
       width: 200,
+      render: (_: any, record: IDistrictItem) => (
+        <CTableParagraph children={record.codeName} />
+      ),
     },
     {
       title: 'Short Code Name',
@@ -66,16 +74,16 @@ const DistrictTable: React.FC<IDistrictTableProps> = ({
       key: 'provinceId',
       width: 200,
       render: (_: any, record: IDistrictItem) => (
-        <Typography.Text>{record.provinceId?.name}</Typography.Text>
+        <CTableParagraph children={record.provinceId?.name} />
       ),
     },
     {
       title: 'Created At',
       dataIndex: 'createdAt',
       key: 'createdAt',
-      width: 200,
+      width: 150,
       render: (value: string) => (
-        <Typography.Text>{dayjs(value).format('DD MMM YYYY')}</Typography.Text>
+        <CTableParagraph children={dayFormat(value)} />
       ),
     },
     {

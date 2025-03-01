@@ -81,6 +81,16 @@ const WardUpdatePage = lazy(
 const WardDetailPage = lazy(
   () => import('@/pages/private/wards/detail/WardDetailPage')
 );
+const BannerPage = lazy(() => import('@/pages/private/banners/BannerPage'));
+const BannerCreatePage = lazy(
+  () => import('@/pages/private/banners/create/BannerCreatePage')
+);
+const BannerUpdatePage = lazy(
+  () => import('@/pages/private/banners/update/BannerUpdatePage')
+);
+const BannerDetailPage = lazy(
+  () => import('@/pages/private/banners/detail/BannerDetailPage')
+);
 const router = createBrowserRouter([
   {
     path: '*',
@@ -162,27 +172,34 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: 'roles',
+        path: 'admin_roles',
         element: <Outlet />,
         children: [
           {
-            index: true,
-            element: withSuspense(<RolePage />, <CLoadingPage />),
-          },
-          {
-            path: 'create',
-            element: withSuspense(<RoleCreatePage />, <CLoadingPage />),
-          },
-          {
-            path: ':roleId/update',
-            element: withSuspense(<RoleUpdatePage />, <CLoadingPage />),
-          },
-          {
-            path: ':roleId/detail',
-            element: withSuspense(<RoleDetailPage />, <CLoadingPage />),
+            path: 'roles',
+            element: <Outlet />,
+            children: [
+              {
+                index: true,
+                element: withSuspense(<RolePage />, <CLoadingPage />),
+              },
+              {
+                path: 'create',
+                element: withSuspense(<RoleCreatePage />, <CLoadingPage />),
+              },
+              {
+                path: ':roleId/update',
+                element: withSuspense(<RoleUpdatePage />, <CLoadingPage />),
+              },
+              {
+                path: ':roleId/detail',
+                element: withSuspense(<RoleDetailPage />, <CLoadingPage />),
+              },
+            ],
           },
         ],
       },
+
       {
         path: 'addresses',
         element: <Outlet />,
@@ -252,6 +269,28 @@ const router = createBrowserRouter([
                 element: withSuspense(<WardDetailPage />, <CLoadingPage />),
               },
             ],
+          },
+        ],
+      },
+      {
+        path: 'banners',
+        element: <Outlet />,
+        children: [
+          {
+            index: true,
+            element: withSuspense(<BannerPage />, <CLoadingPage />),
+          },
+          {
+            path: 'create',
+            element: withSuspense(<BannerCreatePage />, <CLoadingPage />),
+          },
+          {
+            path: ':bannerId/update',
+            element: withSuspense(<BannerUpdatePage />, <CLoadingPage />),
+          },
+          {
+            path: ':bannerId/detail',
+            element: withSuspense(<BannerDetailPage />, <CLoadingPage />),
           },
         ],
       },

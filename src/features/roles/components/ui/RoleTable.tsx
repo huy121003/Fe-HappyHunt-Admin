@@ -6,7 +6,8 @@ import { Flex, Typography } from 'antd';
 import { CDeleteModal, CTable } from '@/components';
 import CButtonEdit from '@/components/buttons/CButtonEdit';
 import CButtonDelete from '@/components/buttons/CButtonDelete';
-import dayjs from 'dayjs';
+import CTableParagraph from '@/components/CTableParagraph';
+import { dayFormat } from '@/configs/date.';
 
 interface IRoleTableProps extends ITableProps<IRoleItem> {
   isDeleteLoading?: boolean;
@@ -32,7 +33,7 @@ const RoleTable: React.FC<IRoleTableProps> = ({
       dataIndex: 'index',
       key: 'index',
       render: (_: any, __: any, index) => (
-        <Typography.Text>{index + 1}</Typography.Text>
+        <CTableParagraph children={index + 1} />
       ),
       width: 100,
     },
@@ -42,9 +43,13 @@ const RoleTable: React.FC<IRoleTableProps> = ({
       key: 'name',
       width: 150,
       render: (value: string, record: IRoleItem) => (
-        <Typography.Link onClick={() => navigate(`${record._id}/detail`)}>
-          {value}
-        </Typography.Link>
+        <CTableParagraph
+          children={
+            <Typography.Link onClick={() => navigate(`${record._id}/detail`)}>
+              {value}
+            </Typography.Link>
+          }
+        />
       ),
     },
     {
@@ -52,15 +57,16 @@ const RoleTable: React.FC<IRoleTableProps> = ({
       dataIndex: 'description',
       key: 'description',
       width: 200,
+      render: (value: string) => <CTableParagraph children={value} />,
     },
     {
       title: 'Created At',
       dataIndex: 'createdAt',
       key: 'createdAt',
       render: (value: string) => (
-        <Typography.Text>{dayjs(value).format('DD MMM YYYY')}</Typography.Text>
+        <CTableParagraph children={dayFormat(value)} />
       ),
-      width: 200,
+      width: 150,
     },
 
     {

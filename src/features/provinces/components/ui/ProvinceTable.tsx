@@ -6,7 +6,8 @@ import { Flex, Typography } from 'antd';
 import { CDeleteModal, CTable } from '@/components';
 import CButtonEdit from '@/components/buttons/CButtonEdit';
 import CButtonDelete from '@/components/buttons/CButtonDelete';
-import dayjs from 'dayjs';
+import CTableParagraph from '@/components/CTableParagraph';
+import { dayFormat } from '@/configs/date.';
 
 interface IProvinceTableProps extends ITableProps<IProvinceItem> {
   isDeleteLoading?: boolean;
@@ -32,7 +33,7 @@ const ProvinceTable: React.FC<IProvinceTableProps> = ({
       dataIndex: 'index',
       key: 'index',
       render: (_: any, __: any, index: number) => (
-        <Typography.Text>{index + 1}</Typography.Text>
+        <CTableParagraph children={index + 1} />
       ),
       width: 100,
     },
@@ -42,9 +43,13 @@ const ProvinceTable: React.FC<IProvinceTableProps> = ({
       key: 'name',
       width: 200,
       render: (value: string, record: IProvinceItem) => (
-        <Typography.Link onClick={() => navigate(`${record._id}/detail`)}>
-          {value}
-        </Typography.Link>
+        <CTableParagraph
+          children={
+            <Typography.Link onClick={() => navigate(`${record._id}/detail`)}>
+              {value}
+            </Typography.Link>
+          }
+        />
       ),
     },
     {
@@ -52,21 +57,27 @@ const ProvinceTable: React.FC<IProvinceTableProps> = ({
       dataIndex: 'codeName',
       key: 'codeName',
       width: 200,
+      render: (_: any, record: IProvinceItem) => (
+        <CTableParagraph children={record.codeName} />
+      ),
     },
     {
       title: 'Phone Code',
       dataIndex: 'phoneCode',
       key: 'phoneCode',
-      width: 200,
+      width: 100,
+      render: (_: any, record: IProvinceItem) => (
+        <CTableParagraph children={record.phoneCode} />
+      ),
     },
     {
       title: 'Created At',
       dataIndex: 'createdAt',
       key: 'createdAt',
       render: (value: string) => (
-        <Typography.Text>{dayjs(value).format('DD MMM YYYY')}</Typography.Text>
+        <CTableParagraph children={dayFormat(value)} />
       ),
-      width: 200,
+      width: 150,
     },
 
     {

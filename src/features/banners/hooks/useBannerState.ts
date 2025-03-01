@@ -2,10 +2,10 @@ import { postMessageHandler } from '@/components/ToastMessage';
 import { ICommonResponse } from '@/interfaces';
 import { useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { API_KEY } from '../data/constant';
 import { useNavigate } from 'react-router-dom';
+import { API_KEY } from '../data/constant';
 
-const useRoleState = () => {
+const useBannerState = () => {
   const client = useQueryClient();
   const navigate = useNavigate();
   const onSuccess = (
@@ -16,9 +16,10 @@ const useRoleState = () => {
       type: 'success',
       text: successMessage,
     });
-    client.invalidateQueries({ queryKey: [API_KEY.ROLES] });
-    client.invalidateQueries({ queryKey: [API_KEY.ROLE_DETAIL] });
-    navigate('/admin_roles/roles');
+    client.invalidateQueries({ queryKey: [API_KEY.BANNER] });
+    client.invalidateQueries({ queryKey: [API_KEY.BANNER_DETAIL] });
+    client.invalidateQueries({ queryKey: [API_KEY.BANNER_PAGINATION] });
+    navigate('/banners');
     if (onSuccessCallback) {
       onSuccessCallback();
     }
@@ -32,5 +33,4 @@ const useRoleState = () => {
 
   return { onSuccess, onError };
 };
-
-export default useRoleState;
+export default useBannerState;
