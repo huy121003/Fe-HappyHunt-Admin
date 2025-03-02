@@ -1,5 +1,5 @@
 import { SelectProps } from 'antd';
-import { IDistrictItem } from '../../data/interface';
+import { IRoleItem } from '../../data/interface';
 import useLoadMore, { IFilters } from '@/hooks/useLoadMore';
 import { API_KEY } from '../../data/constant';
 import { useMemo } from 'react';
@@ -7,26 +7,23 @@ import CInfiniteSelect from '@/components/CInfiniteSelect';
 import DistrictsService from '../../service';
 
 interface IProps extends SelectProps {
-  defaultSelected?: Partial<IDistrictItem>[];
-  provinceId?: number;
+  defaultSelected?: Partial<IRoleItem>[];
 }
 type ILabelRender = SelectProps['labelRender'];
 
-const SelectDictrict: React.FC<IProps> = ({
+const SelectRole: React.FC<IProps> = ({
   defaultSelected,
-  provinceId,
   ...props
 }) => {
   const fetchFn = ({ search, ...filter }: IFilters) => {
     return DistrictsService.getAll({
       ...filter,
       name: search || '',
-      ...(provinceId && { provinceId }),
     });
   };
 
-  const { items, ...loadMore } = useLoadMore<IDistrictItem>({
-    key: API_KEY.DISTRICT,
+  const { items, ...loadMore } = useLoadMore<IRoleItem>({
+    key: API_KEY.ROLES,
     fetchFn,
   });
 
@@ -46,7 +43,6 @@ const SelectDictrict: React.FC<IProps> = ({
 
   return (
     <CInfiniteSelect
-    
       {...props}
       options={options}
       labelRender={labelRender}
@@ -54,4 +50,4 @@ const SelectDictrict: React.FC<IProps> = ({
     />
   );
 };
-export default SelectDictrict;
+export default SelectRole;

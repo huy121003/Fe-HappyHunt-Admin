@@ -3,7 +3,6 @@ import { ReactNode, Suspense, lazy } from 'react';
 import { CLoadingPage, CNotFoundPage } from '@/components';
 import RoleProtectedRoute from '@/components/layouts/RoleProtectedRoute';
 import AdminLayout from '@/components/layouts/AdminLayout';
-import AuthLayout from '@/components/layouts/AuthLayout';
 import NoCategory from '@/features/categories/components/ui/NoCategory';
 
 const withSuspense = (
@@ -91,6 +90,21 @@ const BannerUpdatePage = lazy(
 const BannerDetailPage = lazy(
   () => import('@/pages/private/banners/detail/BannerDetailPage')
 );
+const AdminPage = lazy(() => import('@/pages/private/admins/AdminPage'));
+const AdminCreatePage = lazy(
+  () => import('@/pages/private/admins/create/AdminCreatePage')
+);
+const AdminUpdatePage = lazy(
+  () => import('@/pages/private/admins/update/AdminUpdatePage')
+);
+const AdminDetailPage = lazy(
+  () => import('@/pages/private/admins/detail/AdminDetailPage')
+);
+const ProfilePage = lazy(() => import('@/pages/private/profiles/ProfilePage'));
+const ChangePasswordPage = lazy(
+  () => import('@/pages/private/change-passwords/ChangePasswordPage')
+);
+
 const router = createBrowserRouter([
   {
     path: '*',
@@ -98,12 +112,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/login',
-    element: withSuspense(
-      <AuthLayout>
-        <LoginPage />
-      </AuthLayout>,
-      <CLoadingPage />
-    ),
+    element: withSuspense(<LoginPage />, <CLoadingPage />),
   },
 
   {
@@ -175,6 +184,28 @@ const router = createBrowserRouter([
         path: 'admin_roles',
         element: <Outlet />,
         children: [
+          {
+            path: 'admins',
+            element: <Outlet />,
+            children: [
+              {
+                index: true,
+                element: withSuspense(<AdminPage />, <CLoadingPage />),
+              },
+              {
+                path: 'create',
+                element: withSuspense(<AdminCreatePage />, <CLoadingPage />),
+              },
+              {
+                path: ':adminId/update',
+                element: withSuspense(<AdminUpdatePage />, <CLoadingPage />),
+              },
+              {
+                path: ':adminId/detail',
+                element: withSuspense(<AdminDetailPage />, <CLoadingPage />),
+              },
+            ],
+          },
           {
             path: 'roles',
             element: <Outlet />,
@@ -293,6 +324,14 @@ const router = createBrowserRouter([
             element: withSuspense(<BannerDetailPage />, <CLoadingPage />),
           },
         ],
+      },
+      {
+        path: 'profile',
+        element: withSuspense(<ProfilePage />, <CLoadingPage />),
+      },
+      {
+        path: 'change-password',
+        element: withSuspense(<ChangePasswordPage />, <CLoadingPage />),
       },
     ],
   },

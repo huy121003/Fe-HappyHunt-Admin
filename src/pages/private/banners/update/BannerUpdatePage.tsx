@@ -1,5 +1,6 @@
 import BannerForm from '@/features/banners/components/form/BannerForm';
 import { API_KEY } from '@/features/banners/data/constant';
+import { IBannerPayload } from '@/features/banners/data/interface';
 import useBannerState from '@/features/banners/hooks/useBannerState';
 import BannerService from '@/features/banners/service';
 import { useMutation, useQuery } from '@tanstack/react-query';
@@ -17,7 +18,7 @@ function BannerUpdatePage() {
     },
   });
   const { mutate, isPending } = useMutation({
-    mutationFn: async (data: any) => {
+    mutationFn: async (data: IBannerPayload) => {
       const response = await BannerService.update(Number(bannerId), data);
       return response;
     },
@@ -27,7 +28,7 @@ function BannerUpdatePage() {
     onError,
   });
   const onSubmit = useCallback(
-    (values: any) => {
+    (values: IBannerPayload) => {
       mutate(values);
     },
     [mutate]
@@ -38,6 +39,7 @@ function BannerUpdatePage() {
         loading={isLoading || isPending}
         onSubmit={onSubmit}
         data={data?.data}
+        title="Banner Update"
       />
     </div>
   );

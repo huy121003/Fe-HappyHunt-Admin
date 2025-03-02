@@ -9,7 +9,18 @@ import {
   ILoginResponse,
   IRegisterOtpRequest,
   IRegisterRequest,
+  IUpdateProfile,
 } from '../data/interface';
+const convertObjectToFormData = (data: IUpdateProfile) => {
+  const formData = new FormData();
+  formData.append('name', data.name);
+  formData.append('description', data.description);
+  if (data.avatar) {
+    formData.append('avatar', data.avatar as unknown as Blob);
+  }
+  formData.append('address', JSON.stringify(data.address));
+  return formData;
+};
 
 class AuthService {
   private static baseUrl = 'auth';
@@ -17,7 +28,6 @@ class AuthService {
   static login = (
     data: ILoginRequest
   ): Promise<ICommonResponse<ILoginResponse>> => {
-
     return apiRequest(EMethod.POST, `${this.baseUrl}/login`, false, data);
   };
 
@@ -71,6 +81,30 @@ class AuthService {
       EMethod.GET,
       `${this.baseUrl}/get-new-access-token`,
       true
+    );
+  };
+  static logout = (): Promise<ICommonResponse<null>> => {
+    return apiRequest(EMethod.POST, `${this.baseUrl}/logout`, false);
+  };
+  static changePassword = (data: {
+    currentPassword: string;
+    newPassword: string;
+  }): Promise<ICommonResponse<null>> => {
+    return apiRequest(
+      EMethod.PATCH,
+      `${this.baseUrl}/change-password`,
+      true,
+      data
+    );
+  };
+  static updateProfile = (
+    data: IUpdateProfile
+  ): Promise<ICommonResponse<IGetAccountInfoResponse>> => {
+    return apiRequest(
+      EMethod.PATCH,
+      `${this.baseUrl}/update-profile`,
+      true,
+      convertObjectToFormData(data)
     );
   };
 }

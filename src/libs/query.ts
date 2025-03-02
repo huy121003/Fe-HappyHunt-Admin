@@ -3,10 +3,10 @@ import { QueryClient } from '@tanstack/react-query';
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 5 * 60 * 1000, // 5 phút
+      staleTime: 10 * 1000, // 5 phút
       retry: 0, // Thử lại 3 lần nếu lỗi
       retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000), // Exponential backoff
-      refetchOnWindowFocus: false, // Không refetch khi chuyển tab
+      refetchOnWindowFocus: true, // Không refetch khi chuyển tab
       refetchOnReconnect: true, // Refetch khi kết nối mạng lại
     },
     mutations: {

@@ -1,11 +1,11 @@
-
+import AuthLayout from '@/components/layouts/AuthLayout';
 import LoginForm from '@/features/auth/components/form/LoginForm';
 
 import { Card, Divider, Flex, Typography } from 'antd';
 
 function LoginPage() {
   return (
-
+    <AuthLayout>
       <Flex vertical justify="center" align="center">
         <h1 className="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-500 mt-10 mb-4">
           LOGIN
@@ -18,6 +18,7 @@ function LoginPage() {
           <LoginForm />
         </Card>
       </Flex>
+    </AuthLayout>
   );
 }
 

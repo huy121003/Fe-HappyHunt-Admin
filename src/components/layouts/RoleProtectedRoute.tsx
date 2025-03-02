@@ -1,8 +1,6 @@
 import { useAppSelector } from '@/redux/reduxHook';
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { postMessageHandler } from '../ToastMessage';
-
 interface RoleProtectedRouteProps {
   children: React.ReactNode;
 }

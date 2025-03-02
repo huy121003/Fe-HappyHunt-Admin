@@ -4,6 +4,7 @@ import { Flex, Image, Layout, SiderProps } from 'antd';
 import { Content } from 'antd/es/layout/layout';
 import Sider from 'antd/es/layout/Sider';
 import React, { PropsWithChildren } from 'react';
+import ButtonActionProfile from './ActionProfile/ButtonActionProfile';
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -61,6 +62,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
               />
               <h1 className="text-xl font-semibold"> For Admin</h1>
             </Flex>
+            <ButtonActionProfile />
           </Flex>
 
           {children}

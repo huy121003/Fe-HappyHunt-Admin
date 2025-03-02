@@ -1,32 +1,34 @@
 import { SelectProps } from 'antd';
-import { IDistrictItem } from '../../data/interface';
+import { IWardItem } from '../../data/interface';
 import useLoadMore, { IFilters } from '@/hooks/useLoadMore';
 import { API_KEY } from '../../data/constant';
 import { useMemo } from 'react';
 import CInfiniteSelect from '@/components/CInfiniteSelect';
-import DistrictsService from '../../service';
+import WardService from '../../service';
 
 interface IProps extends SelectProps {
-  defaultSelected?: Partial<IDistrictItem>[];
+  defaultSelected?: Partial<IWardItem>[];
+  districtId?: number;
   provinceId?: number;
 }
 type ILabelRender = SelectProps['labelRender'];
-
-const SelectDictrict: React.FC<IProps> = ({
+const SelectWard: React.FC<IProps> = ({
   defaultSelected,
+  districtId,
   provinceId,
   ...props
 }) => {
   const fetchFn = ({ search, ...filter }: IFilters) => {
-    return DistrictsService.getAll({
+    return WardService.getAll({
       ...filter,
       name: search || '',
+      ...(districtId && { districtId }),
       ...(provinceId && { provinceId }),
     });
   };
 
-  const { items, ...loadMore } = useLoadMore<IDistrictItem>({
-    key: API_KEY.DISTRICT,
+  const { items, ...loadMore } = useLoadMore<IWardItem>({
+    key: API_KEY.WARD,
     fetchFn,
   });
 
@@ -46,7 +48,6 @@ const SelectDictrict: React.FC<IProps> = ({
 
   return (
     <CInfiniteSelect
-    
       {...props}
       options={options}
       labelRender={labelRender}
@@ -54,4 +55,4 @@ const SelectDictrict: React.FC<IProps> = ({
     />
   );
 };
-export default SelectDictrict;
+export default SelectWard;

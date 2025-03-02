@@ -31,16 +31,22 @@ apiConfig.interceptors.response.use(
   (response: AxiosResponse) => response?.data ?? response,
 
   async (error: AxiosError) => {
-    console.error('API Error:', error);
-
     const { config, response, code } = error;
 
     if (code === 'ECONNABORTED') {
+      postMessageHandler({
+        type: 'error',
+        text: 'Request timeout, please try again!',
+      });
       showError('Request timeout, please try again!');
       return Promise.reject(error);
     }
 
     if (!config || !response) {
+      postMessageHandler({
+        type: 'error',
+        text: 'Request error, please try again!',
+      });
       showError('Request error, please try again!');
       return Promise.reject(error);
     }
@@ -64,7 +70,10 @@ apiConfig.interceptors.response.use(
           return apiConfig.request(config);
         }
       } catch (refreshError) {
-        console.error('Token refresh failed:', refreshError);
+        postMessageHandler({
+          type: 'error',
+          text: 'Token expired, please login again!',
+        });
         showError('Token expired, please login again!');
         localStorage.removeItem('access_token');
         if (
@@ -78,9 +87,16 @@ apiConfig.interceptors.response.use(
     }
 
     // Xử lý lỗi 400 - Token refresh thất bại
-    if (status === 400 && config.url?.includes('auth/get-new-access-token')) {
+    if (
+      (status === 400 && config.url?.includes('auth/get-new-access-token')) ||
+      config.url?.includes('auth/get-account-info')
+    ) {
       showError('Token expired, please login again!');
       localStorage.removeItem('access_token');
+      postMessageHandler({
+        type: 'error',
+        text: 'Token expired, please login again!',
+      });
       if (
         !['/login', '/register', '/forgot-password'].includes(
           window.location.pathname

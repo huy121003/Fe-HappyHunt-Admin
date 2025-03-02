@@ -24,7 +24,12 @@ const CHeaderForm: React.FC<HeaderProps> = ({
       title={title}
       actions={
         <Flex gap={8}>
-          <CButton size="large" type="default" onClick={onCancel}>
+          <CButton
+            size="large"
+            type="default"
+            onClick={onCancel}
+            hidden={!onCancel}
+          >
             Cancel
           </CButton>
 
