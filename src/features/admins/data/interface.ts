@@ -25,6 +25,10 @@ export interface IAdminItem {
   phoneNumber?: string;
   createdAt: string;
   updatedAt?: string;
+  createdBy?: {
+    _id: number;
+    name: string;
+  };
 }
 export interface IAdminPayload {
   role: number;

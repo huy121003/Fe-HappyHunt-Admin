@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Menu } from 'antd';
 import type { MenuProps } from 'antd';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { get } from 'lodash';
 
 type MenuItem = Required<MenuProps>['items'][number];
 

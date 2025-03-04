@@ -8,6 +8,7 @@ import { IBannerItem } from '@/features/banners/data/interface';
 import useBannerFilter from '@/features/banners/hooks/useBannerFilter';
 import useBannerState from '@/features/banners/hooks/useBannerState';
 import BannerService from '@/features/banners/service';
+import { IPERMISSION_CODE_NAME } from '@/features/permissions/data/constant';
 
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { Card } from 'antd';
@@ -70,10 +71,12 @@ function BannerPage() {
     [mutateStatus]
   );
   return (
-    <div className="bg-gray-100 h-screen overflow-hidden">
+    <div className="bg-gray-100 ">
       <CHeaderCard
         title="Banner Listing"
-        actions={<CButtonCreateNew onClick={() => naviagte('create')} />}
+        actions={<CButtonCreateNew 
+          codeName={IPERMISSION_CODE_NAME.BANNERS}
+          onClick={() => naviagte('create')} />}
       />
       <Card>
         <FilterLayout>

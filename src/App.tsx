@@ -5,7 +5,6 @@ import { ConfigProvider } from 'antd';
 import { useAppDispatch, useAppSelector } from './redux/reduxHook';
 
 import { getUserAction } from './redux/slice/SAuthSlice';
-import { useEffect } from 'react';
 import { CLoadingPage } from './components';
 
 import ToastMessage from './components/ToastMessage';

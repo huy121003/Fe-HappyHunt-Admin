@@ -4,6 +4,11 @@ import { CLoadingPage, CNotFoundPage } from '@/components';
 import RoleProtectedRoute from '@/components/layouts/RoleProtectedRoute';
 import AdminLayout from '@/components/layouts/AdminLayout';
 import NoCategory from '@/features/categories/components/ui/NoCategory';
+import PermissionProtectedLayout from '@/components/layouts/PermissionProtectedLayout';
+import {
+  IPERMISSION_CODE_NAME,
+  IPERMISSION_TYPE,
+} from '@/features/permissions/data/constant';
 
 const withSuspense = (
   node: ReactNode,
@@ -140,29 +145,55 @@ const router = createBrowserRouter([
           {
             index: true,
             element: withSuspense(
-              <CategoryPage>
-                <NoCategory />
-              </CategoryPage>,
+              <PermissionProtectedLayout
+                codeName={IPERMISSION_CODE_NAME.CATEGORIES}
+                type={IPERMISSION_TYPE.VIEW}
+              >
+                <CategoryPage>
+                  <NoCategory />
+                </CategoryPage>
+              </PermissionProtectedLayout>,
               <CLoadingPage />
             ),
           },
           {
             path: ':categoryId/detail',
             element: withSuspense(
-              <CategoryPage>
-                <CategoryDetailPage />
-              </CategoryPage>,
+              <PermissionProtectedLayout
+                codeName={IPERMISSION_CODE_NAME.CATEGORIES}
+                type={IPERMISSION_TYPE.VIEW}
+              >
+                <CategoryPage>
+                  <CategoryDetailPage />
+                </CategoryPage>
+              </PermissionProtectedLayout>,
               <CLoadingPage />
             ),
           },
 
           {
             path: 'create',
-            element: withSuspense(<CategoryCreatePage />, <CLoadingPage />),
+            element: withSuspense(
+              <PermissionProtectedLayout
+                codeName={IPERMISSION_CODE_NAME.CATEGORIES}
+                type={IPERMISSION_TYPE.CREATE}
+              >
+                <CategoryCreatePage />
+              </PermissionProtectedLayout>,
+              <CLoadingPage />
+            ),
           },
           {
             path: ':categoryId/update',
-            element: withSuspense(<CategoryUpdatePage />, <CLoadingPage />),
+            element: withSuspense(
+              <PermissionProtectedLayout
+                codeName={IPERMISSION_CODE_NAME.CATEGORIES}
+                type={IPERMISSION_TYPE.UPDATE}
+              >
+                <CategoryUpdatePage />
+              </PermissionProtectedLayout>,
+              <CLoadingPage />
+            ),
           },
         ],
       },
@@ -190,19 +221,51 @@ const router = createBrowserRouter([
             children: [
               {
                 index: true,
-                element: withSuspense(<AdminPage />, <CLoadingPage />),
+                element: withSuspense(
+                  <PermissionProtectedLayout
+                    codeName={IPERMISSION_CODE_NAME.ADMINS}
+                    type={IPERMISSION_TYPE.VIEW}
+                  >
+                    <AdminPage />
+                  </PermissionProtectedLayout>,
+                  <CLoadingPage />
+                ),
               },
               {
                 path: 'create',
-                element: withSuspense(<AdminCreatePage />, <CLoadingPage />),
+                element: withSuspense(
+                  <PermissionProtectedLayout
+                    codeName={IPERMISSION_CODE_NAME.ADMINS}
+                    type={IPERMISSION_TYPE.CREATE}
+                  >
+                    <AdminCreatePage />
+                  </PermissionProtectedLayout>,
+                  <CLoadingPage />
+                ),
               },
               {
                 path: ':adminId/update',
-                element: withSuspense(<AdminUpdatePage />, <CLoadingPage />),
+                element: withSuspense(
+                  <PermissionProtectedLayout
+                    codeName={IPERMISSION_CODE_NAME.ADMINS}
+                    type={IPERMISSION_TYPE.UPDATE}
+                  >
+                    <AdminUpdatePage />
+                  </PermissionProtectedLayout>,
+                  <CLoadingPage />
+                ),
               },
               {
                 path: ':adminId/detail',
-                element: withSuspense(<AdminDetailPage />, <CLoadingPage />),
+                element: withSuspense(
+                  <PermissionProtectedLayout
+                    codeName={IPERMISSION_CODE_NAME.ADMINS}
+                    type={IPERMISSION_TYPE.VIEW}
+                  >
+                    <AdminDetailPage />
+                  </PermissionProtectedLayout>,
+                  <CLoadingPage />
+                ),
               },
             ],
           },
@@ -212,19 +275,51 @@ const router = createBrowserRouter([
             children: [
               {
                 index: true,
-                element: withSuspense(<RolePage />, <CLoadingPage />),
+                element: withSuspense(
+                  <PermissionProtectedLayout
+                    codeName={IPERMISSION_CODE_NAME.ROLES}
+                    type={IPERMISSION_TYPE.VIEW}
+                  >
+                    <RolePage />
+                  </PermissionProtectedLayout>,
+                  <CLoadingPage />
+                ),
               },
               {
                 path: 'create',
-                element: withSuspense(<RoleCreatePage />, <CLoadingPage />),
+                element: withSuspense(
+                  <PermissionProtectedLayout
+                    codeName={IPERMISSION_CODE_NAME.ROLES}
+                    type={IPERMISSION_TYPE.CREATE}
+                  >
+                    <RoleCreatePage />
+                  </PermissionProtectedLayout>,
+                  <CLoadingPage />
+                ),
               },
               {
                 path: ':roleId/update',
-                element: withSuspense(<RoleUpdatePage />, <CLoadingPage />),
+                element: withSuspense(
+                  <PermissionProtectedLayout
+                    codeName={IPERMISSION_CODE_NAME.ROLES}
+                    type={IPERMISSION_TYPE.UPDATE}
+                  >
+                    <RoleUpdatePage />
+                  </PermissionProtectedLayout>,
+                  <CLoadingPage />
+                ),
               },
               {
                 path: ':roleId/detail',
-                element: withSuspense(<RoleDetailPage />, <CLoadingPage />),
+                element: withSuspense(
+                  <PermissionProtectedLayout
+                    codeName={IPERMISSION_CODE_NAME.ROLES}
+                    type={IPERMISSION_TYPE.VIEW}
+                  >
+                    <RoleDetailPage />
+                  </PermissionProtectedLayout>,
+                  <CLoadingPage />
+                ),
               },
             ],
           },
@@ -241,19 +336,51 @@ const router = createBrowserRouter([
             children: [
               {
                 index: true,
-                element: withSuspense(<ProvincePage />, <CLoadingPage />),
+                element: withSuspense(
+                  <PermissionProtectedLayout
+                    codeName={IPERMISSION_CODE_NAME.PROVINCES}
+                    type={IPERMISSION_TYPE.VIEW}
+                  >
+                    <ProvincePage />
+                  </PermissionProtectedLayout>,
+                  <CLoadingPage />
+                ),
               },
               {
                 path: 'create',
-                element: withSuspense(<ProvinceCreatePage />, <CLoadingPage />),
+                element: withSuspense(
+                  <PermissionProtectedLayout
+                    codeName={IPERMISSION_CODE_NAME.PROVINCES}
+                    type={IPERMISSION_TYPE.CREATE}
+                  >
+                    <ProvinceCreatePage />
+                  </PermissionProtectedLayout>,
+                  <CLoadingPage />
+                ),
               },
               {
                 path: ':provinceId/update',
-                element: withSuspense(<ProvinceUpdatePage />, <CLoadingPage />),
+                element: withSuspense(
+                  <PermissionProtectedLayout
+                    codeName={IPERMISSION_CODE_NAME.PROVINCES}
+                    type={IPERMISSION_TYPE.UPDATE}
+                  >
+                    <ProvinceUpdatePage />
+                  </PermissionProtectedLayout>,
+                  <CLoadingPage />
+                ),
               },
               {
                 path: ':provinceId/detail',
-                element: withSuspense(<ProvinceDetailPage />, <CLoadingPage />),
+                element: withSuspense(
+                  <PermissionProtectedLayout
+                    codeName={IPERMISSION_CODE_NAME.PROVINCES}
+                    type={IPERMISSION_TYPE.VIEW}
+                  >
+                    <ProvinceDetailPage />
+                  </PermissionProtectedLayout>,
+                  <CLoadingPage />
+                ),
               },
             ],
           },
@@ -263,19 +390,51 @@ const router = createBrowserRouter([
             children: [
               {
                 index: true,
-                element: withSuspense(<DistrictPage />, <CLoadingPage />),
+                element: withSuspense(
+                  <PermissionProtectedLayout
+                    codeName={IPERMISSION_CODE_NAME.DISTRICTS}
+                    type={IPERMISSION_TYPE.VIEW}
+                  >
+                    <DistrictPage />
+                  </PermissionProtectedLayout>,
+                  <CLoadingPage />
+                ),
               },
               {
                 path: 'create',
-                element: withSuspense(<DistrictCreatePage />, <CLoadingPage />),
+                element: withSuspense(
+                  <PermissionProtectedLayout
+                    codeName={IPERMISSION_CODE_NAME.DISTRICTS}
+                    type={IPERMISSION_TYPE.CREATE}
+                  >
+                    <DistrictCreatePage />
+                  </PermissionProtectedLayout>,
+                  <CLoadingPage />
+                ),
               },
               {
                 path: ':districtId/update',
-                element: withSuspense(<DistrictUpdatePage />, <CLoadingPage />),
+                element: withSuspense(
+                  <PermissionProtectedLayout
+                    codeName={IPERMISSION_CODE_NAME.DISTRICTS}
+                    type={IPERMISSION_TYPE.UPDATE}
+                  >
+                    <DistrictUpdatePage />
+                  </PermissionProtectedLayout>,
+                  <CLoadingPage />
+                ),
               },
               {
                 path: ':districtId/detail',
-                element: withSuspense(<DistrictDetailPage />, <CLoadingPage />),
+                element: withSuspense(
+                  <PermissionProtectedLayout
+                    codeName={IPERMISSION_CODE_NAME.DISTRICTS}
+                    type={IPERMISSION_TYPE.VIEW}
+                  >
+                    <DistrictDetailPage />
+                  </PermissionProtectedLayout>,
+                  <CLoadingPage />
+                ),
               },
             ],
           },
@@ -285,19 +444,51 @@ const router = createBrowserRouter([
             children: [
               {
                 index: true,
-                element: withSuspense(<WardPage />, <CLoadingPage />),
+                element: withSuspense(
+                  <PermissionProtectedLayout
+                    codeName={IPERMISSION_CODE_NAME.WARDS}
+                    type={IPERMISSION_TYPE.VIEW}
+                  >
+                    <WardPage />
+                  </PermissionProtectedLayout>,
+                  <CLoadingPage />
+                ),
               },
               {
                 path: 'create',
-                element: withSuspense(<WardCreatePage />, <CLoadingPage />),
+                element: withSuspense(
+                  <PermissionProtectedLayout
+                    codeName={IPERMISSION_CODE_NAME.WARDS}
+                    type={IPERMISSION_TYPE.CREATE}
+                  >
+                    <WardCreatePage />
+                  </PermissionProtectedLayout>,
+                  <CLoadingPage />
+                ),
               },
               {
                 path: ':wardId/update',
-                element: withSuspense(<WardUpdatePage />, <CLoadingPage />),
+                element: withSuspense(
+                  <PermissionProtectedLayout
+                    codeName={IPERMISSION_CODE_NAME.WARDS}
+                    type={IPERMISSION_TYPE.UPDATE}
+                  >
+                    <WardUpdatePage />
+                  </PermissionProtectedLayout>,
+                  <CLoadingPage />
+                ),
               },
               {
                 path: ':wardId/detail',
-                element: withSuspense(<WardDetailPage />, <CLoadingPage />),
+                element: withSuspense(
+                  <PermissionProtectedLayout
+                    codeName={IPERMISSION_CODE_NAME.WARDS}
+                    type={IPERMISSION_TYPE.VIEW}
+                  >
+                    <WardDetailPage />
+                  </PermissionProtectedLayout>,
+                  <CLoadingPage />
+                ),
               },
             ],
           },
@@ -309,19 +500,51 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: withSuspense(<BannerPage />, <CLoadingPage />),
+            element: withSuspense(
+              <PermissionProtectedLayout
+                codeName={IPERMISSION_CODE_NAME.BANNERS}
+                type={IPERMISSION_TYPE.VIEW}
+              >
+                <BannerPage />
+              </PermissionProtectedLayout>,
+              <CLoadingPage />
+            ),
           },
           {
             path: 'create',
-            element: withSuspense(<BannerCreatePage />, <CLoadingPage />),
+            element: withSuspense(
+              <PermissionProtectedLayout
+                codeName={IPERMISSION_CODE_NAME.BANNERS}
+                type={IPERMISSION_TYPE.CREATE}
+              >
+                <BannerCreatePage />
+              </PermissionProtectedLayout>,
+              <CLoadingPage />
+            ),
           },
           {
             path: ':bannerId/update',
-            element: withSuspense(<BannerUpdatePage />, <CLoadingPage />),
+            element: withSuspense(
+              <PermissionProtectedLayout
+                codeName={IPERMISSION_CODE_NAME.BANNERS}
+                type={IPERMISSION_TYPE.UPDATE}
+              >
+                <BannerUpdatePage />
+              </PermissionProtectedLayout>,
+              <CLoadingPage />
+            ),
           },
           {
             path: ':bannerId/detail',
-            element: withSuspense(<BannerDetailPage />, <CLoadingPage />),
+            element: withSuspense(
+              <PermissionProtectedLayout
+                codeName={IPERMISSION_CODE_NAME.BANNERS}
+                type={IPERMISSION_TYPE.VIEW}
+              >
+                <BannerDetailPage />
+              </PermissionProtectedLayout>,
+              <CLoadingPage />
+            ),
           },
         ],
       },

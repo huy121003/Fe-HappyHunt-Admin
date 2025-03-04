@@ -86,9 +86,7 @@ const CategoryForm: React.FC<ICategoryFormProps> = ({
       )}
 
       <Card
-        className={`flex-1  overflow-y-auto
-          ${isView ? 'h-[550px]' : 'h-[660px]'}
-          `}
+        className={`flex-1  overflow-y-auto`}
       >
         <Form<IForm>
           form={form}

@@ -31,6 +31,7 @@ export interface ICategoryItem {
 
 export interface ISearchCategory extends ISearchParams {
   name?: string;
+  parent?: number | null;
 }
 export interface ICategoryPayload {
   name: string;

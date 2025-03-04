@@ -2,17 +2,15 @@ import { ITableProps } from '@/interfaces';
 import { IAdminItem } from '../../data/interface';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Flex, Image, Typography } from 'antd';
+import { Flex, Image, TableColumnsType, Typography } from 'antd';
 import { CDeleteModal, CTable } from '@/components';
 import CButtonEdit from '@/components/buttons/CButtonEdit';
 import CButtonDelete from '@/components/buttons/CButtonDelete';
 import CTableParagraph from '@/components/CTableParagraph';
 import { dayFormat } from '@/configs/date.';
 import CButtonActive from '@/components/buttons/CButtonActive';
-import {
-  CheckCircleOutlined,
-  MinusCircleOutlined,
-} from '@ant-design/icons';
+import { CheckCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
+import { IPERMISSION_CODE_NAME } from '@/features/permissions/data/constant';
 
 interface IAdminTableProps extends ITableProps<IAdminItem> {
   isDeleteLoading?: boolean;
@@ -35,7 +33,7 @@ const AdminTable: React.FC<IAdminTableProps> = ({
 }) => {
   const [record, setRecord] = useState<IAdminItem | null>(null);
   const navigate = useNavigate();
-  const columns = [
+  const columns: TableColumnsType<IAdminItem> = [
     {
       title: 'No.',
       dataIndex: 'index',
@@ -116,34 +114,38 @@ const AdminTable: React.FC<IAdminTableProps> = ({
       title: 'Created At',
       dataIndex: 'createdAt',
       key: 'createdAt',
-      width: 200,
+      width: 150,
       render: (_: any, record: IAdminItem) => (
         <CTableParagraph children={dayFormat(record.createdAt)} />
       ),
     },
     {
-      title: 'Updated At',
-      dataIndex: 'updatedAt',
-      key: 'updatedAt',
+      title: 'Created By',
+      dataIndex: 'createdBy',
+      key: 'createdBy',
       width: 200,
       render: (_: any, record: IAdminItem) => (
-        <CTableParagraph children={dayFormat(record.createdAt)} />
+        <CTableParagraph children={record.createdBy?.name} />
       ),
     },
+
     {
       title: 'Action',
       dataIndex: 'action',
       key: 'action',
       width: 150,
+      fixed: 'right',
       render: (_: any, record: IAdminItem) => {
         if (record.username !== 'super.admin') {
           return (
             <Flex>
               <CButtonEdit
+                codeName={IPERMISSION_CODE_NAME.ADMINS}
                 onClick={() => navigate(`${record._id}/update`)}
                 disabled={isLoading}
               />
               <CButtonDelete
+                codeName={IPERMISSION_CODE_NAME.ADMINS}
                 onClick={() => {
                   setRecord(record);
                   setOpenModal(true);
@@ -151,6 +153,7 @@ const AdminTable: React.FC<IAdminTableProps> = ({
                 disabled={isLoading}
               />
               <CButtonActive
+                codeName={IPERMISSION_CODE_NAME.ADMINS}
                 isActived={record.isBanned}
                 onClick={() => {
                   setRecord(record);

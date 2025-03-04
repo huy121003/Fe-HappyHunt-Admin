@@ -3,6 +3,7 @@ import CButtonCreateNew from '@/components/buttons/CButtonCreateNew';
 import CHeaderCard from '@/components/CHeaderCard';
 import FilterLayout from '@/components/layouts/FilterLayout';
 import SelectDictrict from '@/features/districts/components/form/SelectDictrict';
+import { IPERMISSION_CODE_NAME } from '@/features/permissions/data/constant';
 import SelectProvince from '@/features/provinces/components/form/SelectProvince';
 import WardTable from '@/features/wards/components/ui/WardTable';
 import { API_KEY } from '@/features/wards/data/constant';
@@ -53,10 +54,15 @@ function WardPage() {
     [mutate]
   );
   return (
-    <div className="bg-gray-100 h-screen overflow-hidden">
+    <div className="bg-gray-100 h-screen ">
       <CHeaderCard
         title="Ward Listing"
-        actions={<CButtonCreateNew onClick={() => navigate('create')} />}
+        actions={
+          <CButtonCreateNew
+            codeName={IPERMISSION_CODE_NAME.WARDS}
+            onClick={() => navigate('create')}
+          />
+        }
       />
       <Card>
         <FilterLayout>

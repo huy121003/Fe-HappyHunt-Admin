@@ -12,7 +12,16 @@ export const initialState = {
     role: {
       _id: null,
       name: '',
-      permissions: [],
+      permissions: [
+        {
+          name: '',
+          codeName: '',
+          isView: false,
+          isCreate: false,
+          isUpdate: false,
+          isDelete: false,
+        },
+      ],
     },
     username: '',
     address: null,
@@ -52,7 +61,16 @@ export const SAuthSlice = createSlice({
         role: {
           _id: null,
           name: '',
-          permissions: [],
+          permissions: [
+            {
+              name: '',
+              codeName: '',
+              isView: false,
+              isCreate: false,
+              isUpdate: false,
+              isDelete: false,
+            },
+          ],
         },
         username: '',
         address: null,

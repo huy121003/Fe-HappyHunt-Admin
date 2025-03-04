@@ -8,6 +8,7 @@ import { IDistrictItem } from '@/features/districts/data/interface';
 import useDistrictFilter from '@/features/districts/hooks/useDistrictFilter';
 import useDistrictState from '@/features/districts/hooks/useDistrictState';
 import DistrictsService from '@/features/districts/service';
+import { IPERMISSION_CODE_NAME } from '@/features/permissions/data/constant';
 import SelectProvince from '@/features/provinces/components/form/SelectProvince';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { Card } from 'antd';
@@ -51,10 +52,12 @@ function DistrictPage() {
     [mutate]
   );
   return (
-    <div className="bg-gray-100 h-screen overflow-hidden">
+    <div className="bg-gray-100">
       <CHeaderCard
         title="District Listing"
-        actions={<CButtonCreateNew onClick={() => naviagte('create')} />}
+        actions={<CButtonCreateNew 
+          codeName={IPERMISSION_CODE_NAME.DISTRICTS}
+          onClick={() => naviagte('create')} />}
       />
       <Card>
         <FilterLayout>

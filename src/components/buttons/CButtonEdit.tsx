@@ -1,15 +1,28 @@
 import { Button, ButtonProps } from 'antd';
 import { EditOutlined } from '@ant-design/icons';
+import useCheckPermission from '@/hooks/useCheckPermission';
+import {
+  IPERMISSION_CODE_NAME,
+  IPERMISSION_TYPE,
+} from '@/features/permissions/data/constant';
+interface IButtonProps extends ButtonProps {
+  codeName: IPERMISSION_CODE_NAME;
+}
+const CButtonEdit = (props: IButtonProps) => {
+  const checkpermission = useCheckPermission(
+    props.codeName,
+    IPERMISSION_TYPE.UPDATE
+  );
 
-const CButtonEdit = (props: ButtonProps) => {
   return (
     <Button
       type="link"
       size="large"
       shape="circle"
       icon={<EditOutlined />}
-      className="min-w-4 w-4 h-4 text-green-600"
+      className="  text-green-600"
       {...props}
+      hidden={!checkpermission}
     />
   );
 };

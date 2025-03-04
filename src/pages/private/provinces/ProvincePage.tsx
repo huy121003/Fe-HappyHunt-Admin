@@ -2,6 +2,7 @@ import { CSearch } from '@/components';
 import CButtonCreateNew from '@/components/buttons/CButtonCreateNew';
 import CHeaderCard from '@/components/CHeaderCard';
 import FilterLayout from '@/components/layouts/FilterLayout';
+import { IPERMISSION_CODE_NAME } from '@/features/permissions/data/constant';
 
 import ProvinceTable from '@/features/provinces/components/ui/ProvinceTable';
 import { API_KEY } from '@/features/provinces/data/constant';
@@ -50,10 +51,15 @@ function ProvincePage() {
     [mutate]
   );
   return (
-    <div className="bg-gray-100 h-screen overflow-hidden">
+    <div className="bg-gray-100 ">
       <CHeaderCard
         title="Province Listing"
-        actions={<CButtonCreateNew onClick={() => naviagte('create')} />}
+        actions={
+          <CButtonCreateNew
+            codeName={IPERMISSION_CODE_NAME.PROVINCES}
+            onClick={() => naviagte('create')}
+          />
+        }
       />
       <Card>
         <FilterLayout>

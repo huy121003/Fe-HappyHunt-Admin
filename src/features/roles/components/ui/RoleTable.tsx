@@ -2,12 +2,13 @@ import { ITableProps } from '@/interfaces';
 import { IRoleItem } from '../../data/interface';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Flex, Typography } from 'antd';
+import { Flex, TableColumnsType, Typography } from 'antd';
 import { CDeleteModal, CTable } from '@/components';
 import CButtonEdit from '@/components/buttons/CButtonEdit';
 import CButtonDelete from '@/components/buttons/CButtonDelete';
 import CTableParagraph from '@/components/CTableParagraph';
 import { dayFormat } from '@/configs/date.';
+import { IPERMISSION_CODE_NAME } from '@/features/permissions/data/constant';
 
 interface IRoleTableProps extends ITableProps<IRoleItem> {
   isDeleteLoading?: boolean;
@@ -27,7 +28,7 @@ const RoleTable: React.FC<IRoleTableProps> = ({
 }) => {
   const [record, setRecord] = useState<IRoleItem | null>(null);
   const navigate = useNavigate();
-  const columns = [
+  const columns: TableColumnsType<IRoleItem> = [
     {
       title: 'No.',
       dataIndex: 'index',
@@ -35,7 +36,7 @@ const RoleTable: React.FC<IRoleTableProps> = ({
       render: (_: any, __: any, index) => (
         <CTableParagraph children={index + 1} />
       ),
-      width: 100,
+      width: 60,
     },
     {
       title: 'Role Name',
@@ -52,13 +53,7 @@ const RoleTable: React.FC<IRoleTableProps> = ({
         />
       ),
     },
-    {
-      title: 'Description',
-      dataIndex: 'description',
-      key: 'description',
-      width: 200,
-      render: (value: string) => <CTableParagraph children={value} />,
-    },
+
     {
       title: 'Created At',
       dataIndex: 'createdAt',
@@ -66,21 +61,33 @@ const RoleTable: React.FC<IRoleTableProps> = ({
       render: (value: string) => (
         <CTableParagraph children={dayFormat(value)} />
       ),
-      width: 150,
+      width: 100,
+    },
+    {
+      title: 'Created By',
+      dataIndex: 'createdBy',
+      key: 'createdBy',
+      render: (_: any, record: IRoleItem) => (
+        <CTableParagraph children={record.createdBy?.name} />
+      ),
+      width: 200,
     },
 
     {
       title: 'Action',
       dataIndex: 'action',
       key: 'action',
+      fixed: 'right',
       render: (_: any, record: IRoleItem) => (
         <Flex gap={8}>
           <CButtonEdit
+            codeName={IPERMISSION_CODE_NAME.ROLES}
             onClick={() => {
               navigate(`${record._id}/update`);
             }}
           />
           <CButtonDelete
+            codeName={IPERMISSION_CODE_NAME.ROLES}
             onClick={() => {
               setRecord(record);
               setOpenModal(true);
@@ -88,7 +95,7 @@ const RoleTable: React.FC<IRoleTableProps> = ({
           />
         </Flex>
       ),
-      width: 150,
+      width: 100,
     },
   ];
   return (

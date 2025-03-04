@@ -51,8 +51,11 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
           overflow: 'hidden', // Chặn cuộn trong nội dung chính
         }}
       >
-        <Flex vertical>
-          <Flex className="justify-between items-center p-4 bg-white shadow-md mb-2">
+        <Flex vertical className="overflow-hidden  h-screen">
+          <Flex
+            className="justify-between items-center p-4 bg-white shadow-md mb-2
+          overflow-hidden"
+          >
             <Flex className="items-center">
               <Image
                 src="../public/logo.png"
@@ -65,7 +68,12 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
             <ButtonActionProfile />
           </Flex>
 
-          {children}
+          <Flex
+            className=" flex-1 flex flex-col h-full 
+          overflow-y-auto"
+          >
+            {children}
+          </Flex>
         </Flex>
       </Content>
     </Layout>

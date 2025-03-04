@@ -2,12 +2,13 @@ import { ITableProps } from '@/interfaces';
 import { IDistrictItem } from '../../data/interface';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Flex, Typography } from 'antd';
+import { Flex, TableColumnsType, Typography } from 'antd';
 import { CDeleteModal, CTable } from '@/components';
 import CButtonEdit from '@/components/buttons/CButtonEdit';
 import CButtonDelete from '@/components/buttons/CButtonDelete';
 import CTableParagraph from '@/components/CTableParagraph';
 import { dayFormat } from '@/configs/date.';
+import { IPERMISSION_CODE_NAME } from '@/features/permissions/data/constant';
 
 interface IDistrictTableProps extends ITableProps<IDistrictItem> {
   isDeleteLoading?: boolean;
@@ -27,7 +28,7 @@ const DistrictTable: React.FC<IDistrictTableProps> = ({
 }) => {
   const [record, setRecord] = useState<IDistrictItem | null>(null);
   const navigate = useNavigate();
-  const columns = [
+  const columns: TableColumnsType<IDistrictItem> = [
     {
       title: 'No.',
       dataIndex: 'index',
@@ -35,7 +36,7 @@ const DistrictTable: React.FC<IDistrictTableProps> = ({
       render: (_: any, __: any, index: number) => (
         <CTableParagraph children={index + 1} />
       ),
-      width: 100,
+      width: 60,
     },
     {
       title: 'District Name',
@@ -72,7 +73,7 @@ const DistrictTable: React.FC<IDistrictTableProps> = ({
       title: 'Province Name',
       dataIndex: 'provinceId',
       key: 'provinceId',
-      width: 200,
+      width: 150,
       render: (_: any, record: IDistrictItem) => (
         <CTableParagraph children={record.provinceId?.name} />
       ),
@@ -81,19 +82,32 @@ const DistrictTable: React.FC<IDistrictTableProps> = ({
       title: 'Created At',
       dataIndex: 'createdAt',
       key: 'createdAt',
-      width: 150,
+      width: 100,
       render: (value: string) => (
         <CTableParagraph children={dayFormat(value)} />
       ),
     },
     {
+      title: 'Created By',
+      dataIndex: 'createdBy',
+      key: 'createdBy',
+      width: 200,
+      render: (_: any, record: IDistrictItem) => (
+        <CTableParagraph children={record.createdBy?.name} />
+      ),
+    },
+    {
       title: 'Action',
       key: 'action',
-      width: 150,
+      width: 100,
+      fixed: 'right',
       render: (_: string, record: IDistrictItem) => (
         <Flex>
-          <CButtonEdit onClick={() => navigate(`${record._id}/update`)} />
+          <CButtonEdit 
+          codeName={IPERMISSION_CODE_NAME.DISTRICTS}
+          onClick={() => navigate(`${record._id}/update`)} />
           <CButtonDelete
+            codeName={IPERMISSION_CODE_NAME.DISTRICTS}
             onClick={() => {
               setRecord(record);
               setOpenModal(true);

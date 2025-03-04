@@ -8,6 +8,7 @@ import { IAdminItem } from '@/features/admins/data/interface';
 import useAdminFilter from '@/features/admins/hooks/useAdminFilter';
 import useAdminState from '@/features/admins/hooks/useAdminState';
 import AdminService from '@/features/admins/service';
+import { IPERMISSION_CODE_NAME } from '@/features/permissions/data/constant';
 import SelectRole from '@/features/roles/components/form/SelectRole';
 
 import { useMutation, useQuery } from '@tanstack/react-query';
@@ -71,10 +72,12 @@ function AdminPage() {
     [mutateStatus]
   );
   return (
-    <div className="bg-gray-100 h-screen overflow-hidden">
+    <div className="bg-gray-100 ">
       <CHeaderCard
         title="Admin Listing"
-        actions={<CButtonCreateNew onClick={() => naviagte('create')} />}
+        actions={<CButtonCreateNew 
+          codeName={IPERMISSION_CODE_NAME.ADMINS}
+          onClick={() => naviagte('create')} />}
       />
       <Card>
         <FilterLayout>

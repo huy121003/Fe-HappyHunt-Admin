@@ -10,6 +10,12 @@ export interface IRoleItem {
   _id: number;
   name: string;
   description?: string;
+  createdAt: string;
+  updatedAt: string;
+  createdBy: {
+    _id: number;
+    name: string;
+  };
 }
 export interface IRolePayload {
   name: string;

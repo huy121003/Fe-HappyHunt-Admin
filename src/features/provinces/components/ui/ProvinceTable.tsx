@@ -2,12 +2,13 @@ import { ITableProps } from '@/interfaces';
 import { IProvinceItem } from '../../data/interface';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Flex, Typography } from 'antd';
+import { Flex, TableColumnsType, Typography } from 'antd';
 import { CDeleteModal, CTable } from '@/components';
 import CButtonEdit from '@/components/buttons/CButtonEdit';
 import CButtonDelete from '@/components/buttons/CButtonDelete';
 import CTableParagraph from '@/components/CTableParagraph';
 import { dayFormat } from '@/configs/date.';
+import { IPERMISSION_CODE_NAME } from '@/features/permissions/data/constant';
 
 interface IProvinceTableProps extends ITableProps<IProvinceItem> {
   isDeleteLoading?: boolean;
@@ -27,7 +28,7 @@ const ProvinceTable: React.FC<IProvinceTableProps> = ({
 }) => {
   const [record, setRecord] = useState<IProvinceItem | null>(null);
   const navigate = useNavigate();
-  const columns = [
+  const columns: TableColumnsType<IProvinceItem> = [
     {
       title: 'No.',
       dataIndex: 'index',
@@ -35,13 +36,13 @@ const ProvinceTable: React.FC<IProvinceTableProps> = ({
       render: (_: any, __: any, index: number) => (
         <CTableParagraph children={index + 1} />
       ),
-      width: 100,
+      width: 60,
     },
     {
       title: 'Province Name',
       dataIndex: 'name',
       key: 'name',
-      width: 200,
+      width: 150,
       render: (value: string, record: IProvinceItem) => (
         <CTableParagraph
           children={
@@ -56,7 +57,7 @@ const ProvinceTable: React.FC<IProvinceTableProps> = ({
       title: 'Code Name',
       dataIndex: 'codeName',
       key: 'codeName',
-      width: 200,
+      width: 150,
       render: (_: any, record: IProvinceItem) => (
         <CTableParagraph children={record.codeName} />
       ),
@@ -65,7 +66,7 @@ const ProvinceTable: React.FC<IProvinceTableProps> = ({
       title: 'Phone Code',
       dataIndex: 'phoneCode',
       key: 'phoneCode',
-      width: 100,
+      width: 150,
       render: (_: any, record: IProvinceItem) => (
         <CTableParagraph children={record.phoneCode} />
       ),
@@ -77,17 +78,31 @@ const ProvinceTable: React.FC<IProvinceTableProps> = ({
       render: (value: string) => (
         <CTableParagraph children={dayFormat(value)} />
       ),
-      width: 150,
+      width: 100,
+    },
+    {
+      title: 'Created By',
+      dataIndex: 'createdBy',
+      key: 'createdBy',
+      render: (_: any, record: IProvinceItem) => (
+        <CTableParagraph children={record.createdBy?.name} />
+      ),
+      width: 200,
     },
 
     {
       title: 'Action',
       dataIndex: 'action',
       key: 'action',
+      fixed: 'right',
       render: (_: any, record: IProvinceItem) => (
         <Flex>
-          <CButtonEdit onClick={() => navigate(`${record._id}/update`)} />
+          <CButtonEdit
+            codeName={IPERMISSION_CODE_NAME.PROVINCES}
+            onClick={() => navigate(`${record._id}/update`)}
+          />
           <CButtonDelete
+            codeName={IPERMISSION_CODE_NAME.PROVINCES}
             onClick={() => {
               setOpenModal(true);
               setRecord(record);
@@ -95,7 +110,7 @@ const ProvinceTable: React.FC<IProvinceTableProps> = ({
           />
         </Flex>
       ),
-      width: 150,
+      width: 100,
     },
   ];
 

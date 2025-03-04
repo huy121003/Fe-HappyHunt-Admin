@@ -2,7 +2,7 @@ import { ITableProps } from '@/interfaces';
 import { IBannerItem } from '../../data/interface';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Flex, Image, Typography } from 'antd';
+import { Flex, Image, TableColumnsType, Typography } from 'antd';
 import { CDeleteModal, CTable } from '@/components';
 import CButtonEdit from '@/components/buttons/CButtonEdit';
 import CButtonDelete from '@/components/buttons/CButtonDelete';
@@ -10,6 +10,7 @@ import { CheckCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import CButtonActive from '@/components/buttons/CButtonActive';
 import { dayFormat } from '@/configs/date.';
 import CTableParagraph from '@/components/CTableParagraph';
+import { IPERMISSION_CODE_NAME } from '@/features/permissions/data/constant';
 
 interface IBannerTableProps extends ITableProps<IBannerItem> {
   isDeleteLoading?: boolean;
@@ -32,7 +33,7 @@ const BannerTable: React.FC<IBannerTableProps> = ({
 }) => {
   const [record, setRecord] = useState<IBannerItem | null>(null);
   const navigate = useNavigate();
-  const columns = [
+  const columns: TableColumnsType<IBannerItem> = [
     {
       title: 'No.',
       dataIndex: 'index',
@@ -40,7 +41,7 @@ const BannerTable: React.FC<IBannerTableProps> = ({
       render: (_: any, __: any, index: number) => (
         <CTableParagraph children={index + 1} />
       ),
-      width: 100,
+      width: 60,
     },
     {
       title: 'Banner Name',
@@ -61,7 +62,7 @@ const BannerTable: React.FC<IBannerTableProps> = ({
       title: 'Image',
       dataIndex: 'image',
       key: 'image',
-      width: 200,
+      width: 100,
       render: (value: string) =>
         value ? (
           <Image width={50} src={value} />
@@ -74,15 +75,7 @@ const BannerTable: React.FC<IBannerTableProps> = ({
       dataIndex: 'link',
       key: 'link',
       width: 200,
-      render: (value: string) => (
-        <CTableParagraph
-          children={
-            <Typography.Link href={value} target="_blank">
-              {value}
-            </Typography.Link>
-          }
-        />
-      ),
+      render: (value: string) => <CTableParagraph children={value} />,
     },
     {
       title: 'Status',
@@ -106,16 +99,28 @@ const BannerTable: React.FC<IBannerTableProps> = ({
       ),
     },
     {
+      title: 'Created By',
+      dataIndex: 'createdBy',
+      key: 'createdBy',
+      width: 200,
+      render: (_: any, record: IBannerItem) => (
+        <CTableParagraph children={record.createdBy?.name} />
+      ),
+    },
+    {
       title: 'Action',
       key: 'action',
-      width: 150,
+      width: 200,
+      fixed: 'right',
       render: (_: any, record: IBannerItem) => (
-        <Flex>
+        <Flex gap={0}>
           <CButtonEdit
+            codeName={IPERMISSION_CODE_NAME.BANNERS}
             onClick={() => navigate(`${record._id}/update`)}
             disabled={isLoading}
           />
           <CButtonDelete
+            codeName={IPERMISSION_CODE_NAME.BANNERS}
             onClick={() => {
               setRecord(record);
               setOpenModal(true);
@@ -123,6 +128,7 @@ const BannerTable: React.FC<IBannerTableProps> = ({
             disabled={isLoading}
           />
           <CButtonActive
+            codeName={IPERMISSION_CODE_NAME.BANNERS}
             isActived={record.isShow}
             onClick={() => {
               setRecord(record);

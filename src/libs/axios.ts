@@ -2,6 +2,7 @@ import axios, { AxiosRequestConfig, AxiosError, AxiosResponse } from 'axios';
 import { EMethod } from '@/constants';
 import { postMessageHandler } from '@/components/ToastMessage';
 import AuthService from '@/features/auth/service';
+import { ICommonResponse } from '@/interfaces';
 const baseURL = import.meta.env.VITE_PUBLIC_BACKEND_URL;
 const NO_RETRY_HEADER = 'x-no-retry';
 const apiConfig = axios.create({
@@ -30,7 +31,7 @@ const showError = (message: string) => {
 apiConfig.interceptors.response.use(
   (response: AxiosResponse) => response?.data ?? response,
 
-  async (error: AxiosError) => {
+  async (error: AxiosError<ICommonResponse>) => {
     const { config, response, code } = error;
 
     if (code === 'ECONNABORTED') {
@@ -70,11 +71,11 @@ apiConfig.interceptors.response.use(
           return apiConfig.request(config);
         }
       } catch (refreshError) {
+        showError('Token expired, please login again!');
         postMessageHandler({
           type: 'error',
-          text: 'Token expired, please login again!',
+          text: refreshError.response?.data.message,
         });
-        showError('Token expired, please login again!');
         localStorage.removeItem('access_token');
         if (
           !['/login', '/register', '/forgot-password'].includes(
@@ -86,25 +87,22 @@ apiConfig.interceptors.response.use(
       }
     }
 
-    // Xử lý lỗi 400 - Token refresh thất bại
-    if (
-      (status === 400 && config.url?.includes('auth/get-new-access-token')) ||
-      config.url?.includes('auth/get-account-info')
-    ) {
-      showError('Token expired, please login again!');
-      localStorage.removeItem('access_token');
-      postMessageHandler({
-        type: 'error',
-        text: 'Token expired, please login again!',
-      });
-      if (
-        !['/login', '/register', '/forgot-password'].includes(
-          window.location.pathname
-        )
-      ) {
-        window.location.href = '/login';
-      }
-    }
+    // // Xử lý lỗi 400 - Token refresh thất bại
+    // if (status === 400 && config.url?.includes('auth/get-new-access-token')) {
+    //   showError('Token expired, please login again!');
+    //   localStorage.removeItem('access_token');
+    //   postMessageHandler({
+    //     type: 'error',
+    //     text: response.data.message,
+    //   });
+    //   if (
+    //     !['/login', '/register', '/forgot-password'].includes(
+    //       window.location.pathname
+    //     )
+    //   ) {
+    //     window.location.href = '/login';
+    //   }
+    // }
 
     // Trả về lỗi để các hàm gọi API có thể xử lý tiếp
     return Promise.reject(response.data ?? error);

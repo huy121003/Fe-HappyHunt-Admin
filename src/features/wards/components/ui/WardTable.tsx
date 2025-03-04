@@ -2,12 +2,13 @@ import { ITableProps } from '@/interfaces';
 import { IWardItem } from '../../data/interface';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Flex, Typography } from 'antd';
+import { Flex, Typography, TableColumnsType } from 'antd';
 import { CDeleteModal, CTable } from '@/components';
 import CButtonEdit from '@/components/buttons/CButtonEdit';
 import CButtonDelete from '@/components/buttons/CButtonDelete';
 import CTableParagraph from '@/components/CTableParagraph';
 import { dayFormat } from '@/configs/date.';
+import { IPERMISSION_CODE_NAME } from '@/features/permissions/data/constant';
 
 interface IWardTableProps extends ITableProps<IWardItem> {
   isDeleteLoading?: boolean;
@@ -27,21 +28,22 @@ const WardTable: React.FC<IWardTableProps> = ({
 }) => {
   const [record, setRecord] = useState<IWardItem | null>(null);
   const navigate = useNavigate();
-  const columns = [
+  const columns: TableColumnsType<IWardItem> = [
     {
       title: 'No.',
       dataIndex: 'index',
       key: 'index',
-      render: (_: any, __: any, index: number) => (
+      render: (_, __, index: number) => (
         <CTableParagraph children={index + 1} />
       ),
-      width: 100,
+      width: 60,
     },
     {
       title: 'Ward Name',
       dataIndex: 'name',
       key: 'name',
       width: 200,
+
       render: (value: string, record: IWardItem) => (
         <CTableParagraph
           children={
@@ -65,25 +67,23 @@ const WardTable: React.FC<IWardTableProps> = ({
       title: 'Short Code Name',
       dataIndex: 'shortCodeName',
       key: 'shortCodeName',
-      width: 200,
+      width: 100,
       render: (_: any, record: IWardItem) => (
         <CTableParagraph children={record.shortCodeName} />
       ),
     },
     {
-      title: 'District Name',
-      dataIndex: 'districtId',
-      key: 'districtId',
+      title: 'Province - District',
+      dataIndex: 'ward',
+      key: 'ward',
       width: 200,
-      render: (value: any) => <CTableParagraph children={value?.name} />,
+      render: (_, record) => (
+        <CTableParagraph
+          children={`${record?.districtId?.name} - ${record?.provinceId?.name}`}
+        />
+      ),
     },
-    {
-      title: 'Province Name',
-      dataIndex: 'provinceId',
-      key: 'provinceId',
-      width: 200,
-      render: (value: any) => <CTableParagraph children={value?.name} />,
-    },
+
     {
       title: 'Created At',
       dataIndex: 'createdAt',
@@ -91,19 +91,32 @@ const WardTable: React.FC<IWardTableProps> = ({
       render: (value: string) => (
         <CTableParagraph children={dayFormat(value)} />
       ),
-      width: 150,
+      width: 100,
+    },
+    {
+      title: 'Created By',
+      dataIndex: 'createdBy',
+      key: 'createdBy',
+      render: (_value, record: IWardItem) => (
+        <CTableParagraph children={record.createdBy?.name} />
+      ),
+      width: 200,
     },
     {
       title: 'Action',
       dataIndex: 'action',
       key: 'action',
-      width: 150,
+      fixed: 'right',
+      width: 100,
+
       render: (_: any, record: IWardItem) => (
         <Flex>
           <CButtonEdit
+            codeName={IPERMISSION_CODE_NAME.WARDS}
             onClick={() => navigate(`/addresses/wards/${record._id}/update`)}
           />
           <CButtonDelete
+            codeName={IPERMISSION_CODE_NAME.WARDS}
             onClick={() => {
               setRecord(record);
               setOpenModal(true);

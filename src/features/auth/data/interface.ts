@@ -3,7 +3,7 @@ import { IType } from './constant';
 import { UploadFile } from 'antd';
 
 export interface ILoginRequest {
-  phoneNumber: string;
+  phoneOrUsername: string;
   password: string;
   type: IType;
 }

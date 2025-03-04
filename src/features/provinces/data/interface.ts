@@ -12,6 +12,10 @@ export interface IProvinceItem {
   phoneCode: string;
   createdAt: string;
   updatedAt?: string;
+  createdBy?: {
+    _id: number;
+    name: string;
+  };
 }
 export interface IProvincePayload {
   name: string;

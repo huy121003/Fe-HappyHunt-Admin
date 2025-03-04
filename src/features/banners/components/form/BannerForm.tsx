@@ -6,6 +6,7 @@ import CHeaderForm from '@/components/CHeaderForm';
 import CInput from '@/components/CInput';
 import CTextArea from '@/components/CTextArea';
 import { UploadOutlined } from '@ant-design/icons';
+import useBeforeUpload from '@/hooks/useBeforeUpload';
 
 interface IBannerFormProps {
   onSubmit: (values: IBannerPayload, id?: number) => void;
@@ -26,6 +27,7 @@ const BannerForm: React.FC<IBannerFormProps> = ({
   title,
   isView,
 }) => {
+  const { beforeUploadBanner } = useBeforeUpload();
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const onCancel = useCallback(() => {
@@ -120,9 +122,9 @@ const BannerForm: React.FC<IBannerFormProps> = ({
               multiple={false}
               listType="picture-card"
               maxCount={1}
-              beforeUpload={() => false}
               onPreview={() => {}}
               accept=".png,.jpg,.jpeg"
+              beforeUpload={beforeUploadBanner}
             >
               <Button icon={<UploadOutlined />} type="dashed" />
             </Upload>
