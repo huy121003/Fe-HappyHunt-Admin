@@ -95,16 +95,6 @@ const DistrictForm: React.FC<DistrictFormProps> = ({
           </Form.Item>
         </Form>
       </Card>
-      {/* <iframe
-        width="450"
-        height="250"
-        style={{ border: 0 }}
-        referrerPolicy="no-referrer-when-downgrade"
-        title="Google Maps Embed"
-        src="https://www.google.com/maps/embed/v1/place
-  ?key=AIzaSyCjRn5N1bQTNehuwx0-Vkd1P3XpiAO-jgI
-  &q=Eiffel+Tower,Paris+France"
-      ></iframe> */}
     </Spin>
   );
 };

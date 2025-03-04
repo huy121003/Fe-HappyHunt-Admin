@@ -46,7 +46,9 @@ function ButtonActionProfile() {
               <Typography.Text className="text-sm font-semibold">
                 {profile?.name}
               </Typography.Text>
-              <span className="text-xs text-gray-400">{profile?.username}</span>
+              <span className="text-xs text-gray-400">
+                {profile?.role.name}
+              </span>
             </Flex>
             {profile?.avatar ? (
               <Image
