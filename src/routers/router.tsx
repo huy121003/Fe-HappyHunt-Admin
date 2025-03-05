@@ -109,6 +109,10 @@ const ProfilePage = lazy(() => import('@/pages/private/profiles/ProfilePage'));
 const ChangePasswordPage = lazy(
   () => import('@/pages/private/change-passwords/ChangePasswordPage')
 );
+const UserPage = lazy(() => import('@/pages/private/users/UserPage'));
+const UserDetailPage = lazy(
+  () => import('@/pages/private/users/detail/UserDetailPage')
+);
 
 const router = createBrowserRouter([
   {
@@ -555,6 +559,96 @@ const router = createBrowserRouter([
       {
         path: 'change-password',
         element: withSuspense(<ChangePasswordPage />, <CLoadingPage />),
+      },
+      {
+        path: 'user_reports',
+        element: <Outlet />,
+        children: [
+          {
+            path: 'users',
+            element: <Outlet />,
+            children: [
+              {
+                index: true,
+                element: withSuspense(
+                  <PermissionProtectedLayout
+                    codeName={IPERMISSION_CODE_NAME.USERS}
+                    type={IPERMISSION_TYPE.VIEW}
+                  >
+                    <UserPage />
+                  </PermissionProtectedLayout>,
+                  <CLoadingPage />
+                ),
+              },
+              {
+                path: ':usserId/detail',
+                element: withSuspense(
+                  <PermissionProtectedLayout
+                    codeName={IPERMISSION_CODE_NAME.USERS}
+                    type={IPERMISSION_TYPE.VIEW}
+                  >
+                    <UserDetailPage />
+                  </PermissionProtectedLayout>,
+                  <CLoadingPage />
+                ),
+              },
+            ],
+          },
+          {
+            path: 'reports',
+            element: <Outlet />,
+            children: [
+              {
+                index: true,
+                element: withSuspense(
+                  <PermissionProtectedLayout
+                    codeName={IPERMISSION_CODE_NAME.USERS}
+                    type={IPERMISSION_TYPE.VIEW}
+                  >
+                    aaaaa
+                  </PermissionProtectedLayout>,
+                  <CLoadingPage />
+                ),
+              },
+              {
+                path: 'detail',
+                element: withSuspense(
+                  <PermissionProtectedLayout
+                    codeName={IPERMISSION_CODE_NAME.USERS}
+                    type={IPERMISSION_TYPE.VIEW}
+                  >
+                    aaaa
+                  </PermissionProtectedLayout>,
+                  <CLoadingPage />
+                ),
+              },
+              {
+                path: 'create',
+                element: withSuspense(
+                  <PermissionProtectedLayout
+                    codeName={IPERMISSION_CODE_NAME.USERS}
+                    type={IPERMISSION_TYPE.CREATE}
+                  >
+                    aaaa
+                  </PermissionProtectedLayout>,
+                  <CLoadingPage />
+                ),
+              },
+              {
+                path: 'update',
+                element: withSuspense(
+                  <PermissionProtectedLayout
+                    codeName={IPERMISSION_CODE_NAME.USERS}
+                    type={IPERMISSION_TYPE.UPDATE}
+                  >
+                    aaaa
+                  </PermissionProtectedLayout>,
+                  <CLoadingPage />
+                ),
+              },
+            ],
+          },
+        ],
       },
     ],
   },

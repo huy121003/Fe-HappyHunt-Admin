@@ -1,10 +1,11 @@
 import { CMenuAdmin } from '@/components';
 
-import { Flex, Image, Layout, SiderProps } from 'antd';
+import { Flex, Layout, SiderProps } from 'antd';
 import { Content } from 'antd/es/layout/layout';
 import Sider from 'antd/es/layout/Sider';
 import React, { PropsWithChildren } from 'react';
 import ButtonActionProfile from './ActionProfile/ButtonActionProfile';
+import CLogo from '../CLogo';
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -40,6 +41,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
           overflow: 'auto', // Chặn cuộn trong Sidebar
         }}
       >
+        <CLogo />
         <CMenuAdmin />
       </SideBar>
 
@@ -48,23 +50,14 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
         className="flex flex-col"
         style={{
           flex: 1,
-          overflow: 'hidden', // Chặn cuộn trong nội dung chính
+          overflow: 'hidden',
         }}
       >
         <Flex vertical className="overflow-hidden  h-screen">
           <Flex
-            className="justify-between items-center p-4 bg-white shadow-md mb-2
+            className="justify-end items-center p-4 bg-white shadow-md mb-2
           overflow-hidden"
           >
-            <Flex className="items-center">
-              <Image
-                src="../public/logo.png"
-                preview={false}
-                width={40}
-                height={40}
-              />
-              <h1 className="text-xl font-semibold"> For Admin</h1>
-            </Flex>
             <ButtonActionProfile />
           </Flex>
 
@@ -81,18 +74,3 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
 };
 
 export default AdminLayout;
-//  Nội dung chính
-//       <div className="flex flex-1 pt-[60px] h-full">
-//         {/* Sidebar */}
-//         <div
-//           className={`transition-all duration-300 ${collapsed ? 'w-[70px]' : 'w-[280px]'}   overflow-y-auto overflow-x-hidden`}
-//         >
-//           <CMenuAdmin collapsed={collapsed} />
-//         </div>
-
-//         {/* Nội dung chính */}
-//         <div className={`flex-1  p-2 overflow-y-hidden bg-gray-100 `}>
-//           {children}
-//         </div>
-//       </div>
-//     </div>

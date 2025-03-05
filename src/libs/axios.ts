@@ -57,6 +57,13 @@ apiConfig.interceptors.response.use(
     // Xử lý lỗi 401 - Unauthorized
     if (status === 401 && !config.headers[NO_RETRY_HEADER]) {
       try {
+        if (
+          ['/login', '/register', '/forgot-password'].includes(
+            window.location.pathname
+          )
+        ) {
+          return;
+        }
         const res = await AuthService.getNewAccessToken();
         const accessToken = res.data?.access_token;
 

@@ -112,6 +112,13 @@ const ProfileForm: React.FC<IProfileFormProps> = ({
             >
               <SelectProvince
                 placeholder="Province"
+                onChange={() => {
+                  form.setFieldsValue({
+                    districtId: undefined,
+                    wardId: undefined,
+                    specificAddress: undefined,
+                  });
+                }}
                 defaultSelected={
                   data?.address.provinceId
                     ? [
@@ -130,6 +137,12 @@ const ProfileForm: React.FC<IProfileFormProps> = ({
               rules={[{ required: true, message: 'Please select district!' }]}
             >
               <SelectDictrict
+                onChange={() => {
+                  form.setFieldsValue({
+                    wardId: undefined,
+                    specificAddress: undefined,
+                  });
+                }}
                 placeholder="District"
                 provinceId={provinceId}
                 defaultSelected={
@@ -152,6 +165,11 @@ const ProfileForm: React.FC<IProfileFormProps> = ({
             >
               <SelectWard
                 placeholder="Ward"
+                onChange={() => {
+                  form.setFieldsValue({
+                    specificAddress: undefined,
+                  });
+                }}
                 provinceId={provinceId}
                 districtId={districtId}
                 defaultSelected={

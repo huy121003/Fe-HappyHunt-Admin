@@ -1,4 +1,5 @@
-import {  Carousel, Flex, Image, Typography } from 'antd';
+import { Carousel, Flex, Image } from 'antd';
+import CLogo from '../CLogo';
 interface AuthLayoutProps {
   children: React.ReactNode;
 }
@@ -17,6 +18,8 @@ function AuthLayout({ children }: AuthLayoutProps) {
             '/image3.png',
             '/image4.png',
             '/image5.png',
+            // '/image6.png',
+            '/image7.png',
           ].map((src, index) => (
             <div key={index} className="rounded-lg overflow-hidden">
               <Image src={src} preview={false} className="w-full rounded-lg " />
@@ -25,15 +28,7 @@ function AuthLayout({ children }: AuthLayoutProps) {
         </Carousel>
       </div>
       <Flex vertical className="w-full lg:w-1/3 p-4">
-        <Flex align="center" gap={3} justify="center">
-          <Image src="/logo.png" preview={false} width={50} height={50} />
-
-          <Typography.Title level={3} style={{ color: '#ea580c' }}>
-            HAPPY
-          </Typography.Title>
-
-          <Typography.Title level={3}>HUNT</Typography.Title>
-        </Flex>
+        <CLogo />
         {children}
       </Flex>
     </Flex>

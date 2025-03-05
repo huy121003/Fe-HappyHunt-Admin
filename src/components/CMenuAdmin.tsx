@@ -43,9 +43,19 @@ const CMenuAdmin: React.FC<CMenuAdminProps> = ({ collapsed }) => {
         '/admin_roles/roles'
       ),
     ]),
-    getItem('User Management', 'user_management', 'fa-user', undefined, [
-      getItem('User Accounts', '/account/users', 'fa-users', '/account/users'),
-      getItem('Reported Users', '/reports/users', 'fa-flag', '/reports/users'),
+    getItem('Users & Reports', 'user_reports', 'fa-user', undefined, [
+      getItem(
+        'User Accounts',
+        '/user_reports/users',
+        'fa-users',
+        '/user_reports/users'
+      ),
+      getItem(
+        'Reported Users',
+        '/user_reports/reports',
+        'fa-flag',
+        '/user_reports/reports'
+      ),
     ]),
     getItem(
       'Category Management',
@@ -58,12 +68,12 @@ const CMenuAdmin: React.FC<CMenuAdminProps> = ({ collapsed }) => {
       getItem('Post Reports', '/reports/posts', 'fa-flag', '/reports/posts'),
     ]),
     getItem('Banner Management', '/banners', 'fa-image', '/banners'),
-    getItem(
-      'Messages Setting',
-      '/message-settings',
-      'fa-envelope',
-      '/messages-settings'
-    ),
+    // getItem(
+    //   'Messages Setting',
+    //   '/message-settings',
+    //   'fa-envelope',
+    //   '/messages-settings'
+    // ),
     getItem('Address Management', 'addresses', 'fa-map-location', undefined, [
       getItem(
         'Provinces',

@@ -2,14 +2,13 @@ import { ITableProps } from '@/interfaces';
 import { IAdminItem } from '../../data/interface';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Flex, Image, TableColumnsType, Typography } from 'antd';
+import { Flex, Image, TableColumnsType, Tag, Typography } from 'antd';
 import { CDeleteModal, CTable } from '@/components';
 import CButtonEdit from '@/components/buttons/CButtonEdit';
 import CButtonDelete from '@/components/buttons/CButtonDelete';
 import CTableParagraph from '@/components/CTableParagraph';
 import { dayFormat } from '@/configs/date.';
 import CButtonActive from '@/components/buttons/CButtonActive';
-import { CheckCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { IPERMISSION_CODE_NAME } from '@/features/permissions/data/constant';
 
 interface IAdminTableProps extends ITableProps<IAdminItem> {
@@ -44,7 +43,7 @@ const AdminTable: React.FC<IAdminTableProps> = ({
       width: 100,
     },
     {
-      title: 'Admin Name',
+      title: 'Admin ',
       dataIndex: 'name',
       key: 'name',
       width: 200,
@@ -54,8 +53,8 @@ const AdminTable: React.FC<IAdminTableProps> = ({
             <Flex align="center" gap={4}>
               {record.avatar ? (
                 <Image
-                  width={30}
-                  height={30}
+                  width={40}
+                  height={40}
                   src={record.avatar}
                   alt={record.name}
                   style={{ borderRadius: '50%' }}
@@ -104,11 +103,7 @@ const AdminTable: React.FC<IAdminTableProps> = ({
       key: 'isBanned',
       width: 100,
       render: (value: boolean) =>
-        !value ? (
-          <CheckCircleOutlined className="text-green-500 text-xl" />
-        ) : (
-          <MinusCircleOutlined className="text-red-500 text-xl" />
-        ),
+        value ? <Tag color="red">Banned</Tag> : <Tag color="green">Active</Tag>,
     },
     {
       title: 'Created At',
@@ -145,6 +140,7 @@ const AdminTable: React.FC<IAdminTableProps> = ({
                 disabled={isLoading}
               />
               <CButtonDelete
+                hidden={!record.isBanned}
                 codeName={IPERMISSION_CODE_NAME.ADMINS}
                 onClick={() => {
                   setRecord(record);

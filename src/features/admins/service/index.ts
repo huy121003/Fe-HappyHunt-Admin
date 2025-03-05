@@ -63,7 +63,7 @@ class AdminService {
     banned: boolean
   ): Promise<ICommonResponse<null>> => {
     return apiRequest(EMethod.PATCH, `${this.baseUrl}/${id}/banned`, false, {
-      banned,
+      isBanned: banned,
     });
   };
 }
