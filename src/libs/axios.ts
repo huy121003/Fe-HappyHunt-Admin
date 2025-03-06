@@ -1,6 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosError, AxiosResponse } from 'axios';
 import { EMethod } from '@/constants';
-import { postMessageHandler } from '@/components/ToastMessage';
 import AuthService from '@/features/auth/service';
 import { ICommonResponse } from '@/interfaces';
 const baseURL = import.meta.env.VITE_PUBLIC_BACKEND_URL;
