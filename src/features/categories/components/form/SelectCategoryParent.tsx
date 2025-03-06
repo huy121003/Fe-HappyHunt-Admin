@@ -19,6 +19,7 @@ const SelectCategoryParent: React.FC<IProps> = ({
     return CategoryService.getParent({
       ...filter,
       ...(search && { name: search }),
+      parent: null,
       page: filter.page,
       size: filter.size,
     });

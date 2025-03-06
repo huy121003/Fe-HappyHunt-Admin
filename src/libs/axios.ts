@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosError, AxiosResponse } from 'axios';
 import { EMethod } from '@/constants';
-import { postMessageHandler } from '@/components/ToastMessage';
 import AuthService from '@/features/auth/service';
+import { ICommonResponse } from '@/interfaces';
 const baseURL = import.meta.env.VITE_PUBLIC_BACKEND_URL;
 const NO_RETRY_HEADER = 'x-no-retry';
 const apiConfig = axios.create({
@@ -20,56 +20,68 @@ apiConfig.interceptors.request.use((config) => {
 });
 
 // Interceptor Response
+
+// Xử lý thông báo lỗi
+
+// Interceptor xử lý response
 apiConfig.interceptors.response.use(
   (response: AxiosResponse) => response?.data ?? response,
-  async (error: AxiosError) => {
+
+  async (error: AxiosError<ICommonResponse>) => {
+    const { config, response, code } = error;
+
     console.log('error', error);
-    const { config, response, code, request } = error;
+
+    let errorMessage = 'Something went wrong, please try again!';
+
     if (code === 'ECONNABORTED') {
-      postMessageHandler({
-        type: 'error',
-        text: 'Request timeout, please try again!',
-      });
+      errorMessage = 'Request timeout. Please try again!';
+    } else if (code === 'ERR_NETWORK') {
+      errorMessage = 'Network error. Please check your connection!';
     } else if (response && config) {
-      if (response.status === 401 && !config.headers[NO_RETRY_HEADER]) {
-        const res = await AuthService.getNewAccessToken();
-        const accessToken = res.data?.access_token;
-        if (accessToken) {
+      const { status, data } = response;
+
+      if (status === 401 && !config.headers[NO_RETRY_HEADER]) {
+        try {
+          if (
+            ['/login', '/register', '/forgot-password'].includes(
+              window.location.pathname
+            )
+          ) {
+            return Promise.reject(error);
+          }
+
+          const res = await AuthService.getNewAccessToken();
+          const accessToken = res?.data?.access_token;
+
+          if (!accessToken) {
+            throw new Error('Failed to get new access token');
+          }
+
           localStorage.setItem('access_token', accessToken);
           config.headers.Authorization = `Bearer ${accessToken}`;
           config.headers[NO_RETRY_HEADER] = 'true';
+
           return apiConfig.request(config);
+        } catch (refreshError) {
+          errorMessage = 'Your session has expired, please login again!';
+          localStorage.removeItem('access_token');
+
+          if (
+            !['/login', '/register', '/forgot-password'].includes(
+              window.location.pathname
+            )
+          ) {
+            window.location.href = '/login';
+          }
+          return Promise.reject({ ...refreshError, message: errorMessage });
         }
       }
-      if (
-        response.status === 400 &&
-        config.url?.includes('auth/get-new-access-token')
-      ) {
-        postMessageHandler({
-          type: 'error',
-          text: 'Token expired, please login again!',
-        });
-        localStorage.removeItem('access_token');
-        if (
-          !['/login', '/register', '/forgot-password'].includes(
-            window.location.pathname
-          )
-        ) {
-          window.location.href = '/login';
-        }
-      }
-      return Promise.reject(response.data);
-    } else if (request) {
-      postMessageHandler({
-        type: 'error',
-        text: 'Request error, please try again!',
-      });
-    } else {
-      postMessageHandler({
-        type: 'error',
-        text: 'Request error, please try again!',
-      });
+
+      errorMessage = data?.message || errorMessage; // Nếu API có trả về message, dùng nó
     }
+
+    return Promise.reject({ ...error, message: errorMessage });
   }
 );
 

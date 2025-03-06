@@ -5,6 +5,11 @@ import CategoryForm from '@/features/categories/components/form/CategoryForm';
 import { API_KEY } from '@/features/categories/data/constant';
 import useCategoryState from '@/features/categories/hooks/useCategoryState';
 import CategoryService from '@/features/categories/service';
+import {
+  IPERMISSION_CODE_NAME,
+  IPERMISSION_TYPE,
+} from '@/features/permissions/data/constant';
+import useCheckPermission from '@/hooks/useCheckPermission';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { Flex } from 'antd';
 
@@ -43,10 +48,26 @@ function CategoryDetailPage() {
         title="Category Detail"
         actions={
           <Flex gap={8}>
-            <CButton size="large" type="default" onClick={() => setOpen(true)}>
+            <CButton
+              hidden={
+                !useCheckPermission(
+                  IPERMISSION_CODE_NAME.CATEGORIES,
+                  IPERMISSION_TYPE.DELETE
+                )
+              }
+              size="large"
+              type="default"
+              onClick={() => setOpen(true)}
+            >
               Delete
             </CButton>
             <CButton
+              hidden={
+                !useCheckPermission(
+                  IPERMISSION_CODE_NAME.CATEGORIES,
+                  IPERMISSION_TYPE.UPDATE
+                )
+              }
               size="large"
               onClick={() => {
                 navigate(`/categories/${categoryId}/update`);

@@ -9,6 +9,7 @@ import { loginaction } from '@/redux/slice/SAuthSlice';
 import { useAppDispatch } from '@/redux/reduxHook';
 import { useNavigate } from 'react-router-dom';
 import useAuthState from '../../hooks/useAuthState';
+import { IType } from '../../data/constant';
 
 function LoginForm() {
   const [form] = Form.useForm();
@@ -36,7 +37,7 @@ function LoginForm() {
 
     loginMutation.mutate({
       ...values,
-      type: 'admin',
+      type: IType.ADMIN,
     });
   };
 
@@ -44,24 +45,16 @@ function LoginForm() {
     <>
       <Form<ILoginRequest> layout="vertical" form={form}>
         <Form.Item
-          label="Phone number"
-          name="phoneNumber"
+          label="Phone number or Username"
+          name="phoneOrUsername"
           rules={[
             {
               required: true,
-              message: 'Please input your phone number!',
-            },
-            {
-              pattern: /^0[0-9]{9}$/,
-              message: 'Phone number is invalid!',
+              message: 'Please input your phone number or username!',
             },
           ]}
         >
-          <CInput
-            placeholder="Phone number"
-            size="large"
-            className="text-lg rounded-md border-gray-300 lg:w-[500px] w-[300px]"
-          />
+          <CInput placeholder="Phone number or Username" />
         </Form.Item>
         <Form.Item
           label="Password"
@@ -73,11 +66,7 @@ function LoginForm() {
             },
           ]}
         >
-          <CPassword
-            placeholder={'Password'}
-            className="text-lg rounded-md border-gray-300 lg:w-[500px] w-[300px]"
-            size="large"
-          />
+          <CPassword placeholder={'Password'} />
         </Form.Item>
       </Form>
       <CButton

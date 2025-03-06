@@ -5,7 +5,6 @@ import { ConfigProvider } from 'antd';
 import { useAppDispatch, useAppSelector } from './redux/reduxHook';
 
 import { getUserAction } from './redux/slice/SAuthSlice';
-import { useEffect } from 'react';
 import { CLoadingPage } from './components';
 
 import ToastMessage from './components/ToastMessage';
@@ -16,37 +15,27 @@ import AuthService from './features/auth/service';
 
 function App() {
   const dispatch = useAppDispatch();
-
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
-  const { data, isLoading } = useQuery({
+  // Kiểm tra nếu đang ở trang login, register, forgot-password thì không gọi API
+  const authPages = ['/login', '/register', '/forgot-password'];
+  // Dùng useQuery để fetch dữ liệu
+  const { isLoading } = useQuery({
     queryKey: [API_KEY.GET_ACCOUNT_INFO],
     queryFn: async () => {
       const response = await AuthService.getAccountInfo();
-      return response.data;
+      if (response.statusCode === 200) {
+        dispatch(getUserAction(response.data));
+      }
     },
+    enabled: !authPages.includes(window.location.pathname),
   });
 
-  const getAccount = async () => {
-    if (
-      window.location.pathname === '/login' ||
-      window.location.pathname === '/register' ||
-      window.location.pathname === '/forgot-password'
-    ) {
-      return;
-    }
-    if (isLoading) return;
-    dispatch(getUserAction(data));
-  };
+  // Nếu đang tải thì hiển thị loading
+  if (isLoading) {
+    return <CLoadingPage />;
+  }
 
-  useEffect(() => {
-    getAccount();
-  }, [window.location.pathname, data, dispatch]);
-  if (
-    isAuthenticated === true ||
-    window.location.pathname === '/login' ||
-    window.location.pathname === '/register' ||
-    window.location.pathname === '/forgot-password'
-  ) {
+  if (isAuthenticated || authPages.includes(window.location.pathname)) {
     return (
       <ConfigProvider theme={theme}>
         <RouterProvider router={router} />
@@ -54,7 +43,6 @@ function App() {
       </ConfigProvider>
     );
   }
-  return <CLoadingPage />;
 }
 
 export default App;

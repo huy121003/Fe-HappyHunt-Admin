@@ -1,3 +1,4 @@
+import CTableParagraph from '@/components/CTableParagraph';
 import { IPermissionItem } from '@/features/permissions/data/interface';
 import { Form, FormInstance, Switch, Table } from 'antd';
 import React from 'react';
@@ -42,6 +43,11 @@ const PermissionForm: React.FC<IPermissionFormProps> = ({
       title: 'Permission',
       dataIndex: 'name',
       key: 'name',
+      render: (_: string, _record: IPermissionItem) => (
+        <CTableParagraph>
+          {_record?.name} _ {_record?.codeName}
+        </CTableParagraph>
+      ),
     },
     {
       title: 'View',

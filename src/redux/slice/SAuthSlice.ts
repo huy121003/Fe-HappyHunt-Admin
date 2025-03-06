@@ -4,7 +4,7 @@ export const initialState = {
   isAuthenticated: false,
   isLoading: true,
   account: {
-    fullName: '',
+    name: '',
     phoneNumber: '',
     avatar: '',
     isVip: false,
@@ -12,9 +12,19 @@ export const initialState = {
     role: {
       _id: null,
       name: '',
-      permissions: [],
+      permissions: [
+        {
+          name: '',
+          codeName: '',
+          isView: false,
+          isCreate: false,
+          isUpdate: false,
+          isDelete: false,
+        },
+      ],
     },
-    address: '',
+    username: '',
+    address: null,
     _id: null,
   },
 };
@@ -43,7 +53,7 @@ export const SAuthSlice = createSlice({
       localStorage.removeItem('access_token');
       state.isAuthenticated = false;
       state.account = {
-        fullName: '',
+        name: '',
         phoneNumber: '',
         avatar: '',
         isVip: false,
@@ -51,13 +61,24 @@ export const SAuthSlice = createSlice({
         role: {
           _id: null,
           name: '',
-          permissions: [],
+          permissions: [
+            {
+              name: '',
+              codeName: '',
+              isView: false,
+              isCreate: false,
+              isUpdate: false,
+              isDelete: false,
+            },
+          ],
         },
-        address: '',
+        username: '',
+        address: null,
         _id: null,
       };
     },
   },
 });
-export const { loginaction, getUserAction, logoutAction } = SAuthSlice.actions;
+export const { loginaction, getUserAction, logoutAction, updateAccountAction } =
+  SAuthSlice.actions;
 export default SAuthSlice.reducer;

@@ -52,6 +52,7 @@ const CInfiniteSelect = ({
 
   return (
     <CSelect
+      className="w-1/3"
       {...props}
       showSearch
       loading={loading}

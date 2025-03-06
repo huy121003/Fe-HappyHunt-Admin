@@ -1,9 +1,9 @@
-
 import CButtonCreateNew from '@/components/buttons/CButtonCreateNew';
 import CHeaderCard from '@/components/CHeaderCard';
 import MenuCategory from '@/features/categories/components/ui/MenuCategoryDetail';
 import { API_KEY } from '@/features/categories/data/constant';
 import CategoryService from '@/features/categories/service';
+import { IPERMISSION_CODE_NAME } from '@/features/permissions/data/constant';
 import { useQuery } from '@tanstack/react-query';
 import { Card, Flex } from 'antd';
 import { useNavigate } from 'react-router-dom';
@@ -22,12 +22,14 @@ const CategoryPage: React.FC<IProps> = ({ children }) => {
 
   const navigate = useNavigate();
   return (
-    <div className=" flex-1 flex flex-col h-full overflow-hidden">
+    <div className=" flex-1 flex flex-col h-full o">
       <CHeaderCard
-        title="Category Management"
+        title="Category Listing"
         actions={
           <Flex gap={8}>
-            <CButtonCreateNew onClick={() => navigate('/categories/create')} />
+            <CButtonCreateNew 
+            codeName={IPERMISSION_CODE_NAME.CATEGORIES}
+            onClick={() => navigate('/categories/create')} />
           </Flex>
         }
       />

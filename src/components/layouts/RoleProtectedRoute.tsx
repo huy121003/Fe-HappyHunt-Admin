@@ -1,7 +1,6 @@
 import { useAppSelector } from '@/redux/reduxHook';
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-
 interface RoleProtectedRouteProps {
   children: React.ReactNode;
 }
@@ -13,12 +12,10 @@ const RoleProtectedRoute: React.FC<RoleProtectedRouteProps> = ({
   const userRole = useAppSelector((state) => state.auth?.account?.role?.name);
 
   if (!isAuthenticated || !userRole) {
-    return <Navigate to="/" />;
+    return <Navigate to="/login" />;
   }
 
-  if (userRole) {
-    return <>{children}</>;
-  }
+  return <>{children}</>;
 };
 
 export default RoleProtectedRoute;

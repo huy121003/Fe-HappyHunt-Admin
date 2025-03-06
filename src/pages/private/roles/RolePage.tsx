@@ -2,6 +2,7 @@ import { CSearch } from '@/components';
 import CButtonCreateNew from '@/components/buttons/CButtonCreateNew';
 import CHeaderCard from '@/components/CHeaderCard';
 import FilterLayout from '@/components/layouts/FilterLayout';
+import { IPERMISSION_CODE_NAME } from '@/features/permissions/data/constant';
 import RoleTable from '@/features/roles/components/ui/RoleTable';
 import { API_KEY } from '@/features/roles/data/constant';
 import { IRoleItem } from '@/features/roles/data/interface';
@@ -11,11 +12,12 @@ import RolesService from '@/features/roles/service';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { Card } from 'antd';
 
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function RolePage() {
   const naviagte = useNavigate();
+  const [openModal, setOpenModal] = useState(false);
   const { onSuccess, onError } = useRoleState();
   const {
     handleChangePagination,
@@ -36,28 +38,34 @@ function RolePage() {
       return response;
     },
     onSuccess: () => {
-      onSuccess('Role deleted successfully');
+      onSuccess('Role deleted successfully', () => {
+        setOpenModal(false);
+      });
     },
     onError,
   });
 
-  const onDelete = useCallback((record: IRoleItem) => {
-    mutate(Number(record._id));
-  }, [mutate]);
+  const onDelete = useCallback(
+    (record: IRoleItem) => {
+      mutate(Number(record._id));
+    },
+    [mutate]
+  );
 
   return (
-    <div className="bg-gray-100 h-screen overflow-hidden">
+    <div className="bg-gray-100  ">
       <CHeaderCard
-        title="User Management Listing"
-        actions={<CButtonCreateNew onClick={() => naviagte('/roles/create')} />}
-      />
-      <Card className="!mt-4 overflow-auto">
-        <FilterLayout>
-          <CSearch
-            placeholder="Search by name"
-            onInput={handleInputSearch}
-            className="!w-96"
+        title="Role Listing"
+        actions={
+          <CButtonCreateNew
+            codeName={IPERMISSION_CODE_NAME.ROLES}
+            onClick={() => naviagte('create')}
           />
+        }
+      />
+      <Card>
+        <FilterLayout>
+          <CSearch placeholder="Search by name" onInput={handleInputSearch} />
         </FilterLayout>
 
         <RoleTable
@@ -71,6 +79,8 @@ function RolePage() {
           }}
           notFound={isFetched && !data?.totalDocuments}
           onChange={handleChangePagination}
+          openModal={openModal}
+          setOpenModal={setOpenModal}
         />
       </Card>
     </div>

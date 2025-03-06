@@ -60,6 +60,7 @@ function RoleUpdatePage() {
           ...roleData?.data,
           permissions: allPermissions,
         }}
+        title="Role Update"
       />
     </div>
   );

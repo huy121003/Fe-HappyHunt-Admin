@@ -1,8 +1,9 @@
 import { IRole } from '@/features/roles/data/interface';
 import { IType } from './constant';
+import { UploadFile } from 'antd';
 
 export interface ILoginRequest {
-  phoneNumber: string;
+  phoneOrUsername: string;
   password: string;
   type: IType;
 }
@@ -10,12 +11,26 @@ export interface ILoginRequest {
 export interface ILoginResponse {
   access_token: string;
   _id: number;
-  fullName: string;
+  name: string;
   phoneNumber: string;
   isBanned: boolean;
   avatar: string;
   isVip: boolean;
-  address: string;
+  address: {
+    provinceId: {
+      _id: number;
+      name: string;
+    };
+    districtId: {
+      _id: number;
+      name: string;
+    };
+    wardId: {
+      _id: number;
+      name: string;
+    };
+    specificAddress: string;
+  };
   role: IRole;
 }
 export interface IRegisterRequest {
@@ -37,4 +52,20 @@ export interface IForgotPasswordOtpRequest {
 export interface IGetAccountInfoResponse extends ILoginResponse {}
 export interface IRefreshTokenResponse {
   access_token: string;
+}
+
+export interface IChangePassword {
+  currentPassword: string;
+  newPassword: string;
+}
+export interface IUpdateProfile {
+  name: string;
+  description: string;
+  address: {
+    provinceId: number;
+    districtId: number;
+    wardId: number;
+    specificAddress: string;
+  };
+  avatar: string | UploadFile;
 }

@@ -8,7 +8,7 @@ type TProps = {
 
 const CHeaderCard = ({ title, actions }: TProps) => {
   return (
-    <Card className="!mb-2">
+    <Card className="!mb-1">
       <Flex justify="space-between" align="center" className="w-full ">
         <Typography.Title level={4} className="!mb-0">
           {title}

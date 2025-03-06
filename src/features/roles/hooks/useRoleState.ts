@@ -18,7 +18,7 @@ const useRoleState = () => {
     });
     client.invalidateQueries({ queryKey: [API_KEY.ROLES] });
     client.invalidateQueries({ queryKey: [API_KEY.ROLE_DETAIL] });
-    navigate('/roles');
+    navigate('/admin_roles/roles');
     if (onSuccessCallback) {
       onSuccessCallback();
     }
