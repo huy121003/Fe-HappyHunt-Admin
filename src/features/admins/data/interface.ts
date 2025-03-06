@@ -38,8 +38,10 @@ export interface IAdminPayload {
   username: string;
 }
 export interface ISearchAdmin extends ISearchParams {
-  name?: string;
-  role?: number;
-  phoneNumber?: string;
-  username?: string;
+  name?: string | null;
+  role?: number | null;
+  phoneNumber?: string | null;
+  username?: string | null;
+  isBanned?: boolean | null;
+  
 }

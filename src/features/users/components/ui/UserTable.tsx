@@ -100,9 +100,16 @@ const UserTable: React.FC<IUserTableProps> = ({
           children={
             record.address ? (
               <>
-                {record.address?.specificAddress},{record.address?.wardId?.name}
-                ,{record.address?.districtId?.name},
-                {record.address?.provinceId?.name}
+                {record.address.provinceId ? (
+                  <>
+                    {record.address?.specificAddress},
+                    {record.address?.wardId?.name},
+                    {record.address?.districtId?.name},
+                    {record.address?.provinceId?.name}
+                  </>
+                ) : (
+                  'No address'
+                )}
               </>
             ) : (
               ''
@@ -118,7 +125,11 @@ const UserTable: React.FC<IUserTableProps> = ({
       key: 'isBanned',
       width: 100,
       render: (value: boolean) =>
-        value ? <Tag color="red">Banned</Tag> : <Tag color="green">Active</Tag>,
+        !value ? (
+          <Tag color="red">Banned</Tag>
+        ) : (
+          <Tag color="green">Active</Tag>
+        ),
     },
 
     {
@@ -146,7 +157,7 @@ const UserTable: React.FC<IUserTableProps> = ({
             }}
           />
           <CButtonDelete
-            hidden={!record.isBanned}
+            hidden={record.isBanned}
             codeName={IPERMISSION_CODE_NAME.USERS}
             onClick={() => {
               setRecord(record);

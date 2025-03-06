@@ -64,7 +64,7 @@ const ProfileForm: React.FC<IProfileFormProps> = ({
   return (
     <Spin spinning={loading}>
       <CHeaderForm title={title || 'Update Profile'} onSave={form.submit} />
-      <Card className={`flex-1  overflow-y-auto h-[660px] `}>
+      <Card className={`flex-1  overflow-y-auto  `}>
         <Form<IUpdateProfile>
           form={form}
           layout="vertical"

@@ -8,6 +8,7 @@ const useAdminFilter = () => {
   const [search, setSearch] = useState<string>('');
   const [role, setRole] = useState<number>();
   const [phoneNumber, setPhoneNumber] = useState<string>();
+  const [isBanned, setIsBanned] = useState<boolean>();
   const {
     parsedPagination,
     handleChangePagination,
@@ -17,9 +18,10 @@ const useAdminFilter = () => {
   const computtedFilter = useMemo(() => {
     const filters: ISearchAdmin = {
       ...parsedPagination,
-      name: search || '',
+      ...(search && { name: search }),
       ...(role && { role }),
-      phoneNumber: phoneNumber || '',
+      ...(phoneNumber && { phoneNumber }),
+      ...(isBanned !== undefined && { isBanned }),
     };
     return filters;
   }, [search, parsedPagination]);
@@ -35,6 +37,10 @@ const useAdminFilter = () => {
     setRole(role);
     handleResetPagination();
   };
+  const handleSelectIsBanned = (isBanned: boolean | undefined) => {
+    setIsBanned(isBanned);
+    handleResetPagination();
+  };
   return {
     handleInputSearch,
     pagination,
@@ -42,6 +48,7 @@ const useAdminFilter = () => {
     computtedFilter,
     handleSelectRole,
     handleInputPhoneNumber,
+    handleSelectIsBanned,
   };
 };
 export default useAdminFilter;

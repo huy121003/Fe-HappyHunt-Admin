@@ -19,9 +19,8 @@ const useUserFilter = () => {
   const computtedFilter = useMemo(() => {
     const filters: ISearchUser = {
       ...parsedPagination,
-      name: search || '',
-
-      phoneNumber: phoneNumber || '',
+      ...(search && { name: search }),
+      ...(phoneNumber && { phoneNumber }),
       ...(isBanned && { isBanned }),
       ...(isVip && { isVip }),
     };

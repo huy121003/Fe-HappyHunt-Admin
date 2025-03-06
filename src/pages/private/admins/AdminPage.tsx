@@ -1,6 +1,7 @@
 import { CSearch } from '@/components';
 import CButtonCreateNew from '@/components/buttons/CButtonCreateNew';
 import CHeaderCard from '@/components/CHeaderCard';
+import CSelect from '@/components/CSelect';
 import FilterLayout from '@/components/layouts/FilterLayout';
 import AdminTable from '@/features/admins/components/ui/AdminTable';
 import { API_KEY } from '@/features/admins/data/constant';
@@ -27,6 +28,8 @@ function AdminPage() {
     pagination,
     computtedFilter,
     handleSelectRole,
+    handleInputPhoneNumber,
+    handleSelectIsBanned,
   } = useAdminFilter();
   const { data, isLoading, isFetched } = useQuery({
     queryKey: [API_KEY.ADMIN, computtedFilter],
@@ -75,9 +78,12 @@ function AdminPage() {
     <div className="bg-gray-100 ">
       <CHeaderCard
         title="Admin Listing"
-        actions={<CButtonCreateNew 
-          codeName={IPERMISSION_CODE_NAME.ADMINS}
-          onClick={() => naviagte('create')} />}
+        actions={
+          <CButtonCreateNew
+            codeName={IPERMISSION_CODE_NAME.ADMINS}
+            onClick={() => naviagte('create')}
+          />
+        }
       />
       <Card>
         <FilterLayout>
@@ -85,7 +91,25 @@ function AdminPage() {
             placeholder="Search admin name"
             onInput={handleInputSearch}
           />
-          <SelectRole placeholder="Select Role" onChange={handleSelectRole} />
+          <CSearch
+            placeholder="Search admin phone number"
+            onInput={handleInputPhoneNumber}
+          />
+          <CSelect
+            placeholder="Ban status"
+            allowClear
+            options={[
+              { label: 'Banned', value: 'false' },
+              { label: 'Not banned', value: 'true' },
+            ]}
+            onChange={handleSelectIsBanned}
+          />
+          <SelectRole
+            placeholder="Select Role"
+            allowClear
+            showSearch
+            onChange={handleSelectRole}
+          />
         </FilterLayout>
         <AdminTable
           data={data?.documentList || []}

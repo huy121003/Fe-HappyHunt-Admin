@@ -8,6 +8,7 @@ function CLoadingPage() {
         style={{
           fontSize: 24,
           color: '#dd4904',
+          
         }}
       />
     </Flex>

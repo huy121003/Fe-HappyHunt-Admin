@@ -103,7 +103,11 @@ const AdminTable: React.FC<IAdminTableProps> = ({
       key: 'isBanned',
       width: 100,
       render: (value: boolean) =>
-        value ? <Tag color="red">Banned</Tag> : <Tag color="green">Active</Tag>,
+        !value ? (
+          <Tag color="red">Banned</Tag>
+        ) : (
+          <Tag color="green">Active</Tag>
+        ),
     },
     {
       title: 'Created At',
@@ -140,7 +144,7 @@ const AdminTable: React.FC<IAdminTableProps> = ({
                 disabled={isLoading}
               />
               <CButtonDelete
-                hidden={!record.isBanned}
+                hidden={record.isBanned}
                 codeName={IPERMISSION_CODE_NAME.ADMINS}
                 onClick={() => {
                   setRecord(record);

@@ -9,6 +9,7 @@ import { loginaction } from '@/redux/slice/SAuthSlice';
 import { useAppDispatch } from '@/redux/reduxHook';
 import { useNavigate } from 'react-router-dom';
 import useAuthState from '../../hooks/useAuthState';
+import { IType } from '../../data/constant';
 
 function LoginForm() {
   const [form] = Form.useForm();
@@ -36,7 +37,7 @@ function LoginForm() {
 
     loginMutation.mutate({
       ...values,
-      type: 'admin',
+      type: IType.ADMIN,
     });
   };
 
