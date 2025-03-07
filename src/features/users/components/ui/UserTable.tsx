@@ -62,7 +62,6 @@ const UserTable: React.FC<IUserTableProps> = ({
                 {record.avatar ? (
                   <Image
                     width={40}
-                    height={40}
                     src={record.avatar}
                     alt={record.name}
                     style={{
@@ -72,7 +71,11 @@ const UserTable: React.FC<IUserTableProps> = ({
                     }}
                   />
                 ) : (
-                  <i className="fa-regular fa-circle-user text-[30px] text-gray-400" />
+                  <i
+                    className={`fa-regular fa-circle-user text-[40px] text-gray-400
+                  ${record.isVip ? 'border-2 border-yellow-500' : 'border-0'}
+                     `}
+                  />
                 )}
               </Badge>
               <Typography.Text onClick={() => navigate(`${record._id}/detail`)}>
@@ -82,6 +85,13 @@ const UserTable: React.FC<IUserTableProps> = ({
           }
         />
       ),
+    },
+    {
+      title: 'Username',
+      dataIndex: 'username',
+      key: 'username',
+      width: 200,
+      render: (value: string) => <CTableParagraph children={value} />,
     },
     {
       title: 'Phone Number',

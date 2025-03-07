@@ -65,7 +65,7 @@ const BannerTable: React.FC<IBannerTableProps> = ({
       width: 100,
       render: (value: string) =>
         value ? (
-          <Image width={50} src={value} />
+          <Image height={50} src={value} />
         ) : (
           <Typography.Text>--</Typography.Text>
         ),
@@ -120,6 +120,7 @@ const BannerTable: React.FC<IBannerTableProps> = ({
             disabled={isLoading}
           />
           <CButtonDelete
+            hidden={record.isShow}
             codeName={IPERMISSION_CODE_NAME.BANNERS}
             onClick={() => {
               setRecord(record);
