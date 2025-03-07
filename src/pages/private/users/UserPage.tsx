@@ -81,8 +81,8 @@ function UserPage() {
             placeholder="Ban status"
             allowClear
             options={[
-              { label: 'Banned', value: 'true' },
-              { label: 'Not banned', value: 'false' },
+              { label: 'Banned', value: 'false' },
+              { label: 'Not banned', value: 'true' },
             ]}
             onChange={handleSelectIsBanned}
           />
