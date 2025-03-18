@@ -26,6 +26,7 @@
       "react": ["@types/react"]
     }
   },
+   
   "include": ["src"],
   "exclude": ["vite.config.ts"],
   "extends": ["./tsconfig.app.json", "./tsconfig.node.json"]

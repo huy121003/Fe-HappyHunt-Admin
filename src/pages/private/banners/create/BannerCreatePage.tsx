@@ -1,4 +1,5 @@
 import BannerForm from '@/features/banners/components/form/BannerForm';
+import { IBannerPayload } from '@/features/banners/data/interface';
 import useBannerState from '@/features/banners/hooks/useBannerState';
 import BannerService from '@/features/banners/service';
 import { useMutation } from '@tanstack/react-query';
@@ -7,7 +8,7 @@ import { useCallback } from 'react';
 function BannerCreatePage() {
   const { onSuccess, onError } = useBannerState();
   const { mutate, isPending } = useMutation({
-    mutationFn: async (data: any) => {
+    mutationFn: async (data: IBannerPayload) => {
       const response = await BannerService.create(data);
       return response;
     },

@@ -11,12 +11,16 @@ const convertObjectToFormData = (data: ICategoryPayload) => {
   const formData = new FormData();
   formData.append('name', data.name);
 
-  formData.append('url', data.url);
-
   data.keywords?.forEach((keyword) => {
     formData.append('keywords', keyword);
   });
   formData.append('attributes', JSON.stringify(data.attributes));
+
+  formData.append('isPayment', data.isPayment.toString());
+
+  if (data.pricePayment) {
+    formData.append('pricePayment', data.pricePayment.toString());
+  }
   if (data.parent) {
     formData.append('parent', Number(data.parent).toString());
   }

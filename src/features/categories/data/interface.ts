@@ -1,9 +1,11 @@
 import { ISearchParams } from '@/interfaces';
 import { UploadFile } from 'antd';
+import { Type } from './constant';
 
 export interface IAttribute {
   name: string;
-  values: string[];
+  type: Type;
+  values?: string[];
 }
 export interface ICategory {
   _id: number;
@@ -12,17 +14,21 @@ export interface ICategory {
     _id: number;
     name: string;
   };
-  url: string;
   description: string;
   icon: string;
+  slug: string;
   attributes: IAttribute[];
   keywords: string[];
+  isPayment?: boolean;
+  pricePayment?: number;
 }
 export interface ICategoryItem {
   _id: number;
   name: string;
   icon?: string;
-  url?: string;
+  slug: string;
+  isPayment: boolean;
+  pricePayment?: number;
   parent?: {
     _id: number;
     name: string;
@@ -35,7 +41,8 @@ export interface ISearchCategory extends ISearchParams {
 }
 export interface ICategoryPayload {
   name: string;
-  url: string;
+  isPayment: boolean;
+  pricePayment?: number;
   parent?: number;
   icon?: string | UploadFile;
   attributes?: IAttribute[];

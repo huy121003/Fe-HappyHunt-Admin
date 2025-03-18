@@ -3,12 +3,14 @@ import {
   Card,
   Flex,
   Form,
+  Radio,
   Select,
   Spin,
   Typography,
   Upload,
   UploadFile,
 } from 'antd';
+import ImgCrop from 'antd-img-crop';
 import React, { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ICategory, ICategoryPayload } from '../../data/interface';
@@ -20,9 +22,12 @@ import {
   PlusOutlined,
   UploadOutlined,
 } from '@ant-design/icons';
-import DAttributesCategory from '@/data/DAttributesCategory';
 import CButton from '@/components/buttons/CButton';
 import SelectCategoryParent from './SelectCategoryParent';
+import useUpload from '@/hooks/useUpload';
+import CSelect from '@/components/CSelect';
+import { Type } from '../../data/constant';
+
 interface ICategoryFormProps {
   onSubmit: (values: ICategoryPayload, id?: number) => void;
   data?: ICategory;
@@ -31,8 +36,8 @@ interface ICategoryFormProps {
   title?: string;
   isView?: boolean;
 }
-interface IForm extends Omit<ICategory, 'icon'> {
-  icon?: UploadFile[];
+interface IForm extends Omit<ICategory, 'image'> {
+  image?: UploadFile[];
 }
 
 const CategoryForm: React.FC<ICategoryFormProps> = ({
@@ -44,32 +49,64 @@ const CategoryForm: React.FC<ICategoryFormProps> = ({
   isView,
 }) => {
   const [form] = Form.useForm();
+  const { fileList, setFileList, onChange, handleBeforeUpload } =
+    useUpload(form);
   const navigate = useNavigate();
   const onCancel = useCallback(() => {
     navigate('/categories');
   }, [navigate]);
+  const isPayment = Form.useWatch(['isPayment'], form);
+
   useEffect(() => {
     if (data) {
+      setFileList(
+        data.icon
+          ? [
+              {
+                uid: `${Date.now()}`,
+                name: 'image.png',
+                status: 'done',
+                url: data.icon,
+              },
+            ]
+          : []
+      );
       form.setFieldsValue({
         ...data,
+        image: data.icon
+          ? [
+              {
+                uid: `${Date.now()}`,
+                name: 'image.png',
+                status: 'done',
+                url: data.icon,
+              },
+            ]
+          : undefined,
         parent: data.parent?._id,
-        icon: [
-          {
-            uid: `${Date.now()}`,
-            name: 'image.png',
-            status: 'done',
-            url: data.icon,
-          },
-        ],
         keywords: data.keywords,
+      });
+    } else {
+      form.setFieldsValue({
+        isPayment: false,
       });
     }
   }, [data, form]);
   const onFinish = async () => {
     const values = await form.validateFields();
+    const currentYear = new Date().getFullYear();
+    const yearOptions = [
+      ...Array.from({ length: currentYear - 1979 }, (_, i) => currentYear - i),
+      'Before 1980',
+    ];
+    console.log('ddedew', isPayment);
     const payload: ICategoryPayload = {
       ...values,
-      icon: values.icon?.[0].originFileObj,
+      attributes: values.attributes?.map((attr) => ({
+        ...attr,
+        values: attr.type === Type.YEAR ? yearOptions : attr.values,
+      })),
+      icon: values.image?.[0]?.originFileObj,
     };
 
     onSubmit(payload);
@@ -85,9 +122,7 @@ const CategoryForm: React.FC<ICategoryFormProps> = ({
         />
       )}
 
-      <Card
-        className={`flex-1  overflow-y-auto`}
-      >
+      <Card className={`flex-1  overflow-y-auto`}>
         <Form<IForm>
           form={form}
           layout="vertical"
@@ -125,56 +160,84 @@ const CategoryForm: React.FC<ICategoryFormProps> = ({
             <CInput placeholder="Input category name" />
           </Form.Item>
 
+          <Form.Item label="Payment">
+            <Flex gap={8} justify="start" align="center">
+              <Form.Item
+                name="isPayment"
+                valuePropName="value"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please select payment status!',
+                  },
+                ]}
+              >
+                <Radio.Group>
+                  <Radio
+                    onClick={() => {
+                      form.setFields([
+                        {
+                          name: 'pricePayment',
+                          errors: [],
+                        },
+                      ]);
+                    }}
+                    value={false}
+                  >
+                    Non Payment
+                  </Radio>
+                  <Radio value={true}>Payment</Radio>
+                </Radio.Group>
+              </Form.Item>
+              <Form.Item
+                name="pricePayment"
+                rules={
+                  isPayment
+                    ? [
+                        {
+                          required: true,
+                          message: 'Please input price payment!',
+                        },
+                      ]
+                    : []
+                }
+              >
+                <CInput
+                  type="number"
+                  min={0}
+                  placeholder="Input price payment"
+                  hidden={!isPayment}
+                />
+              </Form.Item>
+            </Flex>
+          </Form.Item>
+
           <Form.Item name="description" label="Description">
             <CTextArea placeholder="Input category description" rows={4} />
           </Form.Item>
-
           <Form.Item
-            initialValue="/"
-            name="url"
-            label="URL"
-            rules={[
-              {
-                required: true,
-                whitespace: true,
-                message: 'Please input category URL!',
-              },
-              {
-                validator: (_, value) => {
-                  if (value && value.length > 2 && value[0] === '/') {
-                    return Promise.resolve();
-                  }
-                  return Promise.reject(new Error('URL must start with "/"'));
-                },
-              },
-            ]}
-          >
-            <CInput placeholder="Input category URL" addonBefore="/" />
-          </Form.Item>
-
-          <Form.Item
-            name="icon"
+            name="image"
             label="Category Icon"
             valuePropName="fileList"
-            getValueFromEvent={(e) => e.fileList}
-            rules={[
-              {
-                required: true,
-                message: 'Please upload category icon!',
-              },
-            ]}
+            getValueFromEvent={(e) => e?.fileList || []}
           >
-            <Upload
-              accept=".png,.jpg,.jpeg"
-              beforeUpload={() => false}
-              maxCount={1}
-              multiple={false}
-              listType="picture-card"
-              onPreview={() => {}}
-            >
-              <Button icon={<UploadOutlined />} type="dashed" />
-            </Upload>
+            <ImgCrop rotationSlider aspect={1 / 1}>
+              <Upload
+                accept=".png,.jpg,.jpeg"
+                listType="picture-card"
+                fileList={fileList}
+                maxCount={1}
+                multiple={false}
+                onChange={onChange}
+                beforeUpload={handleBeforeUpload('.png,.jpg,.jpeg')}
+              >
+                {fileList.length < 1 && (
+                  <Button icon={<UploadOutlined />} type="dashed" />
+                )}
+              </Upload>
+            </ImgCrop>
           </Form.Item>
+
           <Form.Item
             name="keywords"
             label="Keywords"
@@ -189,59 +252,113 @@ const CategoryForm: React.FC<ICategoryFormProps> = ({
           </Form.Item>
 
           <Typography.Title level={5}>Attributes</Typography.Title>
-          <Form.List name="attributes" initialValue={DAttributesCategory}>
+          <Form.List
+            name="attributes"
+            initialValue={[
+              {
+                name: '',
+                values: [],
+              },
+            ]}
+          >
             {(fields, { add, remove }) => (
               <div className="bg-gray-100 p-4 rounded-md">
-                {fields.map(({ key, name }, index) => (
-                  <Flex
-                    key={key}
-                    className="bg-white p-4 rounded-lg shadow mb-2"
-                  >
-                    <Flex className="flex-1" vertical gap={8}>
-                      <Form.Item
-                        name={[name, 'name']}
-                        label="Attribute Name"
-                        rules={[
-                          {
-                            required: true,
-                            whitespace: true,
-                            message: 'Please input attribute name!',
-                          },
-                        ]}
-                      >
-                        <CInput placeholder="Input attribute name" />
-                      </Form.Item>
+                {fields.map(({ key, name, ...restField }) => {
+                  return (
+                    <Flex
+                      key={key}
+                      className="bg-white p-4 rounded-lg shadow mb-2"
+                    >
+                      <Flex className="flex-1" vertical gap={8}>
+                        {/* Attribute Name */}
+                        <Form.Item
+                          {...restField}
+                          name={[name, 'name']}
+                          label="Attribute Name"
+                          rules={[
+                            {
+                              required: true,
+                              whitespace: true,
+                              message: 'Please input attribute name!',
+                            },
+                          ]}
+                        >
+                          <CInput placeholder="Input attribute name" />
+                        </Form.Item>
 
-                      <Form.Item
-                        name={[name, 'values']}
-                        label="Attribute Values"
-                        rules={[
-                          {
-                            required: true,
-                            message: 'Please input attribute values!',
-                          },
-                        ]}
-                      >
-                        <Select
-                          mode="tags"
-                          placeholder="Input attribute values"
-                          style={{ minWidth: 200 }}
-                        />
-                      </Form.Item>
-                    </Flex>
-                    {fields.length > 1 && index > 0 && (
-                      <Flex className="items-start">
-                        <Button
-                          type="text"
-                          size="large"
-                          icon={<DeleteOutlined />}
-                          onClick={() => remove(name)}
-                          className="text-red-500"
-                        />
+                        {/* Attribute Type */}
+                        <Form.Item
+                          {...restField}
+                          name={[name, 'type']}
+                          label="Attribute Type"
+                          rules={[
+                            {
+                              required: true,
+                              message: 'Please select attribute type!',
+                            },
+                          ]}
+                        >
+                          <CSelect
+                            options={Object.values(Type).map((type) => ({
+                              label: type,
+                              value: type,
+                            }))}
+                            placeholder="Please select attribute type"
+                            style={{ minWidth: 200 }}
+                          />
+                        </Form.Item>
+
+                        {/* Watch 'type' for conditional rendering */}
+                        <Form.Item shouldUpdate>
+                          {({ getFieldValue }) => {
+                            const type = getFieldValue([
+                              'attributes',
+                              name,
+                              'type',
+                            ]);
+                            if (type === Type.SELECT || type === Type.RADIO) {
+                              return (
+                                <Form.Item
+                                  {...restField}
+                                  name={[name, 'values']}
+                                  label="Attribute Values"
+                                  rules={[
+                                    {
+                                      required: true,
+                                      message: 'Please input attribute values!',
+                                    },
+                                  ]}
+                                >
+                                  <Select
+                                    mode="tags"
+                                    placeholder="Input attribute values"
+                                    style={{ minWidth: 200 }}
+                                  />
+                                </Form.Item>
+                              );
+                            }
+                            return null;
+                          }}
+                        </Form.Item>
                       </Flex>
-                    )}
-                  </Flex>
-                ))}
+
+                      {/* Remove Button */}
+                      {fields.length > 1 && (
+                        <Flex className="items-start">
+                          <Button
+                            type="text"
+                            size="large"
+                            icon={<DeleteOutlined />}
+                            onClick={() => remove(name)}
+                            className="text-red-500"
+                          />
+                        </Flex>
+                      )}
+                    </Flex>
+                  );
+                })}
+
+                {/* Add Attribute Button */}
                 <CButton
                   type="dashed"
                   onClick={() => add()}
