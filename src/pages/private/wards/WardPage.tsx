@@ -68,18 +68,18 @@ function WardPage() {
         <FilterLayout>
           <CSearch placeholder="Search Ward" onInput={handleInputSearch} />
           <SelectProvince
-            value={computtedFilter.provinceId}
+            value={computtedFilter.province}
             allowClear
             placeholder="Select Country"
             onSelect={handleSelectProvince}
           />
           <SelectDictrict
-            value={computtedFilter.districtId}
+            value={computtedFilter.district}
             allowClear
             placeholder="Select District"
             onSelect={handleSelectDistrict}
-            disabled={!computtedFilter.provinceId}
-            provinceId={computtedFilter.provinceId}
+            disabled={!computtedFilter.province}
+            province={computtedFilter.province}
           />
         </FilterLayout>
         <WardTable

@@ -4,7 +4,7 @@ import {
 } from '@/features/permissions/data/constant';
 import useCheckPermission from '@/hooks/useCheckPermission';
 import { DeleteOutlined } from '@ant-design/icons';
-import { Button, ButtonProps } from 'antd';
+import { Button, ButtonProps, Tooltip } from 'antd';
 interface IButtonProps extends ButtonProps {
   codeName: IPERMISSION_CODE_NAME;
 }
@@ -14,15 +14,17 @@ const CButtonDelete = (props: IButtonProps) => {
     IPERMISSION_TYPE.DELETE
   );
   return (
-    <Button
-      type="link"
-      shape="circle"
-      size="large"
-      icon={<DeleteOutlined />}
-      className=" text-red-500"
-      hidden={!checkPermission}
-      {...props}
-    />
+    <Tooltip title="Delete">
+      <Button
+        type="link"
+        shape="circle"
+        size="large"
+        icon={<DeleteOutlined />}
+        className=" text-red-500"
+        hidden={!checkPermission}
+        {...props}
+      />
+    </Tooltip>
   );
 };
 

@@ -6,7 +6,7 @@ import { debounce } from 'lodash';
 
 const useDistrictFilter = () => {
   const [search, setSearch] = useState<string>('');
-  const [provinceId, setProvinceId] = useState<number>();
+  const [province, setprovince] = useState<number>();
   const {
     parsedPagination,
     handleChangePagination,
@@ -17,7 +17,7 @@ const useDistrictFilter = () => {
     const filters: ISearchDistrict = {
       ...parsedPagination,
       name: search || '',
-      ...(provinceId && { provinceId }),
+      ...(province && { province }),
     };
     return filters;
   }, [search, parsedPagination]);
@@ -25,8 +25,8 @@ const useDistrictFilter = () => {
     handleResetPagination();
     setSearch((event.target as HTMLInputElement).value);
   }, 500);
-  const handleSelectProvince = (provinceId: number | undefined) => {
-    setProvinceId(provinceId);
+  const handleSelectProvince = (province: number | undefined) => {
+    setprovince(province);
     handleResetPagination();
   };
   return {

@@ -1,4 +1,4 @@
-import { Button, ButtonProps } from 'antd';
+import { Button, ButtonProps, Tooltip } from 'antd';
 import { PauseCircleOutlined, PlayCircleOutlined } from '@ant-design/icons';
 import useCheckPermission from '@/hooks/useCheckPermission';
 import {
@@ -18,15 +18,17 @@ const CButtonActive: React.FC<ICButtonEditProps> = ({
     IPERMISSION_TYPE.UPDATE
   );
   return (
-    <Button
-      type="link"
-      size="large"
-      shape="circle"
-      icon={!isActived ? <PauseCircleOutlined /> : <PlayCircleOutlined />}
-      className=" text-blue-600"
-      {...props}
-      hidden={!checkPermission}
-    />
+    <Tooltip title={isActived ? 'Deactivate' : 'Activate'}>
+      <Button
+        type="link"
+        size="large"
+        shape="circle"
+        icon={!isActived ? <PauseCircleOutlined /> : <PlayCircleOutlined />}
+        className=" text-blue-600"
+        {...props}
+        hidden={!checkPermission}
+      />
+    </Tooltip>
   );
 };
 

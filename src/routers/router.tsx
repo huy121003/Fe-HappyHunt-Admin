@@ -113,6 +113,20 @@ const UserPage = lazy(() => import('@/pages/private/users/UserPage'));
 const UserDetailPage = lazy(
   () => import('@/pages/private/users/detail/UserDetailPage')
 );
+const PostPage = lazy(() => import('@/pages/private/posts/PostPage'));
+
+const PostDetailPage = lazy(
+  () => import('@/pages/private/posts/detail/PostDetailPage')
+);
+const PostCheckingPage = lazy(
+  () => import('@/pages/private/post-checkings/PostCheckingPage')
+);
+const PostDetailCheckingPage = lazy(
+  () => import('@/pages/private/post-checkings/detail/PostDetailCheckingPage')
+);
+const PostUpdateCheckingPage = lazy(
+  () => import('@/pages/private/post-checkings/update/PostUpdateCheckingPage')
+);
 
 const router = createBrowserRouter([
   {
@@ -195,6 +209,91 @@ const router = createBrowserRouter([
                 type={IPERMISSION_TYPE.UPDATE}
               >
                 <CategoryUpdatePage />
+              </PermissionProtectedLayout>,
+              <CLoadingPage />
+            ),
+          },
+        ],
+      },
+      {
+        path: 'posts',
+        element: <Outlet />,
+        children: [
+          {
+            index: true,
+            element: withSuspense(
+              <PermissionProtectedLayout
+                codeName={IPERMISSION_CODE_NAME.POSTS}
+                type={IPERMISSION_TYPE.VIEW}
+              >
+                <PostPage />
+              </PermissionProtectedLayout>,
+              <CLoadingPage />
+            ),
+          },
+
+          {
+            path: ':postId/detail',
+            element: withSuspense(
+              <PermissionProtectedLayout
+                codeName={IPERMISSION_CODE_NAME.POSTS}
+                type={IPERMISSION_TYPE.VIEW}
+              >
+                <PostDetailPage />
+              </PermissionProtectedLayout>,
+              <CLoadingPage />
+            ),
+          },
+        ],
+      },
+      {
+        path: 'post-checkings',
+        element: <Outlet />,
+        children: [
+          {
+            index: true,
+            element: withSuspense(
+              <PermissionProtectedLayout
+                codeName={IPERMISSION_CODE_NAME.POSTS}
+                type={IPERMISSION_TYPE.VIEW}
+              >
+                <PostCheckingPage />
+              </PermissionProtectedLayout>,
+              <CLoadingPage />
+            ),
+          },
+          {
+            path: ':postId/detail',
+            element: withSuspense(
+              <PermissionProtectedLayout
+                codeName={IPERMISSION_CODE_NAME.POSTS}
+                type={IPERMISSION_TYPE.VIEW}
+              >
+                <PostDetailCheckingPage />
+              </PermissionProtectedLayout>,
+              <CLoadingPage />
+            ),
+          },
+          {
+            path: ':postId/checking',
+            element: withSuspense(
+              <PermissionProtectedLayout
+                codeName={IPERMISSION_CODE_NAME.POSTS}
+                type={IPERMISSION_TYPE.UPDATE}
+              >
+                <PostUpdateCheckingPage />
+              </PermissionProtectedLayout>,
+              <CLoadingPage />
+            ),
+          },
+          {
+            path: ':postId/update',
+            element: withSuspense(
+              <PermissionProtectedLayout
+                codeName={IPERMISSION_CODE_NAME.POSTS}
+                type={IPERMISSION_TYPE.UPDATE}
+              >
+                <PostUpdateCheckingPage />
               </PermissionProtectedLayout>,
               <CLoadingPage />
             ),
@@ -363,7 +462,7 @@ const router = createBrowserRouter([
                 ),
               },
               {
-                path: ':provinceId/update',
+                path: ':province/update',
                 element: withSuspense(
                   <PermissionProtectedLayout
                     codeName={IPERMISSION_CODE_NAME.PROVINCES}
@@ -375,7 +474,7 @@ const router = createBrowserRouter([
                 ),
               },
               {
-                path: ':provinceId/detail',
+                path: ':province/detail',
                 element: withSuspense(
                   <PermissionProtectedLayout
                     codeName={IPERMISSION_CODE_NAME.PROVINCES}
@@ -417,7 +516,7 @@ const router = createBrowserRouter([
                 ),
               },
               {
-                path: ':districtId/update',
+                path: ':district/update',
                 element: withSuspense(
                   <PermissionProtectedLayout
                     codeName={IPERMISSION_CODE_NAME.DISTRICTS}
@@ -429,7 +528,7 @@ const router = createBrowserRouter([
                 ),
               },
               {
-                path: ':districtId/detail',
+                path: ':district/detail',
                 element: withSuspense(
                   <PermissionProtectedLayout
                     codeName={IPERMISSION_CODE_NAME.DISTRICTS}
@@ -471,7 +570,7 @@ const router = createBrowserRouter([
                 ),
               },
               {
-                path: ':wardId/update',
+                path: ':ward/update',
                 element: withSuspense(
                   <PermissionProtectedLayout
                     codeName={IPERMISSION_CODE_NAME.WARDS}
@@ -483,7 +582,7 @@ const router = createBrowserRouter([
                 ),
               },
               {
-                path: ':wardId/detail',
+                path: ':ward/detail',
                 element: withSuspense(
                   <PermissionProtectedLayout
                     codeName={IPERMISSION_CODE_NAME.WARDS}

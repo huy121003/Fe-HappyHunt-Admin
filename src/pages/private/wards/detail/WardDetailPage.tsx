@@ -6,11 +6,11 @@ import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 
 function WardUpdatePage() {
-  const { wardId } = useParams<{ wardId: string }>();
+  const { ward } = useParams<{ ward: string }>();
   const { data, isLoading } = useQuery({
-    queryKey: [API_KEY.WARD_DETAIL, wardId],
+    queryKey: [API_KEY.WARD_DETAIL, ward],
     queryFn: async () => {
-      const response = await WardService.getById(Number(wardId));
+      const response = await WardService.getById(Number(ward));
       return response;
     },
   });

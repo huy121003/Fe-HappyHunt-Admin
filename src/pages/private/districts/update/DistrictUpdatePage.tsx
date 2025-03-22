@@ -1,5 +1,6 @@
 import DistrictForm from '@/features/districts/components/form/DistrictForm';
 import { API_KEY } from '@/features/districts/data/constant';
+import { IDistrictPayload } from '@/features/districts/data/interface';
 import useDistrictState from '@/features/districts/hooks/useDistrictState';
 import DistrictsService from '@/features/districts/service';
 import { useMutation, useQuery } from '@tanstack/react-query';
@@ -7,18 +8,18 @@ import { useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 
 function DistrictUpdatePage() {
-  const { districtId } = useParams<{ districtId: string }>();
+  const { district } = useParams<{ district: string }>();
   const { onSuccess, onError } = useDistrictState();
   const { data, isLoading } = useQuery({
-    queryKey: [API_KEY.DISTRICT_DETAIL, districtId],
+    queryKey: [API_KEY.DISTRICT_DETAIL, district],
     queryFn: async () => {
-      const response = await DistrictsService.getbyId(Number(districtId));
+      const response = await DistrictsService.getbyId(Number(district));
       return response;
     },
   });
   const { mutate, isPending } = useMutation({
     mutationFn: async (data: any) => {
-      const response = await DistrictsService.update(Number(districtId), data);
+      const response = await DistrictsService.update(Number(district), data);
       return response;
     },
     onSuccess: () => {
@@ -27,7 +28,7 @@ function DistrictUpdatePage() {
     onError,
   });
   const onSubmit = useCallback(
-    (values: any) => {
+    (values: IDistrictPayload) => {
       mutate(values);
     },
     [mutate]

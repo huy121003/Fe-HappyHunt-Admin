@@ -119,15 +119,16 @@ const BannerTable: React.FC<IBannerTableProps> = ({
             onClick={() => navigate(`${record._id}/update`)}
             disabled={isLoading}
           />
-          <CButtonDelete
-            hidden={record.isShow}
-            codeName={IPERMISSION_CODE_NAME.BANNERS}
-            onClick={() => {
-              setRecord(record);
-              setOpenModal(true);
-            }}
-            disabled={isLoading}
-          />
+          {record.isShow && (
+            <CButtonDelete
+              codeName={IPERMISSION_CODE_NAME.BANNERS}
+              onClick={() => {
+                setRecord(record);
+                setOpenModal(true);
+              }}
+              disabled={isLoading}
+            />
+          )}
           <CButtonActive
             codeName={IPERMISSION_CODE_NAME.BANNERS}
             isActived={record.isShow}

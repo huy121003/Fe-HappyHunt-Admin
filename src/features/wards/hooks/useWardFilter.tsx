@@ -6,8 +6,8 @@ import { debounce } from 'lodash';
 
 const useWardFilter = () => {
   const [search, setSearch] = useState<string>('');
-  const [districtId, setDistrictId] = useState<number | undefined>();
-  const [provinceId, setProvinceId] = useState<number | undefined>();
+  const [district, setdistrict] = useState<number | undefined>();
+  const [province, setprovince] = useState<number | undefined>();
   const {
     parsedPagination,
     handleChangePagination,
@@ -18,8 +18,8 @@ const useWardFilter = () => {
     const filters: ISearchWard = {
       ...parsedPagination,
       name: search || '',
-      ...(districtId && { districtId }),
-      ...(provinceId && { provinceId }),
+      ...(district && { district }),
+      ...(province && { province }),
     };
     return filters;
   }, [search, parsedPagination]);
@@ -28,13 +28,13 @@ const useWardFilter = () => {
     setSearch((event.target as HTMLInputElement).value);
   }, 500);
   const handleSelectDistrict = (value: number) => {
-    setDistrictId(value);
+    setdistrict(value);
     handleResetPagination();
   };
   const handleSelectProvince = (value: number) => {
-    setProvinceId(value);
+    setprovince(value);
     handleResetPagination();
-    setDistrictId(undefined);
+    setdistrict(undefined);
   };
   return {
     handleInputSearch,

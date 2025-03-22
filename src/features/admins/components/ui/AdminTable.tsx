@@ -143,15 +143,16 @@ const AdminTable: React.FC<IAdminTableProps> = ({
                 onClick={() => navigate(`${record._id}/update`)}
                 disabled={isLoading}
               />
-              <CButtonDelete
-                hidden={record.isBanned}
-                codeName={IPERMISSION_CODE_NAME.ADMINS}
-                onClick={() => {
-                  setRecord(record);
-                  setOpenModal(true);
-                }}
-                disabled={isLoading}
-              />
+              {!record.isBanned && (
+                <CButtonDelete
+                  codeName={IPERMISSION_CODE_NAME.ADMINS}
+                  onClick={() => {
+                    setRecord(record);
+                    setOpenModal(true);
+                  }}
+                  disabled={isLoading}
+                />
+              )}
               <CButtonActive
                 codeName={IPERMISSION_CODE_NAME.ADMINS}
                 isActived={record.isBanned}

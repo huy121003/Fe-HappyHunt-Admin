@@ -5,12 +5,12 @@ import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 
 function ProvinceDetailPage() {
-  const { provinceId } = useParams<{ provinceId: string }>();
+  const { province } = useParams<{ province: string }>();
 
   const { data, isLoading } = useQuery({
-    queryKey: [API_KEY.PROVINCE_DETAIL, provinceId],
+    queryKey: [API_KEY.PROVINCE_DETAIL, province],
     queryFn: async () => {
-      const response = await ProvincesService.getbyId(Number(provinceId));
+      const response = await ProvincesService.getbyId(Number(province));
       return response;
     },
   });
@@ -21,7 +21,7 @@ function ProvinceDetailPage() {
         onSubmit={() => {}}
         data={data?.data}
         isView={true}
-        title='Province Detail'
+        title="Province Detail"
       />
     </div>
   );

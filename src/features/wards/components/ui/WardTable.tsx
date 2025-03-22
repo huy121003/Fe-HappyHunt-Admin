@@ -79,7 +79,7 @@ const WardTable: React.FC<IWardTableProps> = ({
       width: 200,
       render: (_, record) => (
         <CTableParagraph
-          children={`${record?.districtId?.name} - ${record?.provinceId?.name}`}
+          children={`${record?.district?.name} - ${record?.province?.name}`}
         />
       ),
     },

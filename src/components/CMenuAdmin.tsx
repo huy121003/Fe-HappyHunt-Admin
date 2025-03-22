@@ -64,7 +64,13 @@ const CMenuAdmin: React.FC<CMenuAdminProps> = ({ collapsed }) => {
       '/categories'
     ),
     getItem('Post Management', 'post_management', 'fa-newspaper', undefined, [
-      getItem('All Posts', '/posts', 'fa-file-alt', '/posts'),
+      getItem('Post Selling', '/posts', 'fa-file-alt', '/posts'),
+      getItem(
+        'Post Checking',
+        '/post-checkings',
+        'fa-check-circle',
+        '/post-checkings'
+      ),
       getItem('Post Reports', '/reports/posts', 'fa-flag', '/reports/posts'),
     ]),
     getItem('Banner Management', '/banners', 'fa-image', '/banners'),

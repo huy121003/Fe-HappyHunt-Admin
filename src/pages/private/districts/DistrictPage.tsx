@@ -55,16 +55,19 @@ function DistrictPage() {
     <div className="bg-gray-100">
       <CHeaderCard
         title="District Listing"
-        actions={<CButtonCreateNew 
-          codeName={IPERMISSION_CODE_NAME.DISTRICTS}
-          onClick={() => naviagte('create')} />}
+        actions={
+          <CButtonCreateNew
+            codeName={IPERMISSION_CODE_NAME.DISTRICTS}
+            onClick={() => naviagte('create')}
+          />
+        }
       />
       <Card>
         <FilterLayout>
           <CSearch placeholder="Search District" onInput={handleInputSearch} />
           <SelectProvince
             allowClear
-            value={computtedFilter.provinceId}
+            value={computtedFilter.province}
             placeholder="Filter by Province"
             onChange={handleSelectProvince}
           />

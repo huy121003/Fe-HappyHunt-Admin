@@ -2,11 +2,14 @@ import { CSearch } from '@/components';
 import CHeaderCard from '@/components/CHeaderCard';
 import CSelect from '@/components/CSelect';
 import FilterLayout from '@/components/layouts/FilterLayout';
+import SelectDictrict from '@/features/districts/components/form/SelectDictrict';
+import SelectProvince from '@/features/provinces/components/form/SelectProvince';
 import UserTable from '@/features/users/components/ui/UserTable';
 import { API_KEY } from '@/features/users/data/constant';
 import useUserFilter from '@/features/users/hooks/useUserFilter';
 import useUserState from '@/features/users/hooks/useUserState';
 import UserService from '@/features/users/service';
+import SelectWard from '@/features/wards/components/form/SelectWard';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { Card } from 'antd';
 import { useCallback, useState } from 'react';
@@ -23,6 +26,9 @@ function UserPage() {
     handleInputPhoneNumber,
     handleSelectIsVip,
     handleSelectIsBanned,
+    handleSelectProvince,
+    handleSelectDistrict,
+    handleSelectWard,
   } = useUserFilter();
   const { data, isLoading, isFetched } = useQuery({
     queryKey: [API_KEY.USER, computtedFilter],
@@ -94,6 +100,26 @@ function UserPage() {
               { label: 'Not VIP', value: 'false' },
             ]}
             onChange={handleSelectIsVip}
+          />
+          <SelectProvince
+            allowClear
+            showSearch
+            placeholder="Select province"
+            onChange={handleSelectProvince}
+          />
+          <SelectDictrict
+            allowClear
+            showSearch
+            placeholder="Select district"
+            disabled={!computtedFilter.province}
+            onChange={handleSelectDistrict}
+          />
+          <SelectWard
+            allowClear
+            showSearch
+            placeholder="Select ward"
+            disabled={!computtedFilter.district}
+            onChange={handleSelectWard}
           />
         </FilterLayout>
         <UserTable

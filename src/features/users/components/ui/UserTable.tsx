@@ -110,12 +110,12 @@ const UserTable: React.FC<IUserTableProps> = ({
           children={
             record.address ? (
               <>
-                {record.address.provinceId ? (
+                {record.address.province ? (
                   <>
                     {record.address?.specificAddress},
-                    {record.address?.wardId?.name},
-                    {record.address?.districtId?.name},
-                    {record.address?.provinceId?.name}
+                    {record.address?.ward?.name},
+                    {record.address?.district?.name},
+                    {record.address?.province?.name}
                   </>
                 ) : (
                   'No address'
@@ -166,15 +166,16 @@ const UserTable: React.FC<IUserTableProps> = ({
               setOpenActiveModal && setOpenActiveModal(true);
             }}
           />
-          <CButtonDelete
-            hidden={record.isBanned}
-            codeName={IPERMISSION_CODE_NAME.USERS}
-            onClick={() => {
-              setRecord(record);
-              setOpenModal(true);
-            }}
-            disabled={isLoading}
-          />
+          {!record.isBanned && (
+            <CButtonDelete
+              codeName={IPERMISSION_CODE_NAME.USERS}
+              onClick={() => {
+                setRecord(record);
+                setOpenModal(true);
+              }}
+              disabled={isLoading}
+            />
+          )}
         </Flex>
       ),
     },

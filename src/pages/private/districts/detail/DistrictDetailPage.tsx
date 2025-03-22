@@ -5,11 +5,11 @@ import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 
 function DistrictDetailPage() {
-  const { districtId } = useParams<{ districtId: string }>();
+  const { district } = useParams<{ district: string }>();
   const { data, isLoading } = useQuery({
-    queryKey: [API_KEY.DISTRICT_DETAIL, districtId],
+    queryKey: [API_KEY.DISTRICT_DETAIL, district],
     queryFn: async () => {
-      const response = await DistrictsService.getbyId(Number(districtId));
+      const response = await DistrictsService.getbyId(Number(district));
       return response;
     },
   });

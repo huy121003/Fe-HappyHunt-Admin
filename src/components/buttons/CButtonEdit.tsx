@@ -1,4 +1,4 @@
-import { Button, ButtonProps } from 'antd';
+import { Button, ButtonProps, Tooltip } from 'antd';
 import { EditOutlined } from '@ant-design/icons';
 import useCheckPermission from '@/hooks/useCheckPermission';
 import {
@@ -15,15 +15,18 @@ const CButtonEdit = (props: IButtonProps) => {
   );
 
   return (
-    <Button
-      type="link"
-      size="large"
-      shape="circle"
-      icon={<EditOutlined />}
-      className="  text-green-600"
-      {...props}
-      hidden={!checkpermission}
-    />
+    <Tooltip title="Edit">
+      {' '}
+      <Button
+        type="link"
+        size="large"
+        shape="circle"
+        icon={<EditOutlined />}
+        className="  text-green-600"
+        {...props}
+        hidden={!checkpermission}
+      />
+    </Tooltip>
   );
 };
 

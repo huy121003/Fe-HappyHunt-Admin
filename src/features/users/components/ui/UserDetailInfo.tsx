@@ -2,7 +2,6 @@ import React from 'react';
 import { Card, Avatar, Badge, Tag, Tooltip } from 'antd';
 import { IUser } from '../../data/interface';
 
-
 const user: IUser = {
   name: 'John Doe',
   username: 'johndoe',
@@ -12,9 +11,9 @@ const user: IUser = {
   isBanned: false,
   description: 'A passionate software developer.',
   address: {
-    provinceId: { _id: 1, name: 'California' },
-    districtId: { _id: 2, name: 'Los Angeles' },
-    wardId: { _id: 3, name: 'Hollywood' },
+    province: { _id: 1, name: 'California' },
+    district: { _id: 2, name: 'Los Angeles' },
+    ward: { _id: 3, name: 'Hollywood' },
     specificAddress: '123 Sunset Blvd',
   },
 };
@@ -60,8 +59,8 @@ const UserDetail: React.FC = () => {
             </p>
             <p>
               <strong>Address:</strong> {user.address.specificAddress},{' '}
-              {user.address.wardId.name}, {user.address.districtId.name},{' '}
-              {user.address.provinceId.name}
+              {user.address.ward.name}, {user.address.district.name},{' '}
+              {user.address.province.name}
             </p>
             <p>
               <strong>Description:</strong>{' '}

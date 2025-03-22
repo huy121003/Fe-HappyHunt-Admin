@@ -31,7 +31,7 @@ const DistrictForm: React.FC<DistrictFormProps> = ({
     if (data) {
       form.setFieldsValue({
         ...data,
-        provinceId: data.provinceId?._id,
+        province: data.province?._id,
       });
     }
   }, [data, form]);
@@ -70,13 +70,13 @@ const DistrictForm: React.FC<DistrictFormProps> = ({
           <Form.Item
             className="w-1/2"
             label="Province"
-            name="provinceId"
+            name="province"
             rules={[{ required: true, message: 'Please input province!' }]}
           >
             <SelectProvince
               allowClear
               placeholder="Select Province"
-              defaultSelected={data?.provinceId ? [data.provinceId] : []}
+              defaultSelected={data?.province ? [data.province] : []}
             />
           </Form.Item>
           <Form.Item

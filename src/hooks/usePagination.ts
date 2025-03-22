@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 
-interface IPaginationState {
+export interface IPaginationState {
   current: number;
   pageSize: number;
   total?: number;
