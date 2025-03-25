@@ -39,6 +39,13 @@ const DistrictTable: React.FC<IDistrictTableProps> = ({
       width: 60,
     },
     {
+      title: 'District Id',
+      dataIndex: '_id',
+      key: '_id',
+      width: 100,
+      render: (value: string) => <CTableParagraph children={value} />,
+    },
+    {
       title: 'District Name',
       dataIndex: 'name',
       key: 'name',

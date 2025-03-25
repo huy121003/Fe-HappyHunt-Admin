@@ -1,6 +1,7 @@
 import {
   Button,
   Card,
+  Checkbox,
   Flex,
   Form,
   Radio,
@@ -105,10 +106,11 @@ const CategoryForm: React.FC<ICategoryFormProps> = ({
       attributes: values.attributes?.map((attr) => ({
         ...attr,
         values: attr.type === Type.YEAR ? yearOptions : attr.values,
+        isRequired: attr.isRequired ? true : false,
       })),
       icon: values.image?.[0]?.originFileObj,
     };
-
+    console.log('payload', payload);
     onSubmit(payload);
   };
   return (
@@ -287,6 +289,16 @@ const CategoryForm: React.FC<ICategoryFormProps> = ({
                         </Form.Item>
 
                         {/* Attribute Type */}
+                        <Flex flex={1} gap={10}>
+                          <Form.Item label="Is Filter" />
+                          <Form.Item
+                            valuePropName="checked"
+                            {...restField}
+                            name={[name, 'isFilter']}
+                          >
+                            <Checkbox value={true} />
+                          </Form.Item>
+                        </Flex>
                         <Form.Item
                           {...restField}
                           name={[name, 'type']}
@@ -307,7 +319,6 @@ const CategoryForm: React.FC<ICategoryFormProps> = ({
                             style={{ minWidth: 200 }}
                           />
                         </Form.Item>
-
                         {/* Watch 'type' for conditional rendering */}
                         <Form.Item shouldUpdate>
                           {({ getFieldValue }) => {

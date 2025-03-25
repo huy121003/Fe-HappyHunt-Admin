@@ -7,7 +7,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { updateAccountAction } from '@/redux/slice/SAuthSlice';
 import ProfileForm from '@/features/auth/components/form/ProfileForm';
 function ProfilePage() {
-  const { onSuccess, onError } = useAuthState();
+  const { onSuccess } = useAuthState();
   const dispatch = useAppDispatch();
   const client = useQueryClient();
   const { data, isLoading } = useQuery({
@@ -28,7 +28,6 @@ function ProfilePage() {
         client.invalidateQueries({ queryKey: [API_KEY.GET_ACCOUNT_INFO] });
       });
     },
-    onError,
   });
   const onSubmit = (values: IUpdateProfile) => {
     mutate(values);

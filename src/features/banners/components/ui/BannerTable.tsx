@@ -44,6 +44,13 @@ const BannerTable: React.FC<IBannerTableProps> = ({
       width: 60,
     },
     {
+      title: 'Banner Id',
+      dataIndex: '_id',
+      key: '_id',
+      width: 100,
+      render: (value: string) => <CTableParagraph children={value} />,
+    },
+    {
       title: 'Banner Name',
       dataIndex: 'name',
       key: 'name',

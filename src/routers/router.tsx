@@ -32,15 +32,11 @@ const CategoryUpdatePage = lazy(
 const CategoryDetailPage = lazy(
   () => import('@/pages/private/categories/detail/CategoryDetailPage')
 );
-const PostSettingPage = lazy(
-  () => import('@/pages/private/post-settings/PostSettingPage')
-);
+
 const DashboardPage = lazy(
   () => import('@/pages/private/dashboard/DashBoardPage')
 );
-const VipActivationPage = lazy(
-  () => import('@/pages/private/vip-activations/VipActivationPage')
-);
+
 const RolePage = lazy(() => import('@/pages/private/roles/RolePage'));
 const RoleCreatePage = lazy(
   () => import('@/pages/private/roles/create/RoleCreatePage')
@@ -300,20 +296,7 @@ const router = createBrowserRouter([
           },
         ],
       },
-      {
-        path: 'policies',
-        element: <Outlet />,
-        children: [
-          {
-            path: 'post-settings',
-            element: withSuspense(<PostSettingPage />, <CLoadingPage />),
-          },
-          {
-            path: 'vip',
-            element: withSuspense(<VipActivationPage />, <CLoadingPage />),
-          },
-        ],
-      },
+
       {
         path: 'admin_roles',
         element: <Outlet />,

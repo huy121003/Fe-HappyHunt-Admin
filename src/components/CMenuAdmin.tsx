@@ -95,16 +95,6 @@ const CMenuAdmin: React.FC<CMenuAdminProps> = ({ collapsed }) => {
       ),
       getItem('Wards', '/addresses/wards', 'fa-house-user', '/addresses/wards'),
     ]),
-
-    getItem('System Policies', 'system_policies', 'fa-shield-alt', undefined, [
-      getItem(
-        'Post Settings',
-        '/policies/post-settings',
-        'fa-cogs',
-        '/policies/post-settings'
-      ),
-      getItem('VIP Activation', '/policies/vip', 'fa-crown', '/policies/vip'),
-    ]),
   ];
 
   const findSelectedKey = (path: string): string | undefined => {

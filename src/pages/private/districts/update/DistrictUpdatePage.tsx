@@ -9,7 +9,7 @@ import { useParams } from 'react-router-dom';
 
 function DistrictUpdatePage() {
   const { district } = useParams<{ district: string }>();
-  const { onSuccess, onError } = useDistrictState();
+  const { onSuccess } = useDistrictState();
   const { data, isLoading } = useQuery({
     queryKey: [API_KEY.DISTRICT_DETAIL, district],
     queryFn: async () => {
@@ -25,7 +25,6 @@ function DistrictUpdatePage() {
     onSuccess: () => {
       onSuccess('District updated successfully');
     },
-    onError,
   });
   const onSubmit = useCallback(
     (values: IDistrictPayload) => {

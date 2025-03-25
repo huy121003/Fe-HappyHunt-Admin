@@ -21,7 +21,7 @@ function AdminPage() {
   const naviagte = useNavigate();
   const [openModal, setOpenModal] = useState(false);
   const [openActiveModal, setOpenActiveModal] = useState(false);
-  const { onSuccess, onError } = useAdminState();
+  const { onSuccess } = useAdminState();
   const {
     handleChangePagination,
     handleInputSearch,
@@ -48,7 +48,6 @@ function AdminPage() {
         setOpenModal(false);
       });
     },
-    onError,
   });
   const { mutate: mutateStatus, isPending: isPendingStatus } = useMutation({
     mutationFn: async (record: IAdminItem) => {
@@ -60,7 +59,6 @@ function AdminPage() {
         setOpenActiveModal(false);
       });
     },
-    onError,
   });
   const onDelete = useCallback(
     (record: IAdminItem) => {

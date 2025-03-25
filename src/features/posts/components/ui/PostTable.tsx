@@ -2,14 +2,7 @@ import { ITableProps } from '@/interfaces';
 import React, { useState } from 'react';
 import { IPostItem } from '../../data/interface';
 import { useNavigate } from 'react-router-dom';
-import {
-  Badge,
-  Flex,
-  Image,
-  TableColumnsType,
-  Tag,
-  Typography,
-} from 'antd';
+import { Badge, Flex, Image, TableColumnsType, Tag, Typography } from 'antd';
 import { CDeleteModal, CTable } from '@/components';
 import CTableParagraph from '@/components/CTableParagraph';
 import { dayFormat } from '@/configs/date.';
@@ -45,6 +38,13 @@ const PostTable: React.FC<IPostTableProps> = ({
         <CTableParagraph children={index + 1} />
       ),
       width: 60,
+    },
+    {
+      title: 'Post Id',
+      dataIndex: '_id',
+      key: '_id',
+      width: 100,
+      render: (value: string) => <CTableParagraph children={value} />,
     },
     {
       title: 'Post Name',

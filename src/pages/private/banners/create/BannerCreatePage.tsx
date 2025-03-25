@@ -6,7 +6,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useCallback } from 'react';
 
 function BannerCreatePage() {
-  const { onSuccess, onError } = useBannerState();
+  const { onSuccess } = useBannerState();
   const { mutate, isPending } = useMutation({
     mutationFn: async (data: IBannerPayload) => {
       const response = await BannerService.create(data);
@@ -15,7 +15,7 @@ function BannerCreatePage() {
     onSuccess: () => {
       onSuccess('Banner created successfully');
     },
-    onError,
+
   });
   const onSubmit = useCallback(
     (values: any) => {

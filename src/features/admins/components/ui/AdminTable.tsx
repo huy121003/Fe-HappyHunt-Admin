@@ -40,7 +40,14 @@ const AdminTable: React.FC<IAdminTableProps> = ({
       render: (_: any, __: any, index: number) => (
         <CTableParagraph children={index + 1} />
       ),
+      width: 60,
+    },
+    {
+      title: 'Admin Id',
+      dataIndex: '_id',
+      key: '_id',
       width: 100,
+      render: (value: string) => <CTableParagraph children={value} />,
     },
     {
       title: 'Admin ',

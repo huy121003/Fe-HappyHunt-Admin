@@ -22,6 +22,7 @@ function PostCheckingPage() {
     handleInputSearch,
     pagination,
     computtedFilter,
+    handleStatusChange,
     handleSelectCategoryParent,
   } = usePostFilter();
 
@@ -49,6 +50,7 @@ function PostCheckingPage() {
           />
 
           <CSelect
+            onChange={handleStatusChange}
             placeholder="Select status "
             options={[
               {

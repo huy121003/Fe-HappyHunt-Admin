@@ -1,7 +1,5 @@
 import { postMessageHandler } from '@/components/ToastMessage';
-import { ICommonResponse } from '@/interfaces';
 import { useQueryClient } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 import { API_KEY } from '../data/constant';
 
 const usePostState = () => {
@@ -22,13 +20,7 @@ const usePostState = () => {
       onSuccessCallback();
     }
   };
-  const onError = (error: AxiosError<ICommonResponse<null>>) => {
-    postMessageHandler({
-      type: 'error',
-      text: error.message,
-    });
-  };
 
-  return { onSuccess, onError };
+  return { onSuccess };
 };
 export default usePostState;

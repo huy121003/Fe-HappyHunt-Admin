@@ -8,7 +8,7 @@ import { useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 function ProvinceUpdatePage() {
   const { province } = useParams<{ province: string }>();
-  const { onSuccess, onError } = useProvinceState();
+  const { onSuccess } = useProvinceState();
   const { data, isLoading } = useQuery({
     queryKey: [API_KEY.PROVINCE_DETAIL, province],
     queryFn: async () => {
@@ -24,7 +24,6 @@ function ProvinceUpdatePage() {
     onSuccess: () => {
       onSuccess('Province updated successfully');
     },
-    onError,
   });
   const onSubmit = useCallback(
     (values: any) => {

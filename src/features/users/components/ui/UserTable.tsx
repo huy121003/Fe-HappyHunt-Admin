@@ -42,6 +42,13 @@ const UserTable: React.FC<IUserTableProps> = ({
       width: 60,
     },
     {
+      title: 'User Id',
+      dataIndex: '_id',
+      key: '_id',
+      width: 100,
+      render: (value: string) => <CTableParagraph children={value} />,
+    },
+    {
       title: 'User',
       dataIndex: 'name',
       key: 'name',

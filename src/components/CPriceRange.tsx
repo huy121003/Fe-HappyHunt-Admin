@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { InputNumber, Slider, Flex, Typography, Card } from 'antd';
-import { debounce } from 'lodash';
+import { Slider, Flex, Typography, Card } from 'antd';
 import { DollarOutlined } from '@ant-design/icons';
 
 interface PriceRangeProps {
@@ -34,51 +33,26 @@ const CPriceRange: React.FC<PriceRangeProps> = ({
     setMaxPrice(maxValue);
   }, [maxValue]);
 
-  // Handle min price change
-  const handleMinChange = (value: number | null) => {
-    const newValue = value !== null ? value : undefined;
-    setMinPrice(newValue);
-
-    if (onMinChange) {
-      debouncedMinChange(newValue);
-    }
-  };
-
-  // Handle max price change
-  const handleMaxChange = (value: number | null) => {
-    const newValue = value !== null ? value : undefined;
-    setMaxPrice(newValue);
-
-    if (onMaxChange) {
-      debouncedMaxChange(newValue);
-    }
-  };
-
-  // Debounced callbacks to prevent too many updates
-  const debouncedMinChange = debounce((value: number | undefined) => {
-    if (onMinChange) onMinChange(value);
-  }, 500);
-
-  const debouncedMaxChange = debounce((value: number | undefined) => {
-    if (onMaxChange) onMaxChange(value);
-  }, 500);
-
   // Calculate slider values for display
   const sliderValues: [number, number] = [minPrice ?? min, maxPrice ?? max];
 
-  // Handle slider range change
+  // Handle slider range change during sliding
   const handleSliderChange = (values: [number, number]) => {
     const [newMin, newMax] = values;
     setMinPrice(newMin);
     setMaxPrice(newMax);
+  };
 
-    if (onMinChange) debouncedMinChange(newMin);
-    if (onMaxChange) debouncedMaxChange(newMax);
+  // Handle slider range change after sliding stops
+  const handleAfterChange = (values: [number, number]) => {
+    const [newMin, newMax] = values;
+    if (onMinChange) onMinChange(newMin);
+    if (onMaxChange) onMaxChange(newMax);
   };
 
   return (
     <Card
-      className="price-range-container min-w-[500px]"
+      className="price-range-container "
       size="small"
       bodyStyle={{ padding: 12 }}
     >
@@ -94,6 +68,7 @@ const CPriceRange: React.FC<PriceRangeProps> = ({
           step={step}
           value={sliderValues}
           onChange={handleSliderChange}
+          onAfterChange={handleAfterChange}
           tooltip={{
             formatter: (value) => `${value?.toLocaleString() || 0}`,
           }}
@@ -102,44 +77,6 @@ const CPriceRange: React.FC<PriceRangeProps> = ({
             [max]: `${max.toLocaleString()}`,
           }}
         />
-        <Flex justify="space-between" align="center">
-          <InputNumber
-            size="large"
-            value={minPrice}
-            onChange={handleMinChange}
-            min={min}
-            max={maxPrice || max}
-            step={step}
-            placeholder="Min Price"
-            formatter={(value) =>
-              `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-            }
-            parser={(value) =>
-              value ? Number(value.replace(/\$\s?|(,*)/g, '')) : 0
-            }
-            style={{ width: '48%' }}
-            prefix="From"
-            controls={false}
-          />
-          <InputNumber
-            size="large"
-            value={maxPrice}
-            onChange={handleMaxChange}
-            min={minPrice || min}
-            max={max}
-            step={step}
-            placeholder="Max Price"
-            formatter={(value) =>
-              `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-            }
-            parser={(value) =>
-              value ? Number(value.replace(/\$\s?|(,*)/g, '')) : 0
-            }
-            style={{ width: '48%' }}
-            prefix="To"
-            controls={false}
-          />
-        </Flex>
       </Flex>
     </Card>
   );

@@ -19,7 +19,7 @@ function BannerPage() {
   const naviagte = useNavigate();
   const [openModal, setOpenModal] = useState(false);
   const [openActiveModal, setOpenActiveModal] = useState(false);
-  const { onSuccess, onError } = useBannerState();
+  const { onSuccess } = useBannerState();
   const {
     handleChangePagination,
     handleInputSearch,
@@ -44,7 +44,6 @@ function BannerPage() {
         setOpenModal(false);
       });
     },
-    onError,
   });
   const { mutate: mutateStatus, isPending: isPendingStatus } = useMutation({
     mutationFn: async (record: IBannerItem) => {
@@ -56,7 +55,6 @@ function BannerPage() {
         setOpenActiveModal(false);
       });
     },
-    onError,
   });
   const onDelete = useCallback(
     (record: IBannerItem) => {
@@ -74,9 +72,12 @@ function BannerPage() {
     <div className="bg-gray-100 ">
       <CHeaderCard
         title="Banner Listing"
-        actions={<CButtonCreateNew 
-          codeName={IPERMISSION_CODE_NAME.BANNERS}
-          onClick={() => naviagte('create')} />}
+        actions={
+          <CButtonCreateNew
+            codeName={IPERMISSION_CODE_NAME.BANNERS}
+            onClick={() => naviagte('create')}
+          />
+        }
       />
       <Card>
         <FilterLayout>

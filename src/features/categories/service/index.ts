@@ -56,6 +56,9 @@ class CategoryService {
       false
     );
   };
+  static getChild = (id: number): Promise<ICommonResponse<ICategoryItem[]>> => {
+    return apiRequest(EMethod.GET, `${this.baseUrl}/child/${id}`, false);
+  };
 
   static getAll = (): Promise<ICommonResponse<ICategoryItem[]>> => {
     return apiRequest(EMethod.GET, `${this.baseUrl}`, false);

@@ -18,7 +18,7 @@ import { useNavigate } from 'react-router-dom';
 
 function WardPage() {
   const navigate = useNavigate();
-  const { onSuccess, onError } = useWardState();
+  const { onSuccess } = useWardState();
   const [openModal, setOpenModal] = useState(false);
   const {
     handleChangePagination,
@@ -45,7 +45,6 @@ function WardPage() {
         setOpenModal(false);
       });
     },
-    onError,
   });
   const onDelete = useCallback(
     (record: IWardItem) => {
@@ -70,7 +69,7 @@ function WardPage() {
           <SelectProvince
             value={computtedFilter.province}
             allowClear
-            placeholder="Select Country"
+            placeholder="Select Province"
             onSelect={handleSelectProvince}
           />
           <SelectDictrict

@@ -8,7 +8,7 @@ import { useParams } from 'react-router-dom';
 
 function WardUpdatePage() {
   const { ward } = useParams<{ ward: string }>();
-  const { onSuccess, onError } = useWardState();
+  const { onSuccess } = useWardState();
   const { data, isLoading } = useQuery({
     queryKey: [API_KEY.WARD_DETAIL, ward],
     queryFn: async () => {
@@ -24,7 +24,6 @@ function WardUpdatePage() {
     onSuccess: () => {
       onSuccess('Ward updated successfully');
     },
-    onError,
   });
   const onSubmit = useCallback(
     (values: any) => {

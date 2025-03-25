@@ -9,7 +9,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 function PostUpdateCheckingPage() {
   const { postId } = useParams();
   const navigate = useNavigate();
-  const { onSuccess, onError } = usePostState();
+  const { onSuccess } = usePostState();
   const { data, isLoading, isFetched } = useQuery({
     queryKey: [API_KEY.POST_DETAIL, postId],
     queryFn: async () => {
@@ -30,7 +30,6 @@ function PostUpdateCheckingPage() {
         navigate('/post-checkings');
       });
     },
-    onError,
   });
   const handleUpdatePostStatus = (data: IUpdateStatusChecking) => {
     mutate(data);

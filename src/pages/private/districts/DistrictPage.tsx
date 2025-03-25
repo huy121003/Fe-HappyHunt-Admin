@@ -18,7 +18,7 @@ import { useNavigate } from 'react-router-dom';
 function DistrictPage() {
   const naviagte = useNavigate();
   const [openModal, setOpenModal] = useState(false);
-  const { onSuccess, onError } = useDistrictState();
+  const { onSuccess } = useDistrictState();
   const {
     handleChangePagination,
     handleInputSearch,
@@ -43,7 +43,6 @@ function DistrictPage() {
         setOpenModal(false);
       });
     },
-    onError,
   });
   const onDelete = useCallback(
     (record: IDistrictItem) => {

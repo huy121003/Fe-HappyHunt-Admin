@@ -48,13 +48,12 @@ class PostService {
   };
 
   static getAllPagination = (
-    params: ISearchPost,
-    idUser?: number
+    params: ISearchPost
   ): Promise<IPagedResponse<IPostItem[]>> => {
     const newParams = new URLSearchParams(params as any).toString();
     return apiRequest(
       EMethod.GET,
-      `${PostService.baseUrl}/${idUser}/pagination?${newParams}`,
+      `${PostService.baseUrl}/pagination?${newParams}`,
       false
     );
   };

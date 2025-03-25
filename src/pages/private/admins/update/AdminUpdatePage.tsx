@@ -9,7 +9,7 @@ import { useParams } from 'react-router-dom';
 
 function AdminUpdatePage() {
   const { adminId } = useParams<{ adminId: string }>();
-  const { onSuccess, onError } = useAdminState();
+  const { onSuccess } = useAdminState();
   const { data, isLoading } = useQuery({
     queryKey: [API_KEY.ADMIN_DETAIL, adminId],
     queryFn: async () => {
@@ -25,7 +25,6 @@ function AdminUpdatePage() {
     onSuccess: () => {
       onSuccess('Admin updated successfully');
     },
-    onError,
   });
   const onSubmit = useCallback(
     (values: IAdminPayload) => {

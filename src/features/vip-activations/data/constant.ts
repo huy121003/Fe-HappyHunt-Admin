@@ -1,3 +1,0 @@
-export enum API_KEY {
-  VIP_ACTIVATION = 'VIP_ACTIVATION',
-}

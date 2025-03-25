@@ -1,6 +1,5 @@
 import { postMessageHandler } from '@/components/ToastMessage';
-import { AxiosError } from 'axios';
-import { ICommonResponse } from '@/interfaces';
+
 
 const useAuthState = () => {
   const onSuccess = (
@@ -16,12 +15,7 @@ const useAuthState = () => {
       onSuccessCallback();
     }
   };
-  const onError = (error: AxiosError<ICommonResponse<null>>) => {
-    postMessageHandler({
-      type: 'error',
-      text: error.message,
-    });
-  };
-  return { onSuccess, onError };
+
+  return { onSuccess };
 };
 export default useAuthState;

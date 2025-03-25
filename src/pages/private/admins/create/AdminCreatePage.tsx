@@ -5,7 +5,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useCallback } from 'react';
 
 function AdminCreatePage() {
-  const { onSuccess, onError } = useAdminState();
+  const { onSuccess } = useAdminState();
   const { mutate, isPending } = useMutation({
     mutationFn: async (data: any) => {
       const response = await AdminService.create(data);
@@ -14,7 +14,6 @@ function AdminCreatePage() {
     onSuccess: () => {
       onSuccess('Admin created successfully');
     },
-    onError,
   });
   const onSubmit = useCallback(
     (values: any) => {

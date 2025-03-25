@@ -20,8 +20,6 @@ import { IPostItem } from '@/features/posts/data/interface';
 
 function PostPage() {
   const [openModal, setOpenModal] = useState(false);
-
-  //  const { onSuccess, onError } = usePostState();
   const {
     handleChangePagination,
     handleInputSearch,
@@ -43,7 +41,7 @@ function PostPage() {
       return response.data;
     },
   });
-  const { onSuccess, onError } = usePostState();
+  const { onSuccess } = usePostState();
   const { mutate, isPending } = useMutation({
     mutationFn: async (id: number) => {
       const response = await PostService.remove(id);
@@ -55,7 +53,6 @@ function PostPage() {
         () => setOpenModal(false)
       );
     },
-    onError,
   });
   const onDelete = useCallback(
     (record: IPostItem) => {
@@ -108,10 +105,11 @@ function PostPage() {
             onMinChange={handleMinPriceChange}
             onMaxChange={handleMaxPriceChange}
             min={0}
-            max={10000000000}
+            max={100000000}
             step={100000}
           />
         </FilterLayout>
+
         <PostTable
           data={data?.documentList || []}
           isLoading={isLoading}

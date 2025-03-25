@@ -39,6 +39,13 @@ const RoleTable: React.FC<IRoleTableProps> = ({
       width: 60,
     },
     {
+      title: 'Role Id',
+      dataIndex: '_id',
+      key: '_id',
+      width: 100,
+      render: (value: string) => <CTableParagraph children={value} />,
+    },
+    {
       title: 'Role Name',
       dataIndex: 'name',
       key: 'name',

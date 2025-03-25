@@ -6,6 +6,9 @@ export interface IAttribute {
   name: string;
   type: Type;
   values?: string[];
+  isRequired?: boolean;
+  isFilter?: boolean;
+  isShow?: boolean;
 }
 export interface ICategory {
   _id: number;

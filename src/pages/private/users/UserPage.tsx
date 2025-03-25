@@ -17,7 +17,7 @@ import { useCallback, useState } from 'react';
 function UserPage() {
   const [openModal, setOpenModal] = useState(false);
   const [openActiveModal, setOpenActiveModal] = useState(false);
-  const { onSuccess, onError } = useUserState();
+  const { onSuccess } = useUserState();
   const {
     handleChangePagination,
     handleInputSearch,
@@ -47,7 +47,6 @@ function UserPage() {
         setOpenModal(false);
       });
     },
-    onError,
   });
   const { mutate: mutateStatus, isPending: isPendingStatus } = useMutation({
     mutationFn: async (record: any) => {
@@ -59,7 +58,6 @@ function UserPage() {
         setOpenActiveModal(false);
       });
     },
-    onError,
   });
   const onDelete = useCallback(
     (record: any) => {

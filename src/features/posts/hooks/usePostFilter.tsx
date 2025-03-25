@@ -103,14 +103,6 @@ const usePostFilter = () => {
     setWard(ward);
     handleResetPagination();
   };
-  const handleSelectMinPrice: SearchProps['onInput'] = debounce((event) => {
-    setMinPrice(Number(event.target.value));
-    handleResetPagination();
-  }, 500);
-  const handleSelectMaxPrice: SearchProps['onInput'] = debounce((event) => {
-    setMaxPrice(Number(event.target.value));
-    handleResetPagination();
-  }, 500);
 
   // New handlers for direct number input from CPriceRange
   const handleMinPriceChange = (value: number | undefined) => {
@@ -134,8 +126,6 @@ const usePostFilter = () => {
     handleSelectProvince,
     handleSelectDistrict,
     handleSelectWard,
-    handleSelectMinPrice,
-    handleSelectMaxPrice,
     handleStatusChange,
     handleMinPriceChange,
     handleMaxPriceChange,
