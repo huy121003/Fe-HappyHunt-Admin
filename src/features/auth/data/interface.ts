@@ -17,15 +17,15 @@ export interface ILoginResponse {
   avatar: string;
   isVip: boolean;
   address: {
-    provinceId: {
+    province: {
       _id: number;
       name: string;
     };
-    districtId: {
+    district: {
       _id: number;
       name: string;
     };
-    wardId: {
+    ward: {
       _id: number;
       name: string;
     };
@@ -62,9 +62,9 @@ export interface IUpdateProfile {
   name: string;
   description: string;
   address: {
-    provinceId: number;
-    districtId: number;
-    wardId: number;
+    province: number;
+    district: number;
+    ward: number;
     specificAddress: string;
   };
   avatar: string | UploadFile;

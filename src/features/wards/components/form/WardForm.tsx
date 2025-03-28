@@ -24,7 +24,7 @@ const WardForm: React.FC<WardFormProps> = ({
 }) => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
-  const provinceId = Form.useWatch(['provinceId'], form);
+  const province = Form.useWatch(['province'], form);
   const onCancel = useCallback(() => {
     navigate('/addresses/wards');
   }, [navigate]);
@@ -32,8 +32,8 @@ const WardForm: React.FC<WardFormProps> = ({
     if (data) {
       form.setFieldsValue({
         ...data,
-        districtId: data.districtId?._id,
-        provinceId: data.provinceId?._id,
+        district: data.district?._id,
+        province: data.province?._id,
       });
     }
   }, [data, form]);
@@ -103,7 +103,7 @@ const WardForm: React.FC<WardFormProps> = ({
           </Form.Item>
           <Form.Item
             label="Province Name"
-            name="provinceId"
+            name="province"
             rules={[
               {
                 required: true,
@@ -115,11 +115,11 @@ const WardForm: React.FC<WardFormProps> = ({
             <SelectProvince
               placeholder="Select Province"
               defaultSelected={
-                data?.provinceId
+                data?.province
                   ? [
                       {
-                        _id: data.provinceId._id,
-                        name: data.provinceId.name,
+                        _id: data.province._id,
+                        name: data.province.name,
                       },
                     ]
                   : undefined
@@ -128,21 +128,21 @@ const WardForm: React.FC<WardFormProps> = ({
           </Form.Item>
           <Form.Item
             label="District Name"
-            name="districtId"
+            name="district"
             rules={[
               { required: true, message: 'Please select district name!' },
             ]}
           >
             <SelectDictrict
-              provinceId={provinceId}
-              disabled={!provinceId}
+              province={province}
+              disabled={!province}
               placeholder="Select District"
               defaultSelected={
-                data?.districtId
+                data?.district
                   ? [
                       {
-                        _id: data.districtId._id,
-                        name: data.districtId.name,
+                        _id: data.district._id,
+                        name: data.district.name,
                       },
                     ]
                   : undefined

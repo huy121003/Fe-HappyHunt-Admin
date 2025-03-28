@@ -39,6 +39,13 @@ const DistrictTable: React.FC<IDistrictTableProps> = ({
       width: 60,
     },
     {
+      title: 'District Id',
+      dataIndex: '_id',
+      key: '_id',
+      width: 100,
+      render: (value: string) => <CTableParagraph children={value} />,
+    },
+    {
       title: 'District Name',
       dataIndex: 'name',
       key: 'name',
@@ -71,11 +78,11 @@ const DistrictTable: React.FC<IDistrictTableProps> = ({
 
     {
       title: 'Province Name',
-      dataIndex: 'provinceId',
-      key: 'provinceId',
+      dataIndex: 'province',
+      key: 'province',
       width: 150,
       render: (_: any, record: IDistrictItem) => (
-        <CTableParagraph children={record.provinceId?.name} />
+        <CTableParagraph children={record.province?.name} />
       ),
     },
     {
@@ -103,9 +110,10 @@ const DistrictTable: React.FC<IDistrictTableProps> = ({
       fixed: 'right',
       render: (_: string, record: IDistrictItem) => (
         <Flex>
-          <CButtonEdit 
-          codeName={IPERMISSION_CODE_NAME.DISTRICTS}
-          onClick={() => navigate(`${record._id}/update`)} />
+          <CButtonEdit
+            codeName={IPERMISSION_CODE_NAME.DISTRICTS}
+            onClick={() => navigate(`${record._id}/update`)}
+          />
           <CButtonDelete
             codeName={IPERMISSION_CODE_NAME.DISTRICTS}
             onClick={() => {

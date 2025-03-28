@@ -5,7 +5,7 @@ interface ICTableParagraphProps {
 }
 const CTableParagraph: React.FC<ICTableParagraphProps> = ({ children }) => {
   return (
-    <Typography.Text ellipsis={{ tooltip: true }} style={{ maxWidth: 200 }}>
+    <Typography.Text ellipsis={{ tooltip: true }} style={{ maxWidth: 150 }}>
       {children}
     </Typography.Text>
   );

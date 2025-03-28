@@ -7,7 +7,7 @@ import { useCallback } from 'react';
 import { API_KEY as API_KEY_PERMISSION } from '@/features/permissions/data/constant';
 import PermissionsService from '@/features/permissions/service';
 function RoleCreatePage() {
-  const { onSuccess, onError } = useRoleState();
+  const { onSuccess } = useRoleState();
   const { data, isLoading } = useQuery({
     queryKey: [API_KEY_PERMISSION.PERMISSIONS],
     queryFn: async () => {
@@ -23,7 +23,6 @@ function RoleCreatePage() {
     onSuccess: () => {
       onSuccess('Role created successfully');
     },
-    onError,
   });
   const onSubmit = useCallback(
     (values: IRolePayload) => {

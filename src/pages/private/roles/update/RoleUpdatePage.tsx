@@ -10,7 +10,7 @@ import { API_KEY } from '@/features/roles/data/constant';
 import { useParams } from 'react-router-dom';
 function RoleUpdatePage() {
   const { roleId } = useParams<{ roleId: string }>();
-  const { onSuccess, onError } = useRoleState();
+  const { onSuccess } = useRoleState();
   const { data, isLoading } = useQuery({
     queryKey: [API_KEY_PERMISSION.PERMISSIONS],
     queryFn: async () => {
@@ -33,7 +33,7 @@ function RoleUpdatePage() {
     onSuccess: () => {
       onSuccess('Role created successfully');
     },
-    onError,
+
   });
   const onSubmit = useCallback(
     (values: IRolePayload) => {

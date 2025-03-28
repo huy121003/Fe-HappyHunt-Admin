@@ -18,7 +18,7 @@ import { useNavigate } from 'react-router-dom';
 function ProvincePage() {
   const naviagte = useNavigate();
   const [openModal, setOpenModal] = useState(false);
-  const { onSuccess, onError } = useProvinceState();
+  const { onSuccess } = useProvinceState();
   const {
     handleChangePagination,
     handleInputSearch,
@@ -42,7 +42,6 @@ function ProvincePage() {
         setOpenModal(false);
       });
     },
-    onError,
   });
   const onDelete = useCallback(
     (record: IProvinceItem) => {

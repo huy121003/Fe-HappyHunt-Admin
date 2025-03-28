@@ -26,7 +26,7 @@ export interface ITableProps<T> extends Pick<TableProps<T>, 'onChange'> {
   isLoading?: boolean;
   notFound?: boolean;
   pagination: TablePaginationConfig;
-  onDelete: (someThing: T) => void;
+  onDelete?: (someThing: T) => void;
   onUpdate?: (someThing: T) => void;
   onActive?: (someThing: T) => void;
   onInactive?: (someThing: T) => void;

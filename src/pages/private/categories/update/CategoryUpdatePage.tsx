@@ -9,7 +9,7 @@ import { useParams } from 'react-router-dom';
 
 function CategoryUpdatePage() {
   const { categoryId } = useParams<{ categoryId: string }>();
-  const { onSuccess, onError } = useCategoryState();
+  const { onSuccess } = useCategoryState();
   const { data, isLoading } = useQuery({
     queryKey: [API_KEY.GET_CATEGORY_DETAIL, categoryId],
     queryFn: async () => {
@@ -25,7 +25,6 @@ function CategoryUpdatePage() {
     onSuccess: () => {
       onSuccess('Category updated successfully');
     },
-    onError,
   });
   const onSubmit = (category: ICategoryPayload) => {
     mutate(category);

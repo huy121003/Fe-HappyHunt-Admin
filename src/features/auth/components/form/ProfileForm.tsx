@@ -22,16 +22,16 @@ const ProfileForm: React.FC<IProfileFormProps> = ({
   data,
 }) => {
   const [form] = Form.useForm();
-  const provinceId = Form.useWatch(['provinceId'], form);
-  const districtId = Form.useWatch(['districtId'], form);
-  const wardId = Form.useWatch(['wardId'], form);
+  const province = Form.useWatch(['province'], form);
+  const district = Form.useWatch(['district'], form);
+  const ward = Form.useWatch(['ward'], form);
   useEffect(() => {
     if (data) {
       form.setFieldsValue({
         ...data,
-        provinceId: data.address.provinceId?._id,
-        districtId: data.address.districtId?._id,
-        wardId: data.address.wardId?._id,
+        province: data.address.province?._id,
+        district: data.address.district?._id,
+        ward: data.address.ward?._id,
         specificAddress: data.address.specificAddress,
         avatar: data.avatar
           ? [
@@ -53,9 +53,9 @@ const ProfileForm: React.FC<IProfileFormProps> = ({
       description: values.description,
       ...(values.avatar && { avatar: values.avatar[0].originFileObj }),
       address: {
-        provinceId: values.provinceId,
-        districtId: values.districtId,
-        wardId: values.wardId,
+        province: values.province,
+        district: values.district,
+        ward: values.ward,
         specificAddress: values.specificAddress,
       },
     };
@@ -107,24 +107,24 @@ const ProfileForm: React.FC<IProfileFormProps> = ({
           <Card title="Address" className="mb-4">
             <Form.Item
               label="Province"
-              name="provinceId"
+              name="province"
               rules={[{ required: true, message: 'Please select province!' }]}
             >
               <SelectProvince
                 placeholder="Province"
                 onChange={() => {
                   form.setFieldsValue({
-                    districtId: undefined,
-                    wardId: undefined,
+                    district: undefined,
+                    ward: undefined,
                     specificAddress: undefined,
                   });
                 }}
                 defaultSelected={
-                  data?.address.provinceId
+                  data?.address.province
                     ? [
                         {
-                          _id: data.address.provinceId._id,
-                          name: data.address.provinceId.name,
+                          _id: data.address.province._id,
+                          name: data.address.province.name,
                         },
                       ]
                     : undefined
@@ -132,34 +132,34 @@ const ProfileForm: React.FC<IProfileFormProps> = ({
               />
             </Form.Item>
             <Form.Item
-              name="districtId"
+              name="district"
               label="District"
               rules={[{ required: true, message: 'Please select district!' }]}
             >
               <SelectDictrict
                 onChange={() => {
                   form.setFieldsValue({
-                    wardId: undefined,
+                    ward: undefined,
                     specificAddress: undefined,
                   });
                 }}
                 placeholder="District"
-                provinceId={provinceId}
+                province={province}
                 defaultSelected={
-                  data?.address.districtId
+                  data?.address.district
                     ? [
                         {
-                          _id: data.address.districtId._id,
-                          name: data.address.districtId.name,
+                          _id: data.address.district._id,
+                          name: data.address.district.name,
                         },
                       ]
                     : undefined
                 }
-                disabled={!provinceId}
+                disabled={!province}
               />
             </Form.Item>
             <Form.Item
-              name="wardId"
+              name="ward"
               label="Ward"
               rules={[{ required: true, message: 'Please select ward!' }]}
             >
@@ -170,19 +170,19 @@ const ProfileForm: React.FC<IProfileFormProps> = ({
                     specificAddress: undefined,
                   });
                 }}
-                provinceId={provinceId}
-                districtId={districtId}
+                province={province}
+                district={district}
                 defaultSelected={
-                  data?.address.wardId
+                  data?.address.ward
                     ? [
                         {
-                          _id: data.address.wardId._id,
-                          name: data.address.wardId.name,
+                          _id: data.address.ward._id,
+                          name: data.address.ward.name,
                         },
                       ]
                     : undefined
                 }
-                disabled={!provinceId || !districtId}
+                disabled={!province || !district}
               />
             </Form.Item>
             <Form.Item
@@ -198,7 +198,7 @@ const ProfileForm: React.FC<IProfileFormProps> = ({
             >
               <CInput
                 placeholder="Specific Address"
-                disabled={!provinceId || !districtId || !wardId}
+                disabled={!province || !district || !ward}
               />
             </Form.Item>
           </Card>

@@ -10,6 +10,9 @@ const useUserFilter = () => {
   const [phoneNumber, setPhoneNumber] = useState<string>();
   const [isBanned, setIsBanned] = useState<boolean>();
   const [isVip, setIsVip] = useState<boolean>();
+  const [province, setProvince] = useState<number>();
+  const [district, setDistrict] = useState<number>();
+  const [ward, setWard] = useState<number>();
   const {
     parsedPagination,
     handleChangePagination,
@@ -23,6 +26,9 @@ const useUserFilter = () => {
       ...(phoneNumber && { phoneNumber }),
       ...(isBanned && { isBanned }),
       ...(isVip && { isVip }),
+      ...(province && { province }),
+      ...(district && { district }),
+      ...(ward && { ward }),
     };
     return filters;
   }, [search, parsedPagination]);
@@ -42,7 +48,18 @@ const useUserFilter = () => {
     setIsVip(isVip);
     handleResetPagination();
   };
-
+  const handleSelectProvince = (province: number) => {
+    setProvince(province);
+    handleResetPagination();
+  };
+  const handleSelectDistrict = (district: number) => {
+    setDistrict(district);
+    handleResetPagination();
+  };
+  const handleSelectWard = (ward: number) => {
+    setWard(ward);
+    handleResetPagination();
+  };
   return {
     handleInputSearch,
     pagination,
@@ -52,6 +69,9 @@ const useUserFilter = () => {
     handleInputPhoneNumber,
     handleSelectIsBanned,
     handleSelectIsVip,
+    handleSelectProvince,
+    handleSelectDistrict,
+    handleSelectWard,
   };
 };
 export default useUserFilter;

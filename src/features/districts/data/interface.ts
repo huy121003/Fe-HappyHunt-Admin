@@ -2,7 +2,7 @@ import { ISearchParams } from '@/interfaces';
 
 export interface IDistrict {
   name: string;
-  provinceId: {
+  province: {
     _id: number;
     name: string;
   };
@@ -12,7 +12,7 @@ export interface IDistrict {
 export interface IDistrictItem {
   _id: number;
   name: string;
-  provinceId: {
+  province: {
     _id: number;
     name: string;
   };
@@ -27,11 +27,11 @@ export interface IDistrictItem {
 }
 export interface IDistrictPayload {
   name: string;
-  provinceId: number;
+  province: number;
   codeName: string;
   shortCodeName: string;
 }
 export interface ISearchDistrict extends ISearchParams {
   name?: string;
-  provinceId?: number;
+  province?: number;
 }

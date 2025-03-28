@@ -39,6 +39,13 @@ const WardTable: React.FC<IWardTableProps> = ({
       width: 60,
     },
     {
+      title: 'Ward Id',
+      dataIndex: '_id',
+      key: '_id',
+      width: 100,
+      render: (value: string) => <CTableParagraph children={value} />,
+    },
+    {
       title: 'Ward Name',
       dataIndex: 'name',
       key: 'name',
@@ -79,7 +86,7 @@ const WardTable: React.FC<IWardTableProps> = ({
       width: 200,
       render: (_, record) => (
         <CTableParagraph
-          children={`${record?.districtId?.name} - ${record?.provinceId?.name}`}
+          children={`${record?.district?.name} - ${record?.province?.name}`}
         />
       ),
     },

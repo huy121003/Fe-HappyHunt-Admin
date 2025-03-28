@@ -7,7 +7,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
 function ChangePasswordPage() {
-  const { onSuccess, onError } = useAuthState();
+  const { onSuccess } = useAuthState();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { mutate, isPending } = useMutation({
@@ -27,7 +27,6 @@ function ChangePasswordPage() {
         }
       );
     },
-    onError,
   });
   const onSubmit = (values: any) => {
     mutate(values);

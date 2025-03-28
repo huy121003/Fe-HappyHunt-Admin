@@ -8,7 +8,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useCallback } from 'react';
 
 function CategoryCreatePage() {
-  const { onSuccess, onError } = useCategoryState();
+  const { onSuccess } = useCategoryState();
   const { mutate, isPending } = useMutation({
     mutationFn: async (data: ICategoryPayload) => {
       const response = await CategoryService.create(data);
@@ -17,7 +17,6 @@ function CategoryCreatePage() {
     onSuccess: () => {
       onSuccess('Category created successfully');
     },
-    onError,
   });
 
   const onSubmit = useCallback(

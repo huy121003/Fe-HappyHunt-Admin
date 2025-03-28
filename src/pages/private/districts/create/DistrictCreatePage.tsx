@@ -5,7 +5,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useCallback } from 'react';
 
 function DistrictCreatePage() {
-  const { onSuccess, onError } = useDistrictState();
+  const { onSuccess } = useDistrictState();
   const { mutate, isPending } = useMutation({
     mutationFn: async (data: any) => {
       const response = await DistrictsService.create(data);
@@ -14,7 +14,6 @@ function DistrictCreatePage() {
     onSuccess: () => {
       onSuccess('District created successfully');
     },
-    onError,
   });
   const onSubmit = useCallback(
     (values: any) => {

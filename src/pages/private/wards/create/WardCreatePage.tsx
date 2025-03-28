@@ -5,7 +5,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useCallback } from 'react';
 
 function WardCreatePage() {
-  const { onSuccess, onError } = useWardState();
+  const { onSuccess } = useWardState();
   const { mutate, isPending } = useMutation({
     mutationFn: async (data: any) => {
       const response = await WardService.create(data);
@@ -14,7 +14,7 @@ function WardCreatePage() {
     onSuccess: () => {
       onSuccess('Ward created successfully');
     },
-    onError,
+    
   });
   const onSubmit = useCallback(
     (values: any) => {

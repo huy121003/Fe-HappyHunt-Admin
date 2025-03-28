@@ -7,24 +7,23 @@ import { useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 
 function WardUpdatePage() {
-  const { wardId } = useParams<{ wardId: string }>();
-  const { onSuccess, onError } = useWardState();
+  const { ward } = useParams<{ ward: string }>();
+  const { onSuccess } = useWardState();
   const { data, isLoading } = useQuery({
-    queryKey: [API_KEY.WARD_DETAIL, wardId],
+    queryKey: [API_KEY.WARD_DETAIL, ward],
     queryFn: async () => {
-      const response = await WardService.getById(Number(wardId));
+      const response = await WardService.getById(Number(ward));
       return response;
     },
   });
   const { mutate, isPending } = useMutation({
     mutationFn: async (data: any) => {
-      const response = await WardService.update(Number(wardId), data);
+      const response = await WardService.update(Number(ward), data);
       return response;
     },
     onSuccess: () => {
       onSuccess('Ward updated successfully');
     },
-    onError,
   });
   const onSubmit = useCallback(
     (values: any) => {
@@ -41,7 +40,7 @@ function WardUpdatePage() {
         title="Ward Update"
       />
     </div>
-  )
+  );
 }
 
 export default WardUpdatePage;

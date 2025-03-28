@@ -27,9 +27,10 @@ const CategoryPage: React.FC<IProps> = ({ children }) => {
         title="Category Listing"
         actions={
           <Flex gap={8}>
-            <CButtonCreateNew 
-            codeName={IPERMISSION_CODE_NAME.CATEGORIES}
-            onClick={() => navigate('/categories/create')} />
+            <CButtonCreateNew
+              codeName={IPERMISSION_CODE_NAME.CATEGORIES}
+              onClick={() => navigate('/categories/create')}
+            />
           </Flex>
         }
       />

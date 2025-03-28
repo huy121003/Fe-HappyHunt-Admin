@@ -46,7 +46,7 @@ function CTable<T>(props: CTableProps<T>) {
       }
       showSorterTooltip={false}
       rowKey={rowKey}
-      scroll={{ x: 800, y: 400 }}
+      scroll={{ x: 800 }}
     />
   );
 }

@@ -39,6 +39,13 @@ const ProvinceTable: React.FC<IProvinceTableProps> = ({
       width: 60,
     },
     {
+      title: 'Province Id',
+      dataIndex: '_id',
+      key: '_id',
+      width: 100,
+      render: (value: string) => <CTableParagraph children={value} />,
+    },
+    {
       title: 'Province Name',
       dataIndex: 'name',
       key: 'name',

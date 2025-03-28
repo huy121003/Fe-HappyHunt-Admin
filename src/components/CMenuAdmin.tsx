@@ -64,16 +64,37 @@ const CMenuAdmin: React.FC<CMenuAdminProps> = ({ collapsed }) => {
       '/categories'
     ),
     getItem('Post Management', 'post_management', 'fa-newspaper', undefined, [
-      getItem('All Posts', '/posts', 'fa-file-alt', '/posts'),
+      getItem('Post Selling', '/posts', 'fa-file-alt', '/posts'),
+      getItem(
+        'Post Checking',
+        '/post-checkings',
+        'fa-check-circle',
+        '/post-checkings'
+      ),
       getItem('Post Reports', '/reports/posts', 'fa-flag', '/reports/posts'),
     ]),
     getItem('Banner Management', '/banners', 'fa-image', '/banners'),
-    // getItem(
-    //   'Messages Setting',
-    //   '/message-settings',
-    //   'fa-envelope',
-    //   '/messages-settings'
-    // ),
+
+    getItem(
+      'Payment & Statistic',
+      'payment_statistics',
+      'fa-money-bill-wave',
+      undefined,
+      [
+        getItem(
+          'Payment Management',
+          '/payment_statistics/payments',
+          'fa-money-bill-wave',
+          '/payment_statistics/payments'
+        ),
+        getItem(
+          'Payment Statistic',
+          '/payment_statistics/statistics',
+          'fa-chart-line',
+          '/payment_statistics/statistics'
+        ),
+      ]
+    ),
     getItem('Address Management', 'addresses', 'fa-map-location', undefined, [
       getItem(
         'Provinces',
@@ -88,16 +109,6 @@ const CMenuAdmin: React.FC<CMenuAdminProps> = ({ collapsed }) => {
         '/addresses/districts'
       ),
       getItem('Wards', '/addresses/wards', 'fa-house-user', '/addresses/wards'),
-    ]),
-
-    getItem('System Policies', 'system_policies', 'fa-shield-alt', undefined, [
-      getItem(
-        'Post Settings',
-        '/policies/post-settings',
-        'fa-cogs',
-        '/policies/post-settings'
-      ),
-      getItem('VIP Activation', '/policies/vip', 'fa-crown', '/policies/vip'),
     ]),
   ];
 

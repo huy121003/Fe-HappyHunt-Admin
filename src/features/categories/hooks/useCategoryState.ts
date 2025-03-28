@@ -2,9 +2,6 @@ import { useQueryClient } from '@tanstack/react-query';
 import { API_KEY } from '../data/constant';
 import { useNavigate } from 'react-router-dom';
 import { postMessageHandler } from '@/components/ToastMessage';
-import { AxiosError } from 'axios';
-import { ICommonResponse } from '@/interfaces';
-
 const useCategoryState = () => {
   const client = useQueryClient();
   const navigate = useNavigate();
@@ -26,13 +23,7 @@ const useCategoryState = () => {
       onSuccessCallback();
     }
   };
-  const onError = (error: AxiosError<ICommonResponse<null>>) => {
-    postMessageHandler({
-      type: 'error',
-      text: error.message,
-    });
-  };
-  return { onSuccess, onError };
+  return { onSuccess };
 };
 
 export default useCategoryState;

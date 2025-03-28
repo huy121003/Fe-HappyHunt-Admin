@@ -20,7 +20,7 @@ function CategoryDetailPage() {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const { categoryId } = useParams<{ categoryId: string }>();
-  const { onSuccess, onError } = useCategoryState();
+  const { onSuccess } = useCategoryState();
   const { data, isLoading } = useQuery({
     queryKey: [API_KEY.GET_CATEGORY_DETAIL, categoryId],
     queryFn: async () => {
@@ -36,7 +36,6 @@ function CategoryDetailPage() {
     onSuccess: () => {
       onSuccess('Category deleted successfully');
     },
-    onError,
   });
   const onDelete = useCallback(() => {
     deleteMutation.mutate();

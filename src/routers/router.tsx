@@ -32,15 +32,11 @@ const CategoryUpdatePage = lazy(
 const CategoryDetailPage = lazy(
   () => import('@/pages/private/categories/detail/CategoryDetailPage')
 );
-const PostSettingPage = lazy(
-  () => import('@/pages/private/post-settings/PostSettingPage')
-);
+
 const DashboardPage = lazy(
   () => import('@/pages/private/dashboard/DashBoardPage')
 );
-const VipActivationPage = lazy(
-  () => import('@/pages/private/vip-activations/VipActivationPage')
-);
+
 const RolePage = lazy(() => import('@/pages/private/roles/RolePage'));
 const RoleCreatePage = lazy(
   () => import('@/pages/private/roles/create/RoleCreatePage')
@@ -113,7 +109,24 @@ const UserPage = lazy(() => import('@/pages/private/users/UserPage'));
 const UserDetailPage = lazy(
   () => import('@/pages/private/users/detail/UserDetailPage')
 );
+const PostPage = lazy(() => import('@/pages/private/posts/PostPage'));
 
+const PostDetailPage = lazy(
+  () => import('@/pages/private/posts/detail/PostDetailPage')
+);
+const PostCheckingPage = lazy(
+  () => import('@/pages/private/post-checkings/PostCheckingPage')
+);
+const PostDetailCheckingPage = lazy(
+  () => import('@/pages/private/post-checkings/detail/PostDetailCheckingPage')
+);
+const PostUpdateCheckingPage = lazy(
+  () => import('@/pages/private/post-checkings/update/PostUpdateCheckingPage')
+);
+const PaymentPage = lazy(() => import('@/pages/private/payments/PaymentPage'));
+const PaymentStatisticPage = lazy(
+  () => import('@/pages/private/payment-statistics/PaymentStatisticPage')
+);
 const router = createBrowserRouter([
   {
     path: '*',
@@ -202,16 +215,117 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: 'policies',
+        path: 'posts',
         element: <Outlet />,
         children: [
           {
-            path: 'post-settings',
-            element: withSuspense(<PostSettingPage />, <CLoadingPage />),
+            index: true,
+            element: withSuspense(
+              <PermissionProtectedLayout
+                codeName={IPERMISSION_CODE_NAME.POSTS}
+                type={IPERMISSION_TYPE.VIEW}
+              >
+                <PostPage />
+              </PermissionProtectedLayout>,
+              <CLoadingPage />
+            ),
+          },
+
+          {
+            path: ':postId/detail',
+            element: withSuspense(
+              <PermissionProtectedLayout
+                codeName={IPERMISSION_CODE_NAME.POSTS}
+                type={IPERMISSION_TYPE.VIEW}
+              >
+                <PostDetailPage />
+              </PermissionProtectedLayout>,
+              <CLoadingPage />
+            ),
+          },
+        ],
+      },
+      {
+        path: 'post-checkings',
+        element: <Outlet />,
+        children: [
+          {
+            index: true,
+            element: withSuspense(
+              <PermissionProtectedLayout
+                codeName={IPERMISSION_CODE_NAME.POSTS}
+                type={IPERMISSION_TYPE.VIEW}
+              >
+                <PostCheckingPage />
+              </PermissionProtectedLayout>,
+              <CLoadingPage />
+            ),
           },
           {
-            path: 'vip',
-            element: withSuspense(<VipActivationPage />, <CLoadingPage />),
+            path: ':postId/detail',
+            element: withSuspense(
+              <PermissionProtectedLayout
+                codeName={IPERMISSION_CODE_NAME.POSTS}
+                type={IPERMISSION_TYPE.VIEW}
+              >
+                <PostDetailCheckingPage />
+              </PermissionProtectedLayout>,
+              <CLoadingPage />
+            ),
+          },
+          {
+            path: ':postId/checking',
+            element: withSuspense(
+              <PermissionProtectedLayout
+                codeName={IPERMISSION_CODE_NAME.POSTS}
+                type={IPERMISSION_TYPE.UPDATE}
+              >
+                <PostUpdateCheckingPage />
+              </PermissionProtectedLayout>,
+              <CLoadingPage />
+            ),
+          },
+          {
+            path: ':postId/update',
+            element: withSuspense(
+              <PermissionProtectedLayout
+                codeName={IPERMISSION_CODE_NAME.POSTS}
+                type={IPERMISSION_TYPE.UPDATE}
+              >
+                <PostUpdateCheckingPage />
+              </PermissionProtectedLayout>,
+              <CLoadingPage />
+            ),
+          },
+        ],
+      },
+      {
+        path: 'payment_statistics',
+        element: <Outlet />,
+        children: [
+          {
+            path: 'payments',
+            element: withSuspense(
+              <PermissionProtectedLayout
+                codeName={IPERMISSION_CODE_NAME.PAYMENTS}
+                type={IPERMISSION_TYPE.VIEW}
+              >
+                <PaymentPage />
+              </PermissionProtectedLayout>,
+              <CLoadingPage />
+            ),
+          },
+          {
+            path: 'statistics',
+            element: withSuspense(
+              <PermissionProtectedLayout
+                codeName={IPERMISSION_CODE_NAME.PAYMENTS}
+                type={IPERMISSION_TYPE.VIEW}
+              >
+                <PaymentStatisticPage />
+              </PermissionProtectedLayout>,
+              <CLoadingPage />
+            ),
           },
         ],
       },
@@ -363,7 +477,7 @@ const router = createBrowserRouter([
                 ),
               },
               {
-                path: ':provinceId/update',
+                path: ':province/update',
                 element: withSuspense(
                   <PermissionProtectedLayout
                     codeName={IPERMISSION_CODE_NAME.PROVINCES}
@@ -375,7 +489,7 @@ const router = createBrowserRouter([
                 ),
               },
               {
-                path: ':provinceId/detail',
+                path: ':province/detail',
                 element: withSuspense(
                   <PermissionProtectedLayout
                     codeName={IPERMISSION_CODE_NAME.PROVINCES}
@@ -417,7 +531,7 @@ const router = createBrowserRouter([
                 ),
               },
               {
-                path: ':districtId/update',
+                path: ':district/update',
                 element: withSuspense(
                   <PermissionProtectedLayout
                     codeName={IPERMISSION_CODE_NAME.DISTRICTS}
@@ -429,7 +543,7 @@ const router = createBrowserRouter([
                 ),
               },
               {
-                path: ':districtId/detail',
+                path: ':district/detail',
                 element: withSuspense(
                   <PermissionProtectedLayout
                     codeName={IPERMISSION_CODE_NAME.DISTRICTS}
@@ -471,7 +585,7 @@ const router = createBrowserRouter([
                 ),
               },
               {
-                path: ':wardId/update',
+                path: ':ward/update',
                 element: withSuspense(
                   <PermissionProtectedLayout
                     codeName={IPERMISSION_CODE_NAME.WARDS}
@@ -483,7 +597,7 @@ const router = createBrowserRouter([
                 ),
               },
               {
-                path: ':wardId/detail',
+                path: ':ward/detail',
                 element: withSuspense(
                   <PermissionProtectedLayout
                     codeName={IPERMISSION_CODE_NAME.WARDS}

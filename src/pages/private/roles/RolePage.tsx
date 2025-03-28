@@ -18,7 +18,7 @@ import { useNavigate } from 'react-router-dom';
 function RolePage() {
   const naviagte = useNavigate();
   const [openModal, setOpenModal] = useState(false);
-  const { onSuccess, onError } = useRoleState();
+  const { onSuccess } = useRoleState();
   const {
     handleChangePagination,
     handleInputSearch,
@@ -42,7 +42,6 @@ function RolePage() {
         setOpenModal(false);
       });
     },
-    onError,
   });
 
   const onDelete = useCallback(

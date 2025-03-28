@@ -9,7 +9,7 @@ import { useParams } from 'react-router-dom';
 
 function BannerUpdatePage() {
   const { bannerId } = useParams<{ bannerId: string }>();
-  const { onSuccess, onError } = useBannerState();
+  const { onSuccess } = useBannerState();
   const { data, isLoading } = useQuery({
     queryKey: [API_KEY.BANNER_DETAIL, bannerId],
     queryFn: async () => {
@@ -25,7 +25,6 @@ function BannerUpdatePage() {
     onSuccess: () => {
       onSuccess('Banner updated successfully');
     },
-    onError,
   });
   const onSubmit = useCallback(
     (values: IBannerPayload) => {

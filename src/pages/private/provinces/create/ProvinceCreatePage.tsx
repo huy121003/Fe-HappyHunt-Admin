@@ -7,7 +7,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useCallback } from 'react';
 
 function ProvinceCreatePage() {
-  const { onSuccess, onError } = useProvinceState();
+  const { onSuccess } = useProvinceState();
   const { mutate, isPending } = useMutation({
     mutationFn: async (data: IProvincePayload) => {
       const response = await ProvincesService.create(data);
@@ -16,7 +16,6 @@ function ProvinceCreatePage() {
     onSuccess: () => {
       onSuccess('Province created successfully');
     },
-    onError,
   });
   const onSubmit = useCallback(
     (values: IProvincePayload) => {
