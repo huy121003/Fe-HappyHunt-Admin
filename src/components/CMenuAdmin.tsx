@@ -74,12 +74,27 @@ const CMenuAdmin: React.FC<CMenuAdminProps> = ({ collapsed }) => {
       getItem('Post Reports', '/reports/posts', 'fa-flag', '/reports/posts'),
     ]),
     getItem('Banner Management', '/banners', 'fa-image', '/banners'),
-    // getItem(
-    //   'Messages Setting',
-    //   '/message-settings',
-    //   'fa-envelope',
-    //   '/messages-settings'
-    // ),
+
+    getItem(
+      'Payment & Statistic',
+      'payment_statistics',
+      'fa-money-bill-wave',
+      undefined,
+      [
+        getItem(
+          'Payment Management',
+          '/payment_statistics/payments',
+          'fa-money-bill-wave',
+          '/payment_statistics/payments'
+        ),
+        getItem(
+          'Payment Statistic',
+          '/payment_statistics/statistics',
+          'fa-chart-line',
+          '/payment_statistics/statistics'
+        ),
+      ]
+    ),
     getItem('Address Management', 'addresses', 'fa-map-location', undefined, [
       getItem(
         'Provinces',

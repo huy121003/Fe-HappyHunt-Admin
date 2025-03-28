@@ -123,7 +123,10 @@ const PostDetailCheckingPage = lazy(
 const PostUpdateCheckingPage = lazy(
   () => import('@/pages/private/post-checkings/update/PostUpdateCheckingPage')
 );
-
+const PaymentPage = lazy(() => import('@/pages/private/payments/PaymentPage'));
+const PaymentStatisticPage = lazy(
+  () => import('@/pages/private/payment-statistics/PaymentStatisticPage')
+);
 const router = createBrowserRouter([
   {
     path: '*',
@@ -296,7 +299,36 @@ const router = createBrowserRouter([
           },
         ],
       },
-
+      {
+        path: 'payment_statistics',
+        element: <Outlet />,
+        children: [
+          {
+            path: 'payments',
+            element: withSuspense(
+              <PermissionProtectedLayout
+                codeName={IPERMISSION_CODE_NAME.PAYMENTS}
+                type={IPERMISSION_TYPE.VIEW}
+              >
+                <PaymentPage />
+              </PermissionProtectedLayout>,
+              <CLoadingPage />
+            ),
+          },
+          {
+            path: 'statistics',
+            element: withSuspense(
+              <PermissionProtectedLayout
+                codeName={IPERMISSION_CODE_NAME.PAYMENTS}
+                type={IPERMISSION_TYPE.VIEW}
+              >
+                <PaymentStatisticPage />
+              </PermissionProtectedLayout>,
+              <CLoadingPage />
+            ),
+          },
+        ],
+      },
       {
         path: 'admin_roles',
         element: <Outlet />,

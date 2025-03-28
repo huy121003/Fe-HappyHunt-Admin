@@ -28,4 +28,5 @@ export enum IPERMISSION_CODE_NAME {
   MESSAGES = 'messages',
   POST_SETTINGS = 'post_settings',
   USER_SETTINGS = 'user_settings',
+  PAYMENTS = 'payments',
 }
