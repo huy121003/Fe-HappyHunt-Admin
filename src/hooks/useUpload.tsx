@@ -1,7 +1,6 @@
 import { FormInstance, Image, Upload } from 'antd';
 import { useMemo, useState } from 'react';
 import { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
-
 import { postMessageHandler } from '@/components/ToastMessage';
 
 export const isFileSizeValid = (file: File, maxSizeInMB: number): boolean => {
@@ -35,6 +34,22 @@ export const isFileAllowed = (
     return false;
   });
 };
+
+const isDuplicateImage = (
+  file: RcFile,
+  currentFileList: UploadFile[]
+): boolean => {
+  return currentFileList.some((existingFile) => {
+    if (existingFile.originFileObj) {
+      return (
+        existingFile.originFileObj.name === file.name &&
+        existingFile.originFileObj.size === file.size
+      );
+    }
+    return false;
+  });
+};
+
 const useUpload = (form: FormInstance) => {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [previewOpen, setPreviewOpen] = useState(false);
@@ -43,6 +58,7 @@ const useUpload = (form: FormInstance) => {
   const onChange = ({ fileList }) => {
     const updatedFileList = fileList.map((file) => ({
       ...file,
+      status: 'wait',
       originFileObj: file.originFileObj || file, // Lấy file đã cắt
       url: file.url || URL.createObjectURL(file.originFileObj || file), // Hiển thị ảnh đã cắt
     }));
@@ -58,6 +74,7 @@ const useUpload = (form: FormInstance) => {
     return (file: RcFile) => {
       const isAcceptedType = isFileAllowed(file, accept);
       const isAcceptedSize = isFileSizeValid(file, size);
+      const isDuplicate = isDuplicateImage(file, fileList);
 
       if (!isAcceptedType) {
         postMessageHandler({
@@ -75,10 +92,29 @@ const useUpload = (form: FormInstance) => {
         return Upload.LIST_IGNORE;
       }
 
-      return true;
+      if (isDuplicate) {
+        postMessageHandler({
+          type: 'error',
+          text: 'This image has already been uploaded',
+        });
+        return Upload.LIST_IGNORE;
+      }
+
+      return true; //  Allow the file to be uploaded
     };
   };
+  const handlePreview: UploadProps['onPreview'] = async (file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file.originFileObj as RcFile);
+        reader.onload = () => resolve(reader.result as string | undefined);
+      });
+    }
 
+    setPreviewImage(file.url || (file.preview as string));
+    setPreviewOpen(true);
+  };
   const PreviewPlaceholder = useMemo(() => {
     return (
       previewImage && (
@@ -101,6 +137,7 @@ const useUpload = (form: FormInstance) => {
     fileList,
     onChange,
     setFileList,
+    handlePreview,
   };
 };
 

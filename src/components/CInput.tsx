@@ -1,6 +1,6 @@
 import { Input, InputProps } from 'antd';
 
-const CInput = ({ maxLength = 255, onInput, ...rest }: InputProps) => {
+const CInput = ({ maxLength = 20, onInput, ...rest }: InputProps) => {
   const handleInput: InputProps['onInput'] = (e) => {
     const target = e.target as HTMLInputElement;
 
@@ -15,7 +15,14 @@ const CInput = ({ maxLength = 255, onInput, ...rest }: InputProps) => {
   };
 
   return (
-    <Input maxLength={maxLength} size="large" onInput={handleInput} {...rest} />
+    <Input
+      maxLength={maxLength}
+      showCount
+      
+      size="large"
+      onInput={handleInput}
+      {...rest}
+    />
   );
 };
 

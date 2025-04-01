@@ -2,7 +2,7 @@ import { Input } from 'antd';
 import { TextAreaProps } from 'antd/es/input';
 
 const CTextArea = ({
-  maxLength = 2000,
+  maxLength = 100,
   autoSize = { minRows: 3, maxRows: 10 },
   onInput,
   ...rest
@@ -25,6 +25,7 @@ const CTextArea = ({
       {...rest}
       maxLength={maxLength}
       autoSize={autoSize}
+      showCount
       size="large"
       className="w-full"
       onInput={handleInput}

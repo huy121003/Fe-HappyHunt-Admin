@@ -6,6 +6,8 @@ import CHeaderForm from '@/components/CHeaderForm';
 import CInput from '@/components/CInput';
 import SelectRole from '@/features/roles/components/form/SelectRole';
 import { UploadOutlined } from '@ant-design/icons';
+import useUpload from '@/hooks/useUpload';
+import ImgCrop from 'antd-img-crop';
 
 interface AdminFormProps {
   loading: boolean;
@@ -27,25 +29,31 @@ const AdminForm: React.FC<AdminFormProps> = ({
   isEdit,
 }) => {
   const [form] = Form.useForm();
+  const {
+    handleBeforeUpload,
+    handlePreview,
+    onChange,
+    fileList,
+    setFileList,
+    PreviewPlaceholder,
+  } = useUpload(form);
   const navigate = useNavigate();
   const onCancel = useCallback(() => {
     navigate('/admin_roles/admins');
   }, [navigate]);
   useEffect(() => {
     if (data) {
+      setFileList([
+        {
+          uid: `${Date.now()}`,
+          name: 'image.png',
+          status: 'done',
+          url: data.avatar,
+        },
+      ]);
       form.setFieldsValue({
         ...data,
         role: data.role?._id,
-        avatar: data.avatar
-          ? [
-              {
-                uid: `${Date.now()}`,
-                name: 'image.png',
-                status: 'done',
-                url: data.avatar,
-              },
-            ]
-          : undefined,
       });
     }
   }, [data, form]);
@@ -53,7 +61,7 @@ const AdminForm: React.FC<AdminFormProps> = ({
     const values = await form.validateFields();
     const payload: IAdminPayload = {
       ...values,
-      ...(values.avatar && { avatar: values.avatar[0].originFileObj }),
+      avatar: fileList[0]?.originFileObj,
     };
     onSubmit(payload);
   };
@@ -87,17 +95,22 @@ const AdminForm: React.FC<AdminFormProps> = ({
             name="avatar"
             valuePropName="fileList"
             getValueFromEvent={(e) => e.fileList}
+            rules={[{ required: true, message: 'Please upload an image!' }]}
           >
-            <Upload
-              multiple={false}
-              listType="picture-circle"
-              maxCount={1}
-              beforeUpload={() => false}
-              onPreview={() => {}}
-              accept=".png,.jpg,.jpeg"
-            >
-              <Button icon={<UploadOutlined />} type="dashed" />
-            </Upload>
+            <ImgCrop rotationSlider>
+              <Upload
+                multiple={false}
+                listType="picture-circle"
+                maxCount={1}
+                beforeUpload={handleBeforeUpload('.png,.jpg,.jpeg')}
+                onPreview={handlePreview}
+                accept=".png,.jpg,.jpeg"
+                onChange={onChange}
+                fileList={fileList}
+              >
+                <Button icon={<UploadOutlined />} type="dashed" />
+              </Upload>
+            </ImgCrop>
           </Form.Item>
           <Form.Item
             label="Username"
@@ -156,6 +169,7 @@ const AdminForm: React.FC<AdminFormProps> = ({
             />
           </Form.Item>
         </Form>
+        {PreviewPlaceholder}
       </Card>
     </Spin>
   );

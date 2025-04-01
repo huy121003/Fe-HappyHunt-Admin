@@ -9,6 +9,8 @@ import CTextArea from '@/components/CTextArea';
 import SelectProvince from '@/features/provinces/components/form/SelectProvince';
 import SelectDictrict from '@/features/districts/components/form/SelectDictrict';
 import SelectWard from '@/features/wards/components/form/SelectWard';
+import useUpload from '@/hooks/useUpload';
+import ImgCrop from 'antd-img-crop';
 interface IProfileFormProps {
   onSubmit: (values: IUpdateProfile) => void;
   loading?: boolean;
@@ -25,24 +27,30 @@ const ProfileForm: React.FC<IProfileFormProps> = ({
   const province = Form.useWatch(['province'], form);
   const district = Form.useWatch(['district'], form);
   const ward = Form.useWatch(['ward'], form);
+  const {
+    handleBeforeUpload,
+    handlePreview,
+    PreviewPlaceholder,
+    fileList,
+    setFileList,
+    onChange,
+  } = useUpload(form);
   useEffect(() => {
     if (data) {
+      setFileList([
+        {
+          uid: `${Date.now()}`,
+          name: 'image.png',
+          status: 'done',
+          url: data.avatar,
+        },
+      ]);
       form.setFieldsValue({
         ...data,
         province: data.address.province?._id,
         district: data.address.district?._id,
         ward: data.address.ward?._id,
         specificAddress: data.address.specificAddress,
-        avatar: data.avatar
-          ? [
-              {
-                uid: `${Date.now()}`,
-                name: 'image.png',
-                status: 'done',
-                url: data.avatar,
-              },
-            ]
-          : undefined,
       });
     }
   }, [data, form]);
@@ -51,7 +59,7 @@ const ProfileForm: React.FC<IProfileFormProps> = ({
     const payload: IUpdateProfile = {
       name: values.name,
       description: values.description,
-      ...(values.avatar && { avatar: values.avatar[0].originFileObj }),
+      avatar: fileList[0]?.originFileObj || '',
       address: {
         province: values.province,
         district: values.district,
@@ -79,17 +87,22 @@ const ProfileForm: React.FC<IProfileFormProps> = ({
             name="avatar"
             valuePropName="fileList"
             getValueFromEvent={(e) => e.fileList}
+            rules={[{ required: true, message: 'Please upload an image!' }]}
           >
-            <Upload
-              multiple={false}
-              listType="picture-circle"
-              maxCount={1}
-              beforeUpload={() => false}
-              onPreview={() => {}}
-              accept=".png,.jpg,.jpeg"
-            >
-              <Button icon={<UploadOutlined />} type="dashed" />
-            </Upload>
+            <ImgCrop rotationSlider>
+              <Upload
+                multiple={false}
+                listType="picture-circle"
+                maxCount={1}
+                beforeUpload={handleBeforeUpload('.png,.jpg,.jpeg')}
+                onPreview={handlePreview}
+                accept=".png,.jpg,.jpeg"
+                onChange={onChange}
+                fileList={fileList}
+              >
+                <Button icon={<UploadOutlined />} type="dashed" />
+              </Upload>
+            </ImgCrop>
           </Form.Item>
           <Form.Item
             label="Full Name"
@@ -207,6 +220,7 @@ const ProfileForm: React.FC<IProfileFormProps> = ({
             <CTextArea placeholder="Description" />
           </Form.Item>
         </Form>
+        {PreviewPlaceholder}
       </Card>
     </Spin>
   );

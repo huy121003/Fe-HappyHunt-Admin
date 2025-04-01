@@ -50,8 +50,14 @@ const CategoryForm: React.FC<ICategoryFormProps> = ({
   isView,
 }) => {
   const [form] = Form.useForm();
-  const { fileList, setFileList, onChange, handleBeforeUpload } =
-    useUpload(form);
+  const {
+    fileList,
+    setFileList,
+    onChange,
+    handleBeforeUpload,
+    handlePreview,
+    PreviewPlaceholder,
+  } = useUpload(form);
   const navigate = useNavigate();
   const onCancel = useCallback(() => {
     navigate('/categories');
@@ -74,16 +80,7 @@ const CategoryForm: React.FC<ICategoryFormProps> = ({
       );
       form.setFieldsValue({
         ...data,
-        image: data.icon
-          ? [
-              {
-                uid: `${Date.now()}`,
-                name: 'image.png',
-                status: 'done',
-                url: data.icon,
-              },
-            ]
-          : undefined,
+
         parent: data.parent?._id,
         keywords: data.keywords,
       });
@@ -223,7 +220,7 @@ const CategoryForm: React.FC<ICategoryFormProps> = ({
             valuePropName="fileList"
             getValueFromEvent={(e) => e?.fileList || []}
           >
-            <ImgCrop rotationSlider aspect={1 / 1}>
+            <ImgCrop rotationSlider>
               <Upload
                 accept=".png,.jpg,.jpeg"
                 listType="picture-card"
@@ -231,6 +228,7 @@ const CategoryForm: React.FC<ICategoryFormProps> = ({
                 maxCount={1}
                 multiple={false}
                 onChange={onChange}
+                onPreview={handlePreview}
                 beforeUpload={handleBeforeUpload('.png,.jpg,.jpeg')}
               >
                 {fileList.length < 1 && (
@@ -382,6 +380,7 @@ const CategoryForm: React.FC<ICategoryFormProps> = ({
             )}
           </Form.List>
         </Form>
+        {PreviewPlaceholder}
       </Card>
     </Spin>
   );
