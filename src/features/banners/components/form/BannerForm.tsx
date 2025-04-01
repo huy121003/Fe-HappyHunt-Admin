@@ -6,7 +6,6 @@ import CHeaderForm from '@/components/CHeaderForm';
 import CInput from '@/components/CInput';
 import CTextArea from '@/components/CTextArea';
 import { UploadOutlined } from '@ant-design/icons';
-import useBeforeUpload from '@/hooks/useBeforeUpload';
 import useUpload from '@/hooks/useUpload';
 import ImgCrop from 'antd-img-crop';
 
