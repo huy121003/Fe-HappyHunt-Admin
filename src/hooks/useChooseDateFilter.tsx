@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
-import { ISearchPayemtStatistic } from '../data/interface';
+import { ISearchPayemtStatistic } from '../features/payment-statistics/data/interface';
 
-const usePaymentStatistic = () => {
+const useChooseDateFilter = () => {
   const [type, setType] = useState<string>('ALL');
   const [start, setStart] = useState<Date>();
   const [end, setEnd] = useState<Date>();
@@ -37,4 +37,4 @@ const usePaymentStatistic = () => {
     end,
   };
 };
-export default usePaymentStatistic;
+export default useChooseDateFilter;

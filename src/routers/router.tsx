@@ -127,6 +127,12 @@ const PaymentPage = lazy(() => import('@/pages/private/payments/PaymentPage'));
 const PaymentStatisticPage = lazy(
   () => import('@/pages/private/payment-statistics/PaymentStatisticPage')
 );
+const UserStatisticPage = lazy(
+  () => import('@/pages/private/user-statistics/UserStatisticPage')
+);
+const PostStatisticPage = lazy(
+  () => import('@/pages/private/post-statistics/PostStatisticPage')
+);
 const router = createBrowserRouter([
   {
     path: '*',
@@ -244,6 +250,18 @@ const router = createBrowserRouter([
             ),
           },
         ],
+      },
+      {
+        path: 'post-statistics',
+        element: withSuspense(
+          <PermissionProtectedLayout
+            codeName={IPERMISSION_CODE_NAME.POSTS}
+            type={IPERMISSION_TYPE.VIEW}
+          >
+            <PostStatisticPage />
+          </PermissionProtectedLayout>,
+          <CLoadingPage />
+        ),
       },
       {
         path: 'post-checkings',
@@ -707,6 +725,18 @@ const router = createBrowserRouter([
                 ),
               },
             ],
+          },
+          {
+            path: 'statistics',
+            element: withSuspense(
+              <PermissionProtectedLayout
+                codeName={IPERMISSION_CODE_NAME.USERS}
+                type={IPERMISSION_TYPE.VIEW}
+              >
+                <UserStatisticPage />
+              </PermissionProtectedLayout>,
+              <CLoadingPage />
+            ),
           },
           {
             path: 'reports',

@@ -57,6 +57,7 @@ const PostTable: React.FC<IPostTableProps> = ({
             <Badge count={record.images.length}>
               <Image
                 height={60}
+                width={60}
                 src={record.images[0].url}
                 className="rounded-md"
               />

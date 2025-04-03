@@ -51,6 +51,12 @@ const CMenuAdmin: React.FC<CMenuAdminProps> = ({ collapsed }) => {
         '/user_reports/users'
       ),
       getItem(
+        'New User Statistic',
+        '/user_reports/statistics',
+        'fa-chart-pie',
+        '/user_reports/statistics'
+      ),
+      getItem(
         'Reported Users',
         '/user_reports/reports',
         'fa-flag',
@@ -65,6 +71,12 @@ const CMenuAdmin: React.FC<CMenuAdminProps> = ({ collapsed }) => {
     ),
     getItem('Post Management', 'post_management', 'fa-newspaper', undefined, [
       getItem('Post Selling', '/posts', 'fa-file-alt', '/posts'),
+      getItem(
+        'New Post Statistic',
+        '/post-statistics',
+        'fa-chart-pie',
+        '/post-statistics'
+      ),
       getItem(
         'Post Checking',
         '/post-checkings',

@@ -1,0 +1,3 @@
+export const API_KEY = {
+  POST_STATISTICS: 'POST_STATISTICS',
+};
