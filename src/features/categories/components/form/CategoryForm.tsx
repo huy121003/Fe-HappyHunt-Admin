@@ -1,13 +1,11 @@
 import {
   Button,
   Card,
-  Checkbox,
   Flex,
   Form,
   Radio,
   Select,
   Spin,
-  Typography,
   Upload,
   UploadFile,
 } from 'antd';
@@ -18,16 +16,12 @@ import { ICategory, ICategoryPayload } from '../../data/interface';
 import CHeaderForm from '@/components/CHeaderForm';
 import CInput from '@/components/CInput';
 import CTextArea from '@/components/CTextArea';
-import {
-  DeleteOutlined,
-  PlusOutlined,
-  UploadOutlined,
-} from '@ant-design/icons';
-import CButton from '@/components/buttons/CButton';
+import { UploadOutlined } from '@ant-design/icons';
 import SelectCategoryParent from './SelectCategoryParent';
 import useUpload from '@/hooks/useUpload';
-import CSelect from '@/components/CSelect';
 import { Type } from '../../data/constant';
+import AttributeForm from './AttributeForm';
+import MessageForm from './MessageForm';
 
 interface ICategoryFormProps {
   onSubmit: (values: ICategoryPayload, id?: number) => void;
@@ -63,7 +57,6 @@ const CategoryForm: React.FC<ICategoryFormProps> = ({
     navigate('/categories');
   }, [navigate]);
   const isPayment = Form.useWatch(['isPayment'], form);
-
   useEffect(() => {
     if (data) {
       setFileList(
@@ -97,13 +90,16 @@ const CategoryForm: React.FC<ICategoryFormProps> = ({
       ...Array.from({ length: currentYear - 1979 }, (_, i) => currentYear - i),
       'Before 1980',
     ];
-    console.log('ddedew', isPayment);
     const payload: ICategoryPayload = {
       ...values,
       attributes: values.attributes?.map((attr) => ({
         ...attr,
         values: attr.type === Type.YEAR ? yearOptions : attr.values,
         isRequired: attr.isRequired ? true : false,
+      })),
+      messages: values.messages?.map((message) => ({
+        messageSeller: message.messageSeller,
+        messageBuyer: message.messageBuyer,
       })),
       icon: values.image?.[0]?.originFileObj,
     };
@@ -251,134 +247,8 @@ const CategoryForm: React.FC<ICategoryFormProps> = ({
             <Select mode="tags" placeholder="Input category keywords" />
           </Form.Item>
 
-          <Typography.Title level={5}>Attributes</Typography.Title>
-          <Form.List
-            name="attributes"
-            initialValue={[
-              {
-                name: '',
-                values: [],
-              },
-            ]}
-          >
-            {(fields, { add, remove }) => (
-              <div className="bg-gray-100 p-4 rounded-md">
-                {fields.map(({ key, name, ...restField }) => {
-                  return (
-                    <Flex
-                      key={key}
-                      className="bg-white p-4 rounded-lg shadow mb-2"
-                    >
-                      <Flex className="flex-1" vertical gap={8}>
-                        {/* Attribute Name */}
-                        <Form.Item
-                          {...restField}
-                          name={[name, 'name']}
-                          label="Attribute Name"
-                          rules={[
-                            {
-                              required: true,
-                              whitespace: true,
-                              message: 'Please input attribute name!',
-                            },
-                          ]}
-                        >
-                          <CInput placeholder="Input attribute name" />
-                        </Form.Item>
-
-                        {/* Attribute Type */}
-                        <Flex flex={1} gap={10}>
-                          <Form.Item label="Is Filter" />
-                          <Form.Item
-                            valuePropName="checked"
-                            {...restField}
-                            name={[name, 'isFilter']}
-                          >
-                            <Checkbox value={true} />
-                          </Form.Item>
-                        </Flex>
-                        <Form.Item
-                          {...restField}
-                          name={[name, 'type']}
-                          label="Attribute Type"
-                          rules={[
-                            {
-                              required: true,
-                              message: 'Please select attribute type!',
-                            },
-                          ]}
-                        >
-                          <CSelect
-                            options={Object.values(Type).map((type) => ({
-                              label: type,
-                              value: type,
-                            }))}
-                            placeholder="Please select attribute type"
-                            style={{ minWidth: 200 }}
-                          />
-                        </Form.Item>
-                        {/* Watch 'type' for conditional rendering */}
-                        <Form.Item shouldUpdate>
-                          {({ getFieldValue }) => {
-                            const type = getFieldValue([
-                              'attributes',
-                              name,
-                              'type',
-                            ]);
-                            if (type === Type.SELECT || type === Type.RADIO) {
-                              return (
-                                <Form.Item
-                                  {...restField}
-                                  name={[name, 'values']}
-                                  label="Attribute Values"
-                                  rules={[
-                                    {
-                                      required: true,
-                                      message: 'Please input attribute values!',
-                                    },
-                                  ]}
-                                >
-                                  <Select
-                                    mode="tags"
-                                    placeholder="Input attribute values"
-                                    style={{ minWidth: 200 }}
-                                  />
-                                </Form.Item>
-                              );
-                            }
-                            return null;
-                          }}
-                        </Form.Item>
-                      </Flex>
-
-                      {/* Remove Button */}
-                      {fields.length > 1 && (
-                        <Flex className="items-start">
-                          <Button
-                            type="text"
-                            size="large"
-                            icon={<DeleteOutlined />}
-                            onClick={() => remove(name)}
-                            className="text-red-500"
-                          />
-                        </Flex>
-                      )}
-                    </Flex>
-                  );
-                })}
-
-                {/* Add Attribute Button */}
-                <CButton
-                  type="dashed"
-                  onClick={() => add()}
-                  block
-                  icon={<PlusOutlined />}
-                >
-                  Add attribute
-                </CButton>
-              </div>
-            )}
-          </Form.List>
+          <AttributeForm />
+          <MessageForm />
         </Form>
         {PreviewPlaceholder}
       </Card>

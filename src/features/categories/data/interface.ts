@@ -10,6 +10,10 @@ export interface IAttribute {
   isFilter?: boolean;
   isShow?: boolean;
 }
+export interface IMessage {
+  messageSeller: string;
+  messgaeBuyer: string;
+}
 export interface ICategory {
   _id: number;
   name: string;
@@ -36,6 +40,7 @@ export interface ICategoryItem {
     _id: number;
     name: string;
   };
+  messages: IMessage[];
 }
 
 export interface ISearchCategory extends ISearchParams {
@@ -51,4 +56,5 @@ export interface ICategoryPayload {
   attributes?: IAttribute[];
   keywords?: string[];
   description?: string;
+  messages?: IMessage[];
 }

@@ -107,6 +107,7 @@ const CMenuAdmin: React.FC<CMenuAdminProps> = ({ collapsed }) => {
         ),
       ]
     ),
+    getItem('Q&A Chat Bot', 'q&a', 'fa-robot', '/q&a'),
     getItem('Address Management', 'addresses', 'fa-map-location', undefined, [
       getItem(
         'Provinces',

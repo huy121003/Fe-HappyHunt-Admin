@@ -133,6 +133,18 @@ const UserStatisticPage = lazy(
 const PostStatisticPage = lazy(
   () => import('@/pages/private/post-statistics/PostStatisticPage')
 );
+const QAChatbotPage = lazy(
+  () => import('@/pages/private/q&a-chatbots/QAChatbotPage')
+);
+const QAChatbotCreatePage = lazy(
+  () => import('@/pages/private/q&a-chatbots/create/QAChatbotCreatePage')
+);
+const QAChatbotUpdatePage = lazy(
+  () => import('@/pages/private/q&a-chatbots/update/QAChatbotUpdatePage')
+);
+const QAChatbotDetailPage = lazy(
+  () => import('@/pages/private/q&a-chatbots/detail/QAChatbotDetailPage')
+);
 const router = createBrowserRouter([
   {
     path: '*',
@@ -691,6 +703,60 @@ const router = createBrowserRouter([
       {
         path: 'change-password',
         element: withSuspense(<ChangePasswordPage />, <CLoadingPage />),
+      },
+      {
+        path: 'q&a',
+        element: <Outlet />,
+        children: [
+          {
+            index: true,
+            element: withSuspense(
+              <PermissionProtectedLayout
+                codeName={IPERMISSION_CODE_NAME.Q_A_CHATBOTS}
+                type={IPERMISSION_TYPE.VIEW}
+              >
+                <QAChatbotPage />
+              </PermissionProtectedLayout>,
+              <CLoadingPage />
+            ),
+          },
+          {
+            path: 'create',
+            element: withSuspense(
+              <PermissionProtectedLayout
+                codeName={IPERMISSION_CODE_NAME.Q_A_CHATBOTS}
+                type={IPERMISSION_TYPE.CREATE}
+              >
+                <QAChatbotCreatePage />
+              </PermissionProtectedLayout>,
+              <CLoadingPage />
+            ),
+          },
+          {
+            path: ':qAChatbotId/update',
+            element: withSuspense(
+              <PermissionProtectedLayout
+                codeName={IPERMISSION_CODE_NAME.Q_A_CHATBOTS}
+                type={IPERMISSION_TYPE.UPDATE}
+              >
+                <QAChatbotUpdatePage />
+              </PermissionProtectedLayout>,
+              <CLoadingPage />
+            ),
+          },
+          {
+            path: ':qAChatbotId/detail',
+            element: withSuspense(
+              <PermissionProtectedLayout
+                codeName={IPERMISSION_CODE_NAME.Q_A_CHATBOTS}
+                type={IPERMISSION_TYPE.VIEW}
+              >
+                <QAChatbotDetailPage />
+              </PermissionProtectedLayout>,
+              <CLoadingPage />
+            ),
+          },
+        ],
       },
       {
         path: 'user_reports',

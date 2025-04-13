@@ -17,6 +17,7 @@ const CDeleteModal: React.FC<CDeleteModalProps> = ({
 }) => {
   return (
     <Modal
+    centered
       title="Confirm"
       open={open}
       onOk={() => {

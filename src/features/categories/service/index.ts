@@ -30,7 +30,11 @@ const convertObjectToFormData = (data: ICategoryPayload) => {
   if (data.icon) {
     formData.append('icon', data.icon as unknown as Blob);
   }
-
+  if (data.messages) {
+    data.messages.forEach((message) => {
+      formData.append('messages', JSON.stringify(message));
+    });
+  }
   return formData;
 };
 class CategoryService {
