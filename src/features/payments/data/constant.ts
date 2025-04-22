@@ -1,5 +1,6 @@
 export const API_KEY = {
   PAYMENT: 'PAYMENT',
+  TOPUP: 'TOPUP',
 };
 export enum EStatus {
   SUCCESS = 'SUCCESS',

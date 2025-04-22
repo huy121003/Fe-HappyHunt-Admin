@@ -14,3 +14,10 @@ export interface ISearchPayment extends ISearchParams {
   status?: EStatus;
   amount?: number;
 }
+export interface ITopupItem {
+  createdBy: number;
+  name: string;
+  avatar: string;
+  totalAmount: number;
+  totalFaid: number;
+}

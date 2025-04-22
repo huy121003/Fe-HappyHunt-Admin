@@ -62,3 +62,15 @@ export interface ISearchUser extends ISearchParams {
   district?: number;
   ward?: number;
 }
+export interface IData {
+  totalUser: number;
+  totalBanned: number;
+}
+
+export interface ICountSexUser {
+  totalUser: number;
+  totalMale: number;
+  totalFemale: number;
+  totalOther: number;
+  totalNotUpdate: number;
+}

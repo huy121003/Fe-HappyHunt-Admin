@@ -1,4 +1,6 @@
 export enum API_KEY {
   USER = 'USER',
   USER_DETAIL = 'USER_DETAIL',
+  NEW_USER = 'NEW_USER',
+  TOTAL_USER = 'TOTAL_USER',
 }

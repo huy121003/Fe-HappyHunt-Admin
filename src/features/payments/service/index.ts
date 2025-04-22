@@ -1,7 +1,7 @@
 import apiRequest from '@/libs/axios';
 import { EMethod } from '@/constants';
 import { ICommonResponse, IPagedResponse } from '@/interfaces';
-import { IPaymentItem, ISearchPayment } from '../data/interface';
+import { IPaymentItem, ISearchPayment, ITopupItem } from '../data/interface';
 
 class PaymentService {
   private static baseUrl = 'payment';
@@ -17,6 +17,9 @@ class PaymentService {
   };
   static remove = (id: number): Promise<ICommonResponse<any>> => {
     return apiRequest(EMethod.DELETE, `${this.baseUrl}/${id}`, false);
+  };
+  static getTopup = (): Promise<ICommonResponse<ITopupItem[]>> => {
+    return apiRequest(EMethod.GET, `${this.baseUrl}/top5`, false);
   };
 }
 export default PaymentService;

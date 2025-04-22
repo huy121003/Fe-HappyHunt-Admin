@@ -78,6 +78,23 @@ class PostService {
       false
     );
   };
+  static getTotalPostSelling = (): Promise<ICommonResponse<number>> => {
+    return apiRequest(
+      EMethod.GET,
+      `${PostService.baseUrl}/total-post-selling`,
+      false
+    );
+  };
+  static getTotalPostByCategory = (): Promise<
+    ICommonResponse<Record<string, number>>
+  > => {
+    console.log('getTotalPostByCategory');
+    return apiRequest(
+      EMethod.GET,
+      `${PostService.baseUrl}/total-statistic-by-category`,
+      false
+    );
+  };
 }
 
 export default PostService;
