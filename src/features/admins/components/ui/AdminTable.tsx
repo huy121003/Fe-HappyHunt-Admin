@@ -96,12 +96,12 @@ const AdminTable: React.FC<IAdminTableProps> = ({
       ),
     },
     {
-      title: 'Phone Number',
-      dataIndex: 'phoneNumber',
-      key: 'phoneNumber',
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email',
       width: 200,
       render: (_: any, record: IAdminItem) => (
-        <CTableParagraph children={record.phoneNumber} />
+        <CTableParagraph children={record.email} />
       ),
     },
     {

@@ -1,10 +1,10 @@
 import CHeaderCard from '@/components/CHeaderCard';
 import Data from '@/features/dashboard/components/Data';
+import GenderChart from '@/features/dashboard/components/GenderChart';
 import NewUserCard from '@/features/dashboard/components/NewUserCard';
 import PostCategory from '@/features/dashboard/components/PostCategory';
-import SexChart from '@/features/dashboard/components/SexChart';
-import Topup from '@/features/dashboard/components/Topup';
 
+import Topup from '@/features/dashboard/components/Topup';
 
 function DashBoardPage() {
   return (
@@ -28,7 +28,7 @@ function DashBoardPage() {
 
           {/* Second Row - Mixed Sizes */}
           <div className="bg-white rounded-2xl shadow-sm p-6">
-            <SexChart />
+            <GenderChart />
           </div>
           <div className="bg-white rounded-2xl shadow-sm p-6 lg:col-span-2">
             <PostCategory />

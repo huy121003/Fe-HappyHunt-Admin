@@ -28,7 +28,7 @@ function AdminPage() {
     pagination,
     computtedFilter,
     handleSelectRole,
-    handleInputPhoneNumber,
+    handleInputemail,
     handleSelectIsBanned,
   } = useAdminFilter();
   const { data, isLoading, isFetched } = useQuery({
@@ -90,8 +90,8 @@ function AdminPage() {
             onInput={handleInputSearch}
           />
           <CSearch
-            placeholder="Search admin phone number"
-            onInput={handleInputPhoneNumber}
+            placeholder="Search admin Email"
+            onInput={handleInputemail}
           />
           <CSelect
             placeholder="Ban status"

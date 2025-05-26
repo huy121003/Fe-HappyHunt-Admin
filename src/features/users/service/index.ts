@@ -2,7 +2,7 @@ import apiRequest from '@/libs/axios';
 import { EMethod } from '@/constants';
 import { ICommonResponse, IPagedResponse } from '@/interfaces';
 import {
-  ICountSexUser,
+  ICountGenderUser,
   IData,
   ISearchUser,
   IUser,
@@ -40,8 +40,8 @@ class UserService {
   static getTotalUser = (): Promise<ICommonResponse<IData>> => {
     return apiRequest(EMethod.GET, `${this.baseUrl}/total-user`, false);
   };
-  static getCountSexUser = (): Promise<ICommonResponse<ICountSexUser>> => {
-    return apiRequest(EMethod.GET, `${this.baseUrl}/count-sex-user`, false);
+  static getCountGenderUser = (): Promise<ICommonResponse<ICountGenderUser>> => {
+    return apiRequest(EMethod.GET, `${this.baseUrl}/count-gender-user`, false);
   };
 }
 export default UserService;

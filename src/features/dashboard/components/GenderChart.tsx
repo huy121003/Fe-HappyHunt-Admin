@@ -4,11 +4,11 @@ import { useQuery } from '@tanstack/react-query';
 import { Card } from 'antd';
 import { Legend, RadialBar, RadialBarChart, Tooltip } from 'recharts';
 
-function SexChart() {
+function GenderChart() {
   const { data, isLoading } = useQuery({
-    queryKey: [API_KEY.COUNT_SEX_USER],
+    queryKey: [API_KEY.COUNT_GENDER_USER],
     queryFn: async () => {
-      const response = await UserService.getCountSexUser();
+      const response = await UserService.getCountGenderUser();
       return response.data;
     },
   });
@@ -51,4 +51,4 @@ function SexChart() {
   );
 }
 
-export default SexChart;
+export default GenderChart;

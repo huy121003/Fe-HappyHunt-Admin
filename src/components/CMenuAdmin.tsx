@@ -43,26 +43,12 @@ const CMenuAdmin: React.FC<CMenuAdminProps> = ({ collapsed }) => {
         '/admin_roles/roles'
       ),
     ]),
-    getItem('Users & Reports', 'user_reports', 'fa-user', undefined, [
-      getItem(
-        'User Accounts',
-        '/user_reports/users',
-        'fa-users',
-        '/user_reports/users'
-      ),
-      getItem(
-        'New User Statistic',
-        '/user_reports/statistics',
-        'fa-chart-pie',
-        '/user_reports/statistics'
-      ),
-      getItem(
-        'Reported Users',
-        '/user_reports/reports',
-        'fa-flag',
-        '/user_reports/reports'
-      ),
-    ]),
+    getItem(
+      'Users Management',
+      'user_management',
+      'fa-user',
+      '/user_management'
+    ),
     getItem(
       'Category Management',
       '/categories',
@@ -72,40 +58,19 @@ const CMenuAdmin: React.FC<CMenuAdminProps> = ({ collapsed }) => {
     getItem('Post Management', 'post_management', 'fa-newspaper', undefined, [
       getItem('Post Selling', '/posts', 'fa-file-alt', '/posts'),
       getItem(
-        'New Post Statistic',
-        '/post-statistics',
-        'fa-chart-pie',
-        '/post-statistics'
-      ),
-      getItem(
         'Post Checking',
         '/post-checkings',
         'fa-check-circle',
         '/post-checkings'
       ),
-      getItem('Post Reports', '/reports/posts', 'fa-flag', '/reports/posts'),
     ]),
     getItem('Banner Management', '/banners', 'fa-image', '/banners'),
 
     getItem(
-      'Payment & Statistic',
-      'payment_statistics',
+      'Payment Management',
+      'payment_management',
       'fa-money-bill-wave',
-      undefined,
-      [
-        getItem(
-          'Payment Management',
-          '/payment_statistics/payments',
-          'fa-money-bill-wave',
-          '/payment_statistics/payments'
-        ),
-        getItem(
-          'Payment Statistic',
-          '/payment_statistics/statistics',
-          'fa-chart-line',
-          '/payment_statistics/statistics'
-        ),
-      ]
+      '/payment_management'
     ),
     getItem('Q&A Chat Bot', 'q&a', 'fa-robot', '/q&a'),
     getItem('Address Management', 'addresses', 'fa-map-location', undefined, [
@@ -122,6 +87,27 @@ const CMenuAdmin: React.FC<CMenuAdminProps> = ({ collapsed }) => {
         '/addresses/districts'
       ),
       getItem('Wards', '/addresses/wards', 'fa-house-user', '/addresses/wards'),
+    ]),
+    getItem('Report Management', 'reports', 'fa-flag', '/reports'),
+    getItem('Statistics', 'statistics', 'fa-chart-pie', undefined, [
+      getItem(
+        'Post Statistics',
+        '/statistics/posts',
+        'fa-chart-line',
+        '/statistics/posts'
+      ),
+      getItem(
+        'User Statistics',
+        '/statistics/users',
+        'fa-users',
+        '/statistics/users'
+      ),
+      getItem(
+        'Payment Statistics',
+        '/statistics/payments',
+        'fa-credit-card',
+        '/statistics/payments'
+      ),
     ]),
   ];
 

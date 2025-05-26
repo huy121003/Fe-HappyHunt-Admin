@@ -9,7 +9,7 @@ export interface IAdmin {
   name: string;
   username?: string;
   avatar?: string;
-  phoneNumber?: string;
+  email?: string;
 }
 export interface IAdminItem {
   _id: number;
@@ -22,7 +22,7 @@ export interface IAdminItem {
   name: string;
   username?: string;
   avatar?: string;
-  phoneNumber?: string;
+  email?: string;
   createdAt: string;
   updatedAt?: string;
   createdBy?: {
@@ -34,14 +34,13 @@ export interface IAdminPayload {
   role: number;
   name: string;
   avatar: string | UploadFile;
-  phoneNumber: string;
+  email: string;
   username: string;
 }
 export interface ISearchAdmin extends ISearchParams {
   name?: string | null;
   role?: number | null;
-  phoneNumber?: string | null;
+  email?: string | null;
   username?: string | null;
   isBanned?: boolean | null;
-  
 }

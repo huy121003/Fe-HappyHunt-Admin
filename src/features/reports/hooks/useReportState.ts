@@ -1,12 +1,11 @@
 import { postMessageHandler } from '@/components/ToastMessage';
-
 import { useQueryClient } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
 import { API_KEY } from '../data/constant';
 
-const useUserState = () => {
+const useReportState = () => {
   const client = useQueryClient();
-  const navigate = useNavigate();
+;
+
   const onSuccess = (
     successMessage: string,
     onSuccessCallback?: () => void
@@ -15,9 +14,10 @@ const useUserState = () => {
       type: 'success',
       text: successMessage,
     });
-    client.invalidateQueries({ queryKey: [API_KEY.USER] });
-    client.invalidateQueries({ queryKey: [API_KEY.USER_DETAIL] });
-    navigate('/user_management');
+    client.invalidateQueries({ queryKey: [API_KEY.REPORTS] });
+    client.invalidateQueries({ queryKey: [API_KEY.REPORT_DETAIL] });
+    client.invalidateQueries({ queryKey: [API_KEY.REPORT_PAGINATION] });
+
     if (onSuccessCallback) {
       onSuccessCallback();
     }
@@ -25,4 +25,4 @@ const useUserState = () => {
 
   return { onSuccess };
 };
-export default useUserState;
+export default useReportState;

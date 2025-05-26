@@ -7,7 +7,7 @@ import { debounce } from 'lodash';
 const useUserFilter = () => {
   const [search, setSearch] = useState<string>('');
 
-  const [phoneNumber, setPhoneNumber] = useState<string>();
+  const [email, setemail] = useState<string>();
   const [isBanned, setIsBanned] = useState<boolean>();
   const [isVip, setIsVip] = useState<boolean>();
   const [province, setProvince] = useState<number>();
@@ -23,7 +23,7 @@ const useUserFilter = () => {
     const filters: ISearchUser = {
       ...parsedPagination,
       ...(search && { name: search }),
-      ...(phoneNumber && { phoneNumber }),
+      ...(email && { email }),
       ...(isBanned && { isBanned }),
       ...(isVip && { isVip }),
       ...(province && { province }),
@@ -36,9 +36,9 @@ const useUserFilter = () => {
     handleResetPagination();
     setSearch((event.target as HTMLInputElement).value);
   }, 500);
-  const handleInputPhoneNumber: SearchProps['onInput'] = debounce((event) => {
+  const handleInputemail: SearchProps['onInput'] = debounce((event) => {
     handleResetPagination();
-    setPhoneNumber((event.target as HTMLInputElement).value);
+    setemail((event.target as HTMLInputElement).value);
   }, 500);
   const handleSelectIsBanned = (isBanned: boolean | undefined) => {
     setIsBanned(isBanned);
@@ -66,7 +66,7 @@ const useUserFilter = () => {
     handleChangePagination,
     computtedFilter,
 
-    handleInputPhoneNumber,
+    handleInputemail,
     handleSelectIsBanned,
     handleSelectIsVip,
     handleSelectProvince,

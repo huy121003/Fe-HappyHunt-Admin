@@ -27,7 +27,7 @@ export interface IPost {
   createdBy: {
     _id: number;
     name: string;
-    phoneNumber: string;
+    email: string;
     avatar: string;
   };
   address: {
@@ -63,7 +63,7 @@ export interface IPostItem {
   category: {
     name: string;
     _id: number;
-    phoneNumber: string;
+    email: string;
     avatar: string;
   };
   categoryParent: {

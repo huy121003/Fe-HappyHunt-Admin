@@ -106,9 +106,7 @@ const ChangePasswordPage = lazy(
   () => import('@/pages/private/change-passwords/ChangePasswordPage')
 );
 const UserPage = lazy(() => import('@/pages/private/users/UserPage'));
-const UserDetailPage = lazy(
-  () => import('@/pages/private/users/detail/UserDetailPage')
-);
+
 const PostPage = lazy(() => import('@/pages/private/posts/PostPage'));
 
 const PostDetailPage = lazy(
@@ -145,6 +143,7 @@ const QAChatbotUpdatePage = lazy(
 const QAChatbotDetailPage = lazy(
   () => import('@/pages/private/q&a-chatbots/detail/QAChatbotDetailPage')
 );
+const ReportPage = lazy(() => import('@/pages/private/reports/ReportPage'));
 const router = createBrowserRouter([
   {
     path: '*',
@@ -264,18 +263,6 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: 'post-statistics',
-        element: withSuspense(
-          <PermissionProtectedLayout
-            codeName={IPERMISSION_CODE_NAME.POSTS}
-            type={IPERMISSION_TYPE.VIEW}
-          >
-            <PostStatisticPage />
-          </PermissionProtectedLayout>,
-          <CLoadingPage />
-        ),
-      },
-      {
         path: 'post-checkings',
         element: <Outlet />,
         children: [
@@ -330,34 +317,28 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: 'payment_statistics',
-        element: <Outlet />,
-        children: [
-          {
-            path: 'payments',
-            element: withSuspense(
-              <PermissionProtectedLayout
-                codeName={IPERMISSION_CODE_NAME.PAYMENTS}
-                type={IPERMISSION_TYPE.VIEW}
-              >
-                <PaymentPage />
-              </PermissionProtectedLayout>,
-              <CLoadingPage />
-            ),
-          },
-          {
-            path: 'statistics',
-            element: withSuspense(
-              <PermissionProtectedLayout
-                codeName={IPERMISSION_CODE_NAME.PAYMENTS}
-                type={IPERMISSION_TYPE.VIEW}
-              >
-                <PaymentStatisticPage />
-              </PermissionProtectedLayout>,
-              <CLoadingPage />
-            ),
-          },
-        ],
+        path: 'payment_management',
+        element: withSuspense(
+          <PermissionProtectedLayout
+            codeName={IPERMISSION_CODE_NAME.PAYMENTS}
+            type={IPERMISSION_TYPE.VIEW}
+          >
+            <PaymentPage />
+          </PermissionProtectedLayout>,
+          <CLoadingPage />
+        ),
+      },
+      {
+        path: 'reports',
+        element: withSuspense(
+          <PermissionProtectedLayout
+            codeName={IPERMISSION_CODE_NAME.REPORTS}
+            type={IPERMISSION_TYPE.VIEW}
+          >
+            <ReportPage />
+          </PermissionProtectedLayout>,
+          <CLoadingPage />
+        ),
       },
       {
         path: 'admin_roles',
@@ -759,41 +740,35 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: 'user_reports',
+        path: 'user_management',
+        element: withSuspense(
+          <PermissionProtectedLayout
+            codeName={IPERMISSION_CODE_NAME.USERS}
+            type={IPERMISSION_TYPE.VIEW}
+          >
+            <UserPage />
+          </PermissionProtectedLayout>,
+          <CLoadingPage />
+        ),
+      },
+      {
+        path: 'statistics',
         element: <Outlet />,
         children: [
           {
-            path: 'users',
-            element: <Outlet />,
-            children: [
-              {
-                index: true,
-                element: withSuspense(
-                  <PermissionProtectedLayout
-                    codeName={IPERMISSION_CODE_NAME.USERS}
-                    type={IPERMISSION_TYPE.VIEW}
-                  >
-                    <UserPage />
-                  </PermissionProtectedLayout>,
-                  <CLoadingPage />
-                ),
-              },
-              {
-                path: ':usserId/detail',
-                element: withSuspense(
-                  <PermissionProtectedLayout
-                    codeName={IPERMISSION_CODE_NAME.USERS}
-                    type={IPERMISSION_TYPE.VIEW}
-                  >
-                    <UserDetailPage />
-                  </PermissionProtectedLayout>,
-                  <CLoadingPage />
-                ),
-              },
-            ],
+            path: 'posts',
+            element: withSuspense(
+              <PermissionProtectedLayout
+                codeName={IPERMISSION_CODE_NAME.POSTS}
+                type={IPERMISSION_TYPE.VIEW}
+              >
+                <PostStatisticPage />
+              </PermissionProtectedLayout>,
+              <CLoadingPage />
+            ),
           },
           {
-            path: 'statistics',
+            path: 'users',
             element: withSuspense(
               <PermissionProtectedLayout
                 codeName={IPERMISSION_CODE_NAME.USERS}
@@ -805,58 +780,16 @@ const router = createBrowserRouter([
             ),
           },
           {
-            path: 'reports',
-            element: <Outlet />,
-            children: [
-              {
-                index: true,
-                element: withSuspense(
-                  <PermissionProtectedLayout
-                    codeName={IPERMISSION_CODE_NAME.USERS}
-                    type={IPERMISSION_TYPE.VIEW}
-                  >
-                    aaaaa
-                  </PermissionProtectedLayout>,
-                  <CLoadingPage />
-                ),
-              },
-              {
-                path: 'detail',
-                element: withSuspense(
-                  <PermissionProtectedLayout
-                    codeName={IPERMISSION_CODE_NAME.USERS}
-                    type={IPERMISSION_TYPE.VIEW}
-                  >
-                    aaaa
-                  </PermissionProtectedLayout>,
-                  <CLoadingPage />
-                ),
-              },
-              {
-                path: 'create',
-                element: withSuspense(
-                  <PermissionProtectedLayout
-                    codeName={IPERMISSION_CODE_NAME.USERS}
-                    type={IPERMISSION_TYPE.CREATE}
-                  >
-                    aaaa
-                  </PermissionProtectedLayout>,
-                  <CLoadingPage />
-                ),
-              },
-              {
-                path: 'update',
-                element: withSuspense(
-                  <PermissionProtectedLayout
-                    codeName={IPERMISSION_CODE_NAME.USERS}
-                    type={IPERMISSION_TYPE.UPDATE}
-                  >
-                    aaaa
-                  </PermissionProtectedLayout>,
-                  <CLoadingPage />
-                ),
-              },
-            ],
+            path: 'payments',
+            element: withSuspense(
+              <PermissionProtectedLayout
+                codeName={IPERMISSION_CODE_NAME.PAYMENTS}
+                type={IPERMISSION_TYPE.VIEW}
+              >
+                <PaymentStatisticPage />
+              </PermissionProtectedLayout>,
+              <CLoadingPage />
+            ),
           },
         ],
       },

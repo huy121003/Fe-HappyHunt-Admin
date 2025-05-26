@@ -137,25 +137,25 @@ const AdminForm: React.FC<AdminFormProps> = ({
           </Form.Item>
 
           <Form.Item
-            label="Phone Number"
-            name="phoneNumber"
+            label="Email"
+            name="email"
             rules={[
               {
                 required: true,
                 whitespace: true,
-                message: 'Please input your phone number!',
+                message: 'Please input your Email!',
               },
               {
                 validator: async (_, value) => {
                   if (!/((09|03|07|08|05)+([0-9]{8})\b)/g.test(value)) {
-                    return Promise.reject('Invalid phone number');
+                    return Promise.reject('Invalid Email');
                   }
                   return Promise.resolve();
                 },
               },
             ]}
           >
-            <CInput placeholder="Phone Number" disabled={isEdit} />
+            <CInput placeholder="Email" disabled={isEdit} />
           </Form.Item>
           <Form.Item
             label="Role"

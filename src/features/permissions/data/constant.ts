@@ -30,4 +30,5 @@ export enum IPERMISSION_CODE_NAME {
   USER_SETTINGS = 'user_settings',
   PAYMENTS = 'payments',
   Q_A_CHATBOTS = 'q_a_chatbots',
+  REPORTS = 'reports',
 }

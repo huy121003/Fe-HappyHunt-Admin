@@ -3,7 +3,7 @@ import { IType } from './constant';
 import { UploadFile } from 'antd';
 
 export interface ILoginRequest {
-  phoneOrUsername: string;
+  emailOrUsername: string;
   password: string;
   type: IType;
 }
@@ -12,7 +12,7 @@ export interface ILoginResponse {
   access_token: string;
   _id: number;
   name: string;
-  phoneNumber: string;
+  email: string;
   isBanned: boolean;
   avatar: string;
   isVip: boolean;
@@ -34,19 +34,19 @@ export interface ILoginResponse {
   role: IRole;
 }
 export interface IRegisterRequest {
-  phoneNumber: string;
+  email: string;
   password: string;
   otp: string;
 }
 
 export interface IRegisterOtpRequest {
-  phoneNumber: string;
+  email: string;
 }
 
 export interface IForgotPasswordRequest extends IRegisterOtpRequest {}
 
 export interface IForgotPasswordOtpRequest {
-  phoneNumber: string;
+  email: string;
   otp: string;
 }
 export interface IGetAccountInfoResponse extends ILoginResponse {}
