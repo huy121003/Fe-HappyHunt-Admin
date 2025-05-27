@@ -18,7 +18,6 @@ function GenderChart() {
     { name: 'Other', value: data?.totalOther || 0, fill: '#ffc658' },
     { name: 'Unknown', value: data?.totalNotUpdate || 0, fill: '#ff7300' },
   ];
-  console.log(chartData);
   return (
     <Card title="Gender Chart" loading={isLoading}>
       <RadialBarChart

@@ -25,7 +25,6 @@ const useChooseDateFilter = () => {
     setStart(dates[0]);
     setEnd(dates[1]);
     setType('CUSTOM');
-    console.log('dates', dates);
   };
 
   return {

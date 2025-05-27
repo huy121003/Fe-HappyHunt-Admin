@@ -28,6 +28,7 @@ export interface ICategory {
   keywords: string[];
   isPayment?: boolean;
   pricePayment?: number;
+  pricePush: number;
 }
 export interface ICategoryItem {
   _id: number;
@@ -36,6 +37,7 @@ export interface ICategoryItem {
   slug: string;
   isPayment: boolean;
   pricePayment?: number;
+  pricePush: number;
   parent?: {
     _id: number;
     name: string;
@@ -50,6 +52,7 @@ export interface ISearchCategory extends ISearchParams {
 export interface ICategoryPayload {
   name: string;
   isPayment: boolean;
+  pricePush: number;
   pricePayment?: number;
   parent?: number;
   icon?: string | UploadFile;

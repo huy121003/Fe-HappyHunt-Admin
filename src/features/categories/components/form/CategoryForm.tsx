@@ -103,7 +103,6 @@ const CategoryForm: React.FC<ICategoryFormProps> = ({
       })),
       icon: values.image?.[0]?.originFileObj,
     };
-    console.log('payload', payload);
     onSubmit(payload);
   };
   return (
@@ -154,7 +153,18 @@ const CategoryForm: React.FC<ICategoryFormProps> = ({
           >
             <CInput placeholder="Input category name" />
           </Form.Item>
-
+          <Form.Item
+            label="Price Push Post (VND)"
+            name="pricePush"
+            rules={[
+              {
+                required: true,
+                message: 'Please input price push post!',
+              },
+            ]}
+          >
+            <CInput type="number" min={0} placeholder="Input price push post" />
+          </Form.Item>
           <Form.Item label="Payment">
             <Flex gap={8} justify="start" align="center">
               <Form.Item

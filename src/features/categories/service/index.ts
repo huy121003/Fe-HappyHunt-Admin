@@ -15,7 +15,7 @@ const convertObjectToFormData = (data: ICategoryPayload) => {
     formData.append('keywords', keyword);
   });
   formData.append('attributes', JSON.stringify(data.attributes));
-
+  formData.append('pricePush', data.pricePush.toString());
   formData.append('isPayment', data.isPayment.toString());
 
   if (data.pricePayment) {

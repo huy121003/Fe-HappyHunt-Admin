@@ -45,7 +45,6 @@ const PostCheckingForm: React.FC<PostCheckingFormProps> = ({
 
   const onFinish = async () => {
     const values = await form.validateFields();
-    console.log(values);
     const payload: IUpdateStatusChecking = {
       status:
         values.images.filter((image) => image.status === EPostStatus.REJECTED)

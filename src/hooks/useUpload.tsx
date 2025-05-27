@@ -5,7 +5,6 @@ import { postMessageHandler } from '@/components/ToastMessage';
 
 export const isFileSizeValid = (file: File, maxSizeInMB: number): boolean => {
   const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
-  console.log(file, file.size);
   return file.size <= maxSizeInBytes;
 };
 

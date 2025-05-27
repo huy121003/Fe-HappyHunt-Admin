@@ -53,7 +53,7 @@ class PostService {
     const newParams = new URLSearchParams(params as any).toString();
     return apiRequest(
       EMethod.GET,
-      `${PostService.baseUrl}/pagination?${newParams}`,
+      `${PostService.baseUrl}/pagination-manager?${newParams}`,
       false
     );
   };
@@ -88,7 +88,6 @@ class PostService {
   static getTotalPostByCategory = (): Promise<
     ICommonResponse<Record<string, number>>
   > => {
-    console.log('getTotalPostByCategory');
     return apiRequest(
       EMethod.GET,
       `${PostService.baseUrl}/total-statistic-by-category`,
