@@ -12,7 +12,7 @@ const convertObjectToFormData = (data: IAdminPayload) => {
   const formData = new FormData();
   formData.append('role', data.role.toString());
   formData.append('name', data.name);
-  formData.append('phoneNumber', data.phoneNumber);
+  formData.append('email', data.email);
   formData.append('username', data.username);
   if (data.avatar) {
     formData.append('avatar', data.avatar as unknown as Blob);

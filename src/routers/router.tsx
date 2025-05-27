@@ -106,9 +106,7 @@ const ChangePasswordPage = lazy(
   () => import('@/pages/private/change-passwords/ChangePasswordPage')
 );
 const UserPage = lazy(() => import('@/pages/private/users/UserPage'));
-const UserDetailPage = lazy(
-  () => import('@/pages/private/users/detail/UserDetailPage')
-);
+
 const PostPage = lazy(() => import('@/pages/private/posts/PostPage'));
 
 const PostDetailPage = lazy(
@@ -127,6 +125,25 @@ const PaymentPage = lazy(() => import('@/pages/private/payments/PaymentPage'));
 const PaymentStatisticPage = lazy(
   () => import('@/pages/private/payment-statistics/PaymentStatisticPage')
 );
+const UserStatisticPage = lazy(
+  () => import('@/pages/private/user-statistics/UserStatisticPage')
+);
+const PostStatisticPage = lazy(
+  () => import('@/pages/private/post-statistics/PostStatisticPage')
+);
+const QAChatbotPage = lazy(
+  () => import('@/pages/private/q&a-chatbots/QAChatbotPage')
+);
+const QAChatbotCreatePage = lazy(
+  () => import('@/pages/private/q&a-chatbots/create/QAChatbotCreatePage')
+);
+const QAChatbotUpdatePage = lazy(
+  () => import('@/pages/private/q&a-chatbots/update/QAChatbotUpdatePage')
+);
+const QAChatbotDetailPage = lazy(
+  () => import('@/pages/private/q&a-chatbots/detail/QAChatbotDetailPage')
+);
+const ReportPage = lazy(() => import('@/pages/private/reports/ReportPage'));
 const router = createBrowserRouter([
   {
     path: '*',
@@ -300,34 +317,28 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: 'payment_statistics',
-        element: <Outlet />,
-        children: [
-          {
-            path: 'payments',
-            element: withSuspense(
-              <PermissionProtectedLayout
-                codeName={IPERMISSION_CODE_NAME.PAYMENTS}
-                type={IPERMISSION_TYPE.VIEW}
-              >
-                <PaymentPage />
-              </PermissionProtectedLayout>,
-              <CLoadingPage />
-            ),
-          },
-          {
-            path: 'statistics',
-            element: withSuspense(
-              <PermissionProtectedLayout
-                codeName={IPERMISSION_CODE_NAME.PAYMENTS}
-                type={IPERMISSION_TYPE.VIEW}
-              >
-                <PaymentStatisticPage />
-              </PermissionProtectedLayout>,
-              <CLoadingPage />
-            ),
-          },
-        ],
+        path: 'payment_management',
+        element: withSuspense(
+          <PermissionProtectedLayout
+            codeName={IPERMISSION_CODE_NAME.PAYMENTS}
+            type={IPERMISSION_TYPE.VIEW}
+          >
+            <PaymentPage />
+          </PermissionProtectedLayout>,
+          <CLoadingPage />
+        ),
+      },
+      {
+        path: 'reports',
+        element: withSuspense(
+          <PermissionProtectedLayout
+            codeName={IPERMISSION_CODE_NAME.REPORTS}
+            type={IPERMISSION_TYPE.VIEW}
+          >
+            <ReportPage />
+          </PermissionProtectedLayout>,
+          <CLoadingPage />
+        ),
       },
       {
         path: 'admin_roles',
@@ -675,92 +686,110 @@ const router = createBrowserRouter([
         element: withSuspense(<ChangePasswordPage />, <CLoadingPage />),
       },
       {
-        path: 'user_reports',
+        path: 'q&a',
         element: <Outlet />,
         children: [
           {
-            path: 'users',
-            element: <Outlet />,
-            children: [
-              {
-                index: true,
-                element: withSuspense(
-                  <PermissionProtectedLayout
-                    codeName={IPERMISSION_CODE_NAME.USERS}
-                    type={IPERMISSION_TYPE.VIEW}
-                  >
-                    <UserPage />
-                  </PermissionProtectedLayout>,
-                  <CLoadingPage />
-                ),
-              },
-              {
-                path: ':usserId/detail',
-                element: withSuspense(
-                  <PermissionProtectedLayout
-                    codeName={IPERMISSION_CODE_NAME.USERS}
-                    type={IPERMISSION_TYPE.VIEW}
-                  >
-                    <UserDetailPage />
-                  </PermissionProtectedLayout>,
-                  <CLoadingPage />
-                ),
-              },
-            ],
+            index: true,
+            element: withSuspense(
+              <PermissionProtectedLayout
+                codeName={IPERMISSION_CODE_NAME.Q_A_CHATBOTS}
+                type={IPERMISSION_TYPE.VIEW}
+              >
+                <QAChatbotPage />
+              </PermissionProtectedLayout>,
+              <CLoadingPage />
+            ),
           },
           {
-            path: 'reports',
-            element: <Outlet />,
-            children: [
-              {
-                index: true,
-                element: withSuspense(
-                  <PermissionProtectedLayout
-                    codeName={IPERMISSION_CODE_NAME.USERS}
-                    type={IPERMISSION_TYPE.VIEW}
-                  >
-                    aaaaa
-                  </PermissionProtectedLayout>,
-                  <CLoadingPage />
-                ),
-              },
-              {
-                path: 'detail',
-                element: withSuspense(
-                  <PermissionProtectedLayout
-                    codeName={IPERMISSION_CODE_NAME.USERS}
-                    type={IPERMISSION_TYPE.VIEW}
-                  >
-                    aaaa
-                  </PermissionProtectedLayout>,
-                  <CLoadingPage />
-                ),
-              },
-              {
-                path: 'create',
-                element: withSuspense(
-                  <PermissionProtectedLayout
-                    codeName={IPERMISSION_CODE_NAME.USERS}
-                    type={IPERMISSION_TYPE.CREATE}
-                  >
-                    aaaa
-                  </PermissionProtectedLayout>,
-                  <CLoadingPage />
-                ),
-              },
-              {
-                path: 'update',
-                element: withSuspense(
-                  <PermissionProtectedLayout
-                    codeName={IPERMISSION_CODE_NAME.USERS}
-                    type={IPERMISSION_TYPE.UPDATE}
-                  >
-                    aaaa
-                  </PermissionProtectedLayout>,
-                  <CLoadingPage />
-                ),
-              },
-            ],
+            path: 'create',
+            element: withSuspense(
+              <PermissionProtectedLayout
+                codeName={IPERMISSION_CODE_NAME.Q_A_CHATBOTS}
+                type={IPERMISSION_TYPE.CREATE}
+              >
+                <QAChatbotCreatePage />
+              </PermissionProtectedLayout>,
+              <CLoadingPage />
+            ),
+          },
+          {
+            path: ':qAChatbotId/update',
+            element: withSuspense(
+              <PermissionProtectedLayout
+                codeName={IPERMISSION_CODE_NAME.Q_A_CHATBOTS}
+                type={IPERMISSION_TYPE.UPDATE}
+              >
+                <QAChatbotUpdatePage />
+              </PermissionProtectedLayout>,
+              <CLoadingPage />
+            ),
+          },
+          {
+            path: ':qAChatbotId/detail',
+            element: withSuspense(
+              <PermissionProtectedLayout
+                codeName={IPERMISSION_CODE_NAME.Q_A_CHATBOTS}
+                type={IPERMISSION_TYPE.VIEW}
+              >
+                <QAChatbotDetailPage />
+              </PermissionProtectedLayout>,
+              <CLoadingPage />
+            ),
+          },
+        ],
+      },
+      {
+        path: 'user_management',
+        element: withSuspense(
+          <PermissionProtectedLayout
+            codeName={IPERMISSION_CODE_NAME.USERS}
+            type={IPERMISSION_TYPE.VIEW}
+          >
+            <UserPage />
+          </PermissionProtectedLayout>,
+          <CLoadingPage />
+        ),
+      },
+      {
+        path: 'statistics',
+        element: <Outlet />,
+        children: [
+          {
+            path: 'posts',
+            element: withSuspense(
+              <PermissionProtectedLayout
+                codeName={IPERMISSION_CODE_NAME.POSTS}
+                type={IPERMISSION_TYPE.VIEW}
+              >
+                <PostStatisticPage />
+              </PermissionProtectedLayout>,
+              <CLoadingPage />
+            ),
+          },
+          {
+            path: 'users',
+            element: withSuspense(
+              <PermissionProtectedLayout
+                codeName={IPERMISSION_CODE_NAME.USERS}
+                type={IPERMISSION_TYPE.VIEW}
+              >
+                <UserStatisticPage />
+              </PermissionProtectedLayout>,
+              <CLoadingPage />
+            ),
+          },
+          {
+            path: 'payments',
+            element: withSuspense(
+              <PermissionProtectedLayout
+                codeName={IPERMISSION_CODE_NAME.PAYMENTS}
+                type={IPERMISSION_TYPE.VIEW}
+              >
+                <PaymentStatisticPage />
+              </PermissionProtectedLayout>,
+              <CLoadingPage />
+            ),
           },
         ],
       },

@@ -8,9 +8,11 @@ export interface IUser {
   isBanned: boolean;
   description: string;
   name: string;
+  banAmount: number;
+  reportAmount: number;
   username?: string;
   avatar?: string;
-  phoneNumber?: string;
+  email?: string;
   address: {
     province: {
       _id: number;
@@ -34,7 +36,7 @@ export interface IUserItem {
   name: string;
   username?: string;
   avatar?: string;
-  phoneNumber?: string;
+  email?: string;
   createdAt: string;
   updatedAt?: string;
   address: {
@@ -56,9 +58,21 @@ export interface IUserItem {
 
 export interface ISearchUser extends ISearchParams {
   name?: string;
-  phoneNumber?: string;
+  email?: string;
   isBanned?: boolean;
   province?: number;
   district?: number;
   ward?: number;
+}
+export interface IData {
+  totalUser: number;
+  totalBanned: number;
+}
+
+export interface ICountGenderUser {
+  totalUser: number;
+  totalMale: number;
+  totalFemale: number;
+  totalOther: number;
+  totalNotUpdate: number;
 }

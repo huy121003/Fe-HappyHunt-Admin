@@ -10,6 +10,10 @@ export interface IAttribute {
   isFilter?: boolean;
   isShow?: boolean;
 }
+export interface IMessage {
+  messageSeller: string;
+  messgaeBuyer: string;
+}
 export interface ICategory {
   _id: number;
   name: string;
@@ -24,6 +28,7 @@ export interface ICategory {
   keywords: string[];
   isPayment?: boolean;
   pricePayment?: number;
+  pricePush: number;
 }
 export interface ICategoryItem {
   _id: number;
@@ -32,10 +37,12 @@ export interface ICategoryItem {
   slug: string;
   isPayment: boolean;
   pricePayment?: number;
+  pricePush: number;
   parent?: {
     _id: number;
     name: string;
   };
+  messages: IMessage[];
 }
 
 export interface ISearchCategory extends ISearchParams {
@@ -45,10 +52,12 @@ export interface ISearchCategory extends ISearchParams {
 export interface ICategoryPayload {
   name: string;
   isPayment: boolean;
+  pricePush: number;
   pricePayment?: number;
   parent?: number;
   icon?: string | UploadFile;
   attributes?: IAttribute[];
   keywords?: string[];
   description?: string;
+  messages?: IMessage[];
 }

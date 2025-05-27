@@ -6,7 +6,8 @@ import CHeaderForm from '@/components/CHeaderForm';
 import CInput from '@/components/CInput';
 import CTextArea from '@/components/CTextArea';
 import { UploadOutlined } from '@ant-design/icons';
-import useBeforeUpload from '@/hooks/useBeforeUpload';
+import useUpload from '@/hooks/useUpload';
+import ImgCrop from 'antd-img-crop';
 
 interface IBannerFormProps {
   onSubmit: (values: IBannerPayload, id?: number) => void;
@@ -27,24 +28,31 @@ const BannerForm: React.FC<IBannerFormProps> = ({
   title,
   isView,
 }) => {
-  const { beforeUploadBanner } = useBeforeUpload();
   const [form] = Form.useForm();
+  const {
+    handleBeforeUpload,
+    handlePreview,
+    onChange,
+    fileList,
+    setFileList,
+    PreviewPlaceholder,
+  } = useUpload(form);
   const navigate = useNavigate();
   const onCancel = useCallback(() => {
     navigate('/banners');
   }, [navigate]);
   useEffect(() => {
     if (data) {
+      setFileList([
+        {
+          uid: `${Date.now()}`,
+          name: 'image.png',
+          status: 'done',
+          url: data.image,
+        },
+      ]);
       form.setFieldsValue({
         ...data,
-        image: [
-          {
-            uid: `${Date.now()}`,
-            name: 'image.png',
-            status: 'done',
-            url: data.image,
-          },
-        ],
       });
     }
   }, [data, form]);
@@ -52,7 +60,7 @@ const BannerForm: React.FC<IBannerFormProps> = ({
     const values = await form.validateFields();
     const payload: IBannerPayload = {
       ...values,
-      image: values.image[0].originFileObj,
+      image: fileList[0]?.originFileObj,
     };
     onSubmit(payload);
   };
@@ -109,7 +117,7 @@ const BannerForm: React.FC<IBannerFormProps> = ({
               },
             ]}
           >
-            <CInput placeholder="Input link" />
+            <CInput placeholder="Input link" maxLength={200} />
           </Form.Item>
           <Form.Item
             label="Image"
@@ -118,21 +126,26 @@ const BannerForm: React.FC<IBannerFormProps> = ({
             getValueFromEvent={(e) => e.fileList}
             rules={[{ required: true, message: 'Please upload image' }]}
           >
-            <Upload
-              multiple={false}
-              listType="picture-card"
-              maxCount={1}
-              onPreview={() => {}}
-              accept=".png,.jpg,.jpeg"
-              beforeUpload={beforeUploadBanner}
-            >
-              <Button icon={<UploadOutlined />} type="dashed" />
-            </Upload>
+            <ImgCrop rotationSlider aspect={2 / 1}>
+              <Upload
+                multiple={false}
+                listType="picture-card"
+                maxCount={1}
+                beforeUpload={handleBeforeUpload('.png,.jpg,.jpeg')}
+                onPreview={handlePreview}
+                accept=".png,.jpg,.jpeg"
+                onChange={onChange}
+                fileList={fileList}
+              >
+                <Button icon={<UploadOutlined />} type="dashed" />
+              </Upload>
+            </ImgCrop>
           </Form.Item>
           <Form.Item label="Description" name="description">
             <CTextArea placeholder="Input description" />
           </Form.Item>
         </Form>
+        {PreviewPlaceholder}
       </Card>
     </Spin>
   );

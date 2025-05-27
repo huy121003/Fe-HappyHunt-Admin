@@ -7,7 +7,7 @@ import { debounce } from 'lodash';
 const useAdminFilter = () => {
   const [search, setSearch] = useState<string>('');
   const [role, setRole] = useState<number>();
-  const [phoneNumber, setPhoneNumber] = useState<string>();
+  const [email, setemail] = useState<string>();
   const [isBanned, setIsBanned] = useState<boolean>();
   const {
     parsedPagination,
@@ -20,7 +20,7 @@ const useAdminFilter = () => {
       ...parsedPagination,
       ...(search && { name: search }),
       ...(role && { role }),
-      ...(phoneNumber && { phoneNumber }),
+      ...(email && { email }),
       ...(isBanned !== undefined && { isBanned }),
     };
     return filters;
@@ -29,9 +29,9 @@ const useAdminFilter = () => {
     handleResetPagination();
     setSearch((event.target as HTMLInputElement).value);
   }, 500);
-  const handleInputPhoneNumber: SearchProps['onInput'] = debounce((event) => {
+  const handleInputemail: SearchProps['onInput'] = debounce((event) => {
     handleResetPagination();
-    setPhoneNumber((event.target as HTMLInputElement).value);
+    setemail((event.target as HTMLInputElement).value);
   }, 500);
   const handleSelectRole = (role: number | undefined) => {
     setRole(role);
@@ -47,7 +47,7 @@ const useAdminFilter = () => {
     handleChangePagination,
     computtedFilter,
     handleSelectRole,
-    handleInputPhoneNumber,
+    handleInputemail,
     handleSelectIsBanned,
   };
 };

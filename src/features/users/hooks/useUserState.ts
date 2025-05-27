@@ -17,12 +17,11 @@ const useUserState = () => {
     });
     client.invalidateQueries({ queryKey: [API_KEY.USER] });
     client.invalidateQueries({ queryKey: [API_KEY.USER_DETAIL] });
-    navigate('/user_reports/users');
+    navigate('/user_management');
     if (onSuccessCallback) {
       onSuccessCallback();
     }
   };
-
 
   return { onSuccess };
 };

@@ -6,8 +6,10 @@ const user: IUser = {
   name: 'John Doe',
   username: 'johndoe',
   avatar: 'https://picsum.photos/200',
-  phoneNumber: '123-456-7890',
+  email: '123-456-7890',
   isVip: true,
+  banAmount: 0,
+  reportAmount: 0,
   isBanned: false,
   description: 'A passionate software developer.',
   address: {
@@ -55,7 +57,7 @@ const UserDetail: React.FC = () => {
           {/* User Information */}
           <div className="w-full text-left mt-6 space-y-4 text-lg">
             <p>
-              <strong>Phone:</strong> {user.phoneNumber}
+              <strong>Phone:</strong> {user.email}
             </p>
             <p>
               <strong>Address:</strong> {user.address.specificAddress},{' '}

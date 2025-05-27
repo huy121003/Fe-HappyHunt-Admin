@@ -1,0 +1,6 @@
+
+export const API_KEY={
+  Q_A_CHATBOTS: 'Q_A_CHATBOTS',
+  Q_A_CHATBOTS_DETAIL: 'Q_A_CHATBOTS_DETAIL',
+
+}

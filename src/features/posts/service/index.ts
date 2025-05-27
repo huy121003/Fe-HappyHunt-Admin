@@ -53,7 +53,7 @@ class PostService {
     const newParams = new URLSearchParams(params as any).toString();
     return apiRequest(
       EMethod.GET,
-      `${PostService.baseUrl}/pagination?${newParams}`,
+      `${PostService.baseUrl}/pagination-manager?${newParams}`,
       false
     );
   };
@@ -75,6 +75,22 @@ class PostService {
     return apiRequest(
       EMethod.PATCH,
       `${PostService.baseUrl}/click-count/${id}`,
+      false
+    );
+  };
+  static getTotalPostSelling = (): Promise<ICommonResponse<number>> => {
+    return apiRequest(
+      EMethod.GET,
+      `${PostService.baseUrl}/total-post-selling`,
+      false
+    );
+  };
+  static getTotalPostByCategory = (): Promise<
+    ICommonResponse<Record<string, number>>
+  > => {
+    return apiRequest(
+      EMethod.GET,
+      `${PostService.baseUrl}/total-statistic-by-category`,
       false
     );
   };

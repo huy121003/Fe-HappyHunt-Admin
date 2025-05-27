@@ -101,9 +101,9 @@ const UserTable: React.FC<IUserTableProps> = ({
       render: (value: string) => <CTableParagraph children={value} />,
     },
     {
-      title: 'Phone Number',
-      dataIndex: 'phoneNumber',
-      key: 'phoneNumber',
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email',
       width: 200,
       render: (value: string) => <CTableParagraph children={value} />,
     },
@@ -148,6 +148,20 @@ const UserTable: React.FC<IUserTableProps> = ({
           <Tag color="green">Active</Tag>
         ),
     },
+    {
+      title: 'Ban Amount',
+      dataIndex: 'banAmount',
+      key: 'banAmount',
+      width: 100,
+      render: (value: number) => <CTableParagraph children={value || 0} />,
+    },
+    {
+      title: 'Report Amount',
+      dataIndex: 'reportAmount',
+      key: 'reportAmount',
+      width: 100,
+      render: (value: number) => <CTableParagraph children={value || 0} />,
+    },
 
     {
       title: 'Created At',
@@ -167,7 +181,7 @@ const UserTable: React.FC<IUserTableProps> = ({
         <Flex align="center">
           <CButtonActive
             codeName={IPERMISSION_CODE_NAME.USERS}
-            isActived={!record.isBanned}
+            isActived={record.isBanned}
             onClick={() => {
               setRecord(record);
               setOpenActiveModal && setOpenActiveModal(true);
@@ -208,7 +222,7 @@ const UserTable: React.FC<IUserTableProps> = ({
       {setOpenActiveModal && (
         <CDeleteModal
           message={`Are you sure you want to ${
-            record?.isBanned ? 'unban' : 'ban'
+            record?.isBanned ? 'ban' : 'unban'
           } this user?`}
           open={openActiveModal ?? false}
           setOpen={setOpenActiveModal}

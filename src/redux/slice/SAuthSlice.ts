@@ -5,7 +5,7 @@ export const initialState = {
   isLoading: true,
   account: {
     name: '',
-    phoneNumber: '',
+    email: '',
     avatar: '',
     isVip: false,
     isBanned: false,
@@ -54,7 +54,7 @@ export const SAuthSlice = createSlice({
       state.isAuthenticated = false;
       state.account = {
         name: '',
-        phoneNumber: '',
+        email: '',
         avatar: '',
         isVip: false,
         isBanned: false,

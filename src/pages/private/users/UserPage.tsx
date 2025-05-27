@@ -23,7 +23,7 @@ function UserPage() {
     handleInputSearch,
     pagination,
     computtedFilter,
-    handleInputPhoneNumber,
+    handleInputemail,
     handleSelectIsVip,
     handleSelectIsBanned,
     handleSelectProvince,
@@ -77,10 +77,7 @@ function UserPage() {
       <Card>
         <FilterLayout>
           <CSearch placeholder="Search user name" onInput={handleInputSearch} />
-          <CSearch
-            placeholder="Search user phone number"
-            onInput={handleInputPhoneNumber}
-          />
+          <CSearch placeholder="Search user Email" onInput={handleInputemail} />
           <CSelect
             placeholder="Ban status"
             allowClear

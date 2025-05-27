@@ -15,7 +15,7 @@ const convertObjectToFormData = (data: ICategoryPayload) => {
     formData.append('keywords', keyword);
   });
   formData.append('attributes', JSON.stringify(data.attributes));
-
+  formData.append('pricePush', data.pricePush.toString());
   formData.append('isPayment', data.isPayment.toString());
 
   if (data.pricePayment) {
@@ -30,7 +30,11 @@ const convertObjectToFormData = (data: ICategoryPayload) => {
   if (data.icon) {
     formData.append('icon', data.icon as unknown as Blob);
   }
-
+  if (data.messages) {
+    data.messages.forEach((message) => {
+      formData.append('messages', JSON.stringify(message));
+    });
+  }
   return formData;
 };
 class CategoryService {

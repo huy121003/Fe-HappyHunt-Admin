@@ -1,7 +1,13 @@
 import apiRequest from '@/libs/axios';
 import { EMethod } from '@/constants';
 import { ICommonResponse, IPagedResponse } from '@/interfaces';
-import { ISearchUser, IUser, IUserItem } from '../data/interface';
+import {
+  ICountGenderUser,
+  IData,
+  ISearchUser,
+  IUser,
+  IUserItem,
+} from '../data/interface';
 
 class UserService {
   private static baseUrl = 'user';
@@ -27,6 +33,15 @@ class UserService {
     return apiRequest(EMethod.PATCH, `${this.baseUrl}/${id}/banned`, false, {
       isBanned: banned,
     });
+  };
+  static getNewUser = (): Promise<ICommonResponse<IUserItem[]>> => {
+    return apiRequest(EMethod.GET, `${this.baseUrl}/new-user`, false);
+  };
+  static getTotalUser = (): Promise<ICommonResponse<IData>> => {
+    return apiRequest(EMethod.GET, `${this.baseUrl}/total-user`, false);
+  };
+  static getCountGenderUser = (): Promise<ICommonResponse<ICountGenderUser>> => {
+    return apiRequest(EMethod.GET, `${this.baseUrl}/count-gender-user`, false);
   };
 }
 export default UserService;

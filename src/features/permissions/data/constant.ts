@@ -29,4 +29,6 @@ export enum IPERMISSION_CODE_NAME {
   POST_SETTINGS = 'post_settings',
   USER_SETTINGS = 'user_settings',
   PAYMENTS = 'payments',
+  Q_A_CHATBOTS = 'q_a_chatbots',
+  REPORTS = 'reports',
 }
