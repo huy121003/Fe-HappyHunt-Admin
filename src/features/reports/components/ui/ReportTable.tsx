@@ -49,16 +49,23 @@ const ReportTable: React.FC<IReportTableProps> = ({
       title: 'Reporter',
       dataIndex: 'createdBy',
       key: 'createdBy',
-      width: 150,
+      width: 200,
       render: (_, record) => (
         <CTableParagraph
           children={
             <Flex>
-              <Avatar
-                src={record.createdBy?.avatar}
-                size="small"
-                style={{ marginRight: 8 }}
-              />
+              {record.createdBy?.avatar ? (
+                <Avatar
+                  src={record.createdBy?.avatar}
+                  size="small"
+                  style={{ marginRight: 8 }}
+                />
+              ) : (
+                <Avatar style={{ marginRight: 8 }} size="small">
+                  {record.createdBy?.name?.charAt(0).toUpperCase()}
+                </Avatar>
+              )}
+
               <Typography.Text>{record.createdBy?.name}</Typography.Text>
             </Flex>
           }
@@ -90,7 +97,7 @@ const ReportTable: React.FC<IReportTableProps> = ({
       dataIndex: 'title',
       key: 'title',
 
-      width: 150,
+      width: 200,
       render: (value: string) => (
         <CTableParagraph
           children={<Typography.Link>{value}</Typography.Link>}

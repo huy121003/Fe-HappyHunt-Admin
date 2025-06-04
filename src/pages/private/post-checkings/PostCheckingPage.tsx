@@ -31,7 +31,10 @@ function PostCheckingPage() {
     queryFn: async () => {
       const response = await PostService.getAllPagination({
         ...computtedFilter,
-        status: EPostStatus.CHECKING,
+        status:
+          computtedFilter.status === EPostStatus.SELLING
+            ? EPostStatus.CHECKING
+            : computtedFilter.status,
       });
       return response.data;
     },

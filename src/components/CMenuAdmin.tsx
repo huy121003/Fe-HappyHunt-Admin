@@ -45,7 +45,7 @@ const CMenuAdmin: React.FC<CMenuAdminProps> = ({ collapsed }) => {
     ]),
     getItem(
       'Users Management',
-      'user_management',
+      '/user_management',
       'fa-user',
       '/user_management'
     ),
@@ -68,7 +68,7 @@ const CMenuAdmin: React.FC<CMenuAdminProps> = ({ collapsed }) => {
 
     getItem(
       'Payment Management',
-      'payment_management',
+      '/payment_management',
       'fa-money-bill-wave',
       '/payment_management'
     ),

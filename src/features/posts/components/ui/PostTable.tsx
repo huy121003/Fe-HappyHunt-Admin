@@ -144,7 +144,7 @@ const PostTable: React.FC<IPostTableProps> = ({
       title: 'Created At',
       dataIndex: 'createdAt',
       key: 'createdAt',
-      width: 150,
+      width: 200,
       render: (value: string) => (
         <CTableParagraph children={dayFormat(value)} />
       ),
@@ -164,7 +164,7 @@ const PostTable: React.FC<IPostTableProps> = ({
       title: 'Last Update',
       dataIndex: 'updatedAt',
       key: 'updatedAt',
-      width: 150,
+      width: 200,
       render: (value: string) => (
         <CTableParagraph children={dayFormat(value)} />
       ),

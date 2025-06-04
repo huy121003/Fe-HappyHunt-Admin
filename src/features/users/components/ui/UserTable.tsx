@@ -1,7 +1,15 @@
 import { ITableProps } from '@/interfaces';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Badge, Flex, Image, TableColumnsType, Tag, Typography } from 'antd';
+import {
+  Avatar,
+  Badge,
+  Flex,
+  Image,
+  TableColumnsType,
+  Tag,
+  Typography,
+} from 'antd';
 import { CDeleteModal, CTable } from '@/components';
 
 import CButtonDelete from '@/components/buttons/CButtonDelete';
@@ -52,7 +60,7 @@ const UserTable: React.FC<IUserTableProps> = ({
       title: 'User',
       dataIndex: 'name',
       key: 'name',
-      width: 200,
+      width: 300,
       render: (_, record: IUserItem) => (
         <CTableParagraph
           children={
@@ -78,11 +86,17 @@ const UserTable: React.FC<IUserTableProps> = ({
                     }}
                   />
                 ) : (
-                  <i
-                    className={`fa-regular fa-circle-user text-[40px] text-gray-400
-                  ${record.isVip ? 'border-2 border-yellow-500' : 'border-0'}
-                     `}
-                  />
+                  <Avatar
+                    size={40}
+                    style={{
+                      backgroundColor: '#f56a00',
+                      color: '#fff',
+                      border: record.isVip ? '2px solid gold' : 'none',
+                      padding: '2px',
+                    }}
+                  >
+                    {record.name ? record.name.charAt(0).toUpperCase() : '?'}
+                  </Avatar>
                 )}
               </Badge>
               <Typography.Text onClick={() => navigate(`${record._id}/detail`)}>
@@ -104,14 +118,14 @@ const UserTable: React.FC<IUserTableProps> = ({
       title: 'Email',
       dataIndex: 'email',
       key: 'email',
-      width: 200,
+      width: 300,
       render: (value: string) => <CTableParagraph children={value} />,
     },
     {
       title: 'Address',
       dataIndex: 'address',
       key: 'address',
-      width: 300,
+      width: 400,
       render: (_, record) => (
         <CTableParagraph
           children={
