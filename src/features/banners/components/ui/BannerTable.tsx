@@ -126,7 +126,7 @@ const BannerTable: React.FC<IBannerTableProps> = ({
             onClick={() => navigate(`${record._id}/update`)}
             disabled={isLoading}
           />
-          {record.isShow && (
+          {!record.isShow && (
             <CButtonDelete
               codeName={IPERMISSION_CODE_NAME.BANNERS}
               onClick={() => {

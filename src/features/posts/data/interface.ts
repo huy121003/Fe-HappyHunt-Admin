@@ -14,6 +14,7 @@ export interface IPost {
     name: string;
     _id: number;
   };
+  expiredAt?: string;
   images: {
     url: string;
     index: number;
@@ -143,6 +144,7 @@ export interface ICountSold {
 }
 export interface IUpdateStatusChecking {
   status?: EPostStatus;
+  expriedAt?: string;
   images: {
     url: string;
     index: number;
