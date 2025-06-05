@@ -18,7 +18,13 @@ function Topup() {
       dataIndex: 'name',
       render: (_, record) => (
         <Flex gap={10} align="center">
-          <Avatar src={record.avatar} className="border-2 border-orange-200" />
+          {record.avatar ? (
+            <Avatar src={record.avatar} size="large" />
+          ) : (
+            <Avatar style={{ backgroundColor: '#f56a00' }} size="large">
+              {record.name.charAt(0).toUpperCase()}
+            </Avatar>
+          )}
           <Typography.Text className="text-gray-800 font-medium">
             {record.name}
           </Typography.Text>

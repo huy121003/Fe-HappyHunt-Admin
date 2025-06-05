@@ -51,6 +51,7 @@ const PostCheckingForm: React.FC<PostCheckingFormProps> = ({
           .length > 0
           ? EPostStatus.REJECTED
           : EPostStatus.SELLING,
+      expriedAt: data?.expiredAt,
       images: values.images.map((image) => ({
         url: image.url,
         index: image.index,

@@ -88,7 +88,7 @@ const PostTable: React.FC<IPostTableProps> = ({
       title: 'Category',
       dataIndex: 'category',
       key: 'category',
-      width: 150,
+      width: 200,
       render: (_: string, record) => (
         <CTableParagraph
           children={`${record.categoryParent.name}${record.category && ` - ${record.category.name}`}`}
@@ -99,7 +99,7 @@ const PostTable: React.FC<IPostTableProps> = ({
       title: 'Price',
       dataIndex: 'price',
       key: 'price',
-      width: 150,
+      width: 200,
       render: (value: number) => (
         <CTableParagraph children={`${value.toLocaleString('VND')} VND`} />
       ),
@@ -144,7 +144,7 @@ const PostTable: React.FC<IPostTableProps> = ({
       title: 'Created At',
       dataIndex: 'createdAt',
       key: 'createdAt',
-      width: 150,
+      width: 200,
       render: (value: string) => (
         <CTableParagraph children={dayFormat(value)} />
       ),
@@ -153,7 +153,7 @@ const PostTable: React.FC<IPostTableProps> = ({
       title: 'Address',
       dataIndex: 'address',
       key: 'address',
-      width: 200,
+      width: 300,
       render: (_, record) => (
         <CTableParagraph
           children={`${record.address.district.name} - ${record.address.province.name} `}
@@ -164,7 +164,7 @@ const PostTable: React.FC<IPostTableProps> = ({
       title: 'Last Update',
       dataIndex: 'updatedAt',
       key: 'updatedAt',
-      width: 150,
+      width: 200,
       render: (value: string) => (
         <CTableParagraph children={dayFormat(value)} />
       ),

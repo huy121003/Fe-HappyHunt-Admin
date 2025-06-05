@@ -45,7 +45,7 @@ const CMenuAdmin: React.FC<CMenuAdminProps> = ({ collapsed }) => {
     ]),
     getItem(
       'Users Management',
-      'user_management',
+      '/user_management',
       'fa-user',
       '/user_management'
     ),
@@ -55,24 +55,23 @@ const CMenuAdmin: React.FC<CMenuAdminProps> = ({ collapsed }) => {
       'fa-layer-group',
       '/categories'
     ),
-    getItem('Post Management', 'post_management', 'fa-newspaper', undefined, [
-      getItem('Post Selling', '/posts', 'fa-file-alt', '/posts'),
-      getItem(
-        'Post Checking',
-        '/post-checkings',
-        'fa-check-circle',
-        '/post-checkings'
-      ),
-    ]),
+
+    getItem(
+      'Post Moderation',
+      '/post-checkings',
+      'fa-check-circle',
+      '/post-checkings'
+    ),
+
     getItem('Banner Management', '/banners', 'fa-image', '/banners'),
 
     getItem(
       'Payment Management',
-      'payment_management',
+      '/payment_management',
       'fa-money-bill-wave',
       '/payment_management'
     ),
-    getItem('Q&A Chat Bot', 'q&a', 'fa-robot', '/q&a'),
+    getItem('Q&A Chat Bot', '/q&a', 'fa-robot', '/q&a'),
     getItem('Address Management', 'addresses', 'fa-map-location', undefined, [
       getItem(
         'Provinces',
@@ -88,7 +87,7 @@ const CMenuAdmin: React.FC<CMenuAdminProps> = ({ collapsed }) => {
       ),
       getItem('Wards', '/addresses/wards', 'fa-house-user', '/addresses/wards'),
     ]),
-    getItem('Report Management', 'reports', 'fa-flag', '/reports'),
+    getItem('Report Management', '/reports', 'fa-flag', '/reports'),
     getItem('Statistics', 'statistics', 'fa-chart-pie', undefined, [
       getItem(
         'Post Statistics',

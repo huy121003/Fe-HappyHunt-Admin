@@ -5,4 +5,5 @@ export const reasonReject = [
   'Contains inappropriate text',
   'Contains inappropriate QR codes',
   'Contains gambling content',
+  'Not in post category',
 ];

@@ -85,7 +85,7 @@ const ProvinceTable: React.FC<IProvinceTableProps> = ({
       render: (value: string) => (
         <CTableParagraph children={dayFormat(value)} />
       ),
-      width: 100,
+      width: 200,
     },
     {
       title: 'Created By',

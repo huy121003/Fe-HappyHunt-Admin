@@ -41,18 +41,21 @@ const PaymentTable: React.FC<IPaymentTableProps> = ({
       title: 'Order Code',
       dataIndex: 'orderCode',
       key: 'orderCode',
+      width: 200,
       render: (value: string) => <CTableParagraph children={value} />,
     },
     {
       title: 'Payment Link Id',
       dataIndex: 'paymentLinkId',
       key: 'paymentLinkId',
+      width: 300,
       render: (value: string) => <CTableParagraph children={value} />,
     },
     {
       title: 'Amount',
       dataIndex: 'amount',
       key: 'amount',
+      width: 200,
       render: (value: number) => (
         <CTableParagraph children={`${value.toLocaleString()} VND`} />
       ),
@@ -60,6 +63,7 @@ const PaymentTable: React.FC<IPaymentTableProps> = ({
     {
       title: 'Description',
       dataIndex: 'description',
+      width: 300,
       key: 'description',
       render: (value: string) => <CTableParagraph children={value} />,
     },
@@ -67,6 +71,7 @@ const PaymentTable: React.FC<IPaymentTableProps> = ({
       title: 'Status',
       dataIndex: 'status',
       key: 'status',
+      width: 200,
       render: (value: EStatus) => (
         <CTableParagraph
           children={
@@ -91,6 +96,7 @@ const PaymentTable: React.FC<IPaymentTableProps> = ({
       title: 'Created At',
       dataIndex: 'createdAt',
       key: 'createdAt',
+      width: 200,
       render: (value: string) => (
         <CTableParagraph children={dayFormat(value)} />
       ),
@@ -98,6 +104,7 @@ const PaymentTable: React.FC<IPaymentTableProps> = ({
     {
       title: 'Transaction Date Time',
       dataIndex: 'transactionDateTime',
+      width: 200,
       render: (value: string, record: IPaymentItem) => {
         if (record.status === EStatus.SUCCESS) {
           return <CTableParagraph children={dayFormat(value)} />;

@@ -1,6 +1,6 @@
 export interface IPostStatistics {
   _id: string;
-  totalAccounts: number;
+  totalPosts: number;
 }
 
 export interface ISearchPostStatistic {

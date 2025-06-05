@@ -19,17 +19,7 @@ const usePostFilter = () => {
   const [maxPrice, setMaxPrice] = useState<number>();
   // const location = useLocation();
 
-  // Lấy phần cuối cùng của pathname và chuyển thành chữ hoa
-  // const getStatusFromPath = (): EPostStatus => {
-  //   const pathSegments = location.pathname.split('/').filter(Boolean); // Loại bỏ phần tử rỗng
-  //   const lastSegment = pathSegments[
-  //     pathSegments.length - 1
-  //   ]?.toUpperCase() as EPostStatus;
 
-  //   return Object.values(EPostStatus).includes(lastSegment)
-  //     ? lastSegment
-  //     : EPostStatus.SELLING;
-  // };
 
   const [status, setStatus] = useState<EPostStatus>(EPostStatus.SELLING);
 

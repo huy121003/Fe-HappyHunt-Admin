@@ -89,7 +89,7 @@ const DistrictTable: React.FC<IDistrictTableProps> = ({
       title: 'Created At',
       dataIndex: 'createdAt',
       key: 'createdAt',
-      width: 100,
+      width: 200,
       render: (value: string) => (
         <CTableParagraph children={dayFormat(value)} />
       ),
