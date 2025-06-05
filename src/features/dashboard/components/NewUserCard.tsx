@@ -3,7 +3,6 @@ import { IUserItem } from '@/features/users/data/interface';
 import UserService from '@/features/users/service';
 import { useQuery } from '@tanstack/react-query';
 import { Avatar, Card, Flex, Table, TableColumnsType, Typography } from 'antd';
-import dayjs from 'dayjs';
 import { UserAddOutlined } from '@ant-design/icons';
 import { dayFormat } from '@/configs/date.';
 

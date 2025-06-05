@@ -1,6 +1,5 @@
 import { ITableProps } from '@/interfaces';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import {
   Avatar,
   Badge,
@@ -38,7 +37,6 @@ const UserTable: React.FC<IUserTableProps> = ({
   setOpenActiveModal,
 }) => {
   const [record, setRecord] = useState<IUserItem | null>(null);
-  const navigate = useNavigate();
   const columns: TableColumnsType<IUserItem> = [
     {
       title: 'No.',
