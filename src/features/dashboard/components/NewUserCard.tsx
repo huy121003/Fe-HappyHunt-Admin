@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Avatar, Card, Flex, Table, TableColumnsType, Typography } from 'antd';
 import dayjs from 'dayjs';
 import { UserAddOutlined } from '@ant-design/icons';
+import { dayFormat } from '@/configs/date.';
 
 function NewUserCard() {
   const { data, isLoading } = useQuery({
@@ -21,7 +22,13 @@ function NewUserCard() {
       dataIndex: 'name',
       render: (_, record) => (
         <Flex gap={10} align="center">
-          <Avatar src={record.avatar} className="border-2 border-orange-200" />
+          {record.avatar ? (
+            <Avatar src={record.avatar} size="large" />
+          ) : (
+            <Avatar style={{ backgroundColor: '#f56a00' }} size="large">
+              {record.name.charAt(0).toUpperCase()}
+            </Avatar>
+          )}
           <Typography.Text className="text-gray-800 font-medium">
             {record.name}
           </Typography.Text>
@@ -33,7 +40,7 @@ function NewUserCard() {
       dataIndex: 'createdAt',
       render: (_, record) => (
         <Typography.Text className="text-gray-600">
-          {dayjs(record.createdAt).format('DD/MM/YYYY')}
+          {dayFormat(record.createdAt)}
         </Typography.Text>
       ),
     },

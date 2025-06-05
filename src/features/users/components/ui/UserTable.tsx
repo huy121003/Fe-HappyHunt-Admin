@@ -99,9 +99,7 @@ const UserTable: React.FC<IUserTableProps> = ({
                   </Avatar>
                 )}
               </Badge>
-              <Typography.Text onClick={() => navigate(`${record._id}/detail`)}>
-                {record.name}
-              </Typography.Text>
+              <Typography.Text>{record.name}</Typography.Text>
             </Flex>
           }
         />

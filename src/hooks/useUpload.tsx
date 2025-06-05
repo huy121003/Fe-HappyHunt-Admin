@@ -68,7 +68,7 @@ const useUpload = (form: FormInstance) => {
 
   const handleBeforeUpload = (
     accept: UploadProps['accept'],
-    size: number = 1
+    size: number = 2
   ) => {
     return (file: RcFile) => {
       const isAcceptedType = isFileAllowed(file, accept);

@@ -7,7 +7,7 @@ class PaymentStatisticService {
   private static baseUrl = 'payment';
   static getStatistic = (
     params: ISearchPayemtStatistic
-  ): Promise<ICommonResponse<IPayemtStatistic[]>> => {
+  ): Promise<ICommonResponse<IPayemtStatistic>> => {
     const newParams = new URLSearchParams(params as any).toString();
     return apiRequest(
       EMethod.GET,

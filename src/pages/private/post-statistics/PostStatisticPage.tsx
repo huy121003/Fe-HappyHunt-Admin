@@ -7,6 +7,7 @@ import CChooseDate from '@/components/ui/CChooseDate';
 import PostStatisticService from '@/features/post-statistic/service';
 import { API_KEY } from '@/features/post-statistic/data/constant';
 import PostStatisticChart from '@/features/post-statistic/components/PostStatisticChart';
+import ExportExcel from '@/features/post-statistic/components/ExportExcel';
 
 function PostStatisticPage() {
   const {
@@ -27,7 +28,16 @@ function PostStatisticPage() {
   });
   return (
     <div className="bg-gray-100 ">
-      <CHeaderCard title="New Post Statistic" actions={null} />
+      <CHeaderCard
+        title="New Post Statistic"
+        actions={
+          <ExportExcel
+            data={data || []}
+            fileName="new-post-statistic"
+            sheetName="new-post-statistic"
+          />
+        }
+      />
       <Card>
         <CChooseDate
           type={type}

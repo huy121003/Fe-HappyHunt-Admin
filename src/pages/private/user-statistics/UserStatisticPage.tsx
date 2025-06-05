@@ -7,6 +7,7 @@ import CChooseDate from '@/components/ui/CChooseDate';
 import { API_KEY } from '@/features/user-statistics/data/constant';
 import UserStatisticService from '@/features/user-statistics/service';
 import UserStatisticChart from '@/features/user-statistics/components/UserStatisticChart';
+import ExportExcel from '@/features/user-statistics/components/ExportExcel';
 
 function UserStatisticPage() {
   const {
@@ -28,7 +29,16 @@ function UserStatisticPage() {
 
   return (
     <div className="bg-gray-100 ">
-      <CHeaderCard title="New User Statistic" actions={null} />
+      <CHeaderCard
+        title="New User Statistic"
+        actions={
+          <ExportExcel
+            data={data || []}
+            fileName="new-user-statistic"
+            sheetName="new-user-statistic"
+          />
+        }
+      />
       <Card>
         <CChooseDate
           type={type}

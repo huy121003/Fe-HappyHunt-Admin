@@ -8,6 +8,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Card } from 'antd';
 import { useState } from 'react';
 import CChooseDate from '@/components/ui/CChooseDate';
+import ExportExcel from '@/features/payment-statistics/components/ExportExcel';
 
 function PaymentStatisticPage() {
   const {
@@ -31,7 +32,16 @@ function PaymentStatisticPage() {
 
   return (
     <div className="bg-gray-100 ">
-      <CHeaderCard title="Payment Statistic" actions={null} />
+      <CHeaderCard
+        title="Payment Statistic"
+        actions={
+          <ExportExcel
+            data={data?.data || []}
+            fileName="payment-statistic"
+            sheetName="payment-statistic"
+          />
+        }
+      />
       <Card>
         <CChooseDate
           type={type}

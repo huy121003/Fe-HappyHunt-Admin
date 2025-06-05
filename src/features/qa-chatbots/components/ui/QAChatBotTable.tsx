@@ -9,6 +9,7 @@ import { IPERMISSION_CODE_NAME } from '@/features/permissions/data/constant';
 import CButtonDelete from '@/components/buttons/CButtonDelete';
 import CDeleteModal from '@/components/CDeleteModal';
 import { CTable } from '@/components';
+import { dayFormat } from '@/configs/date.';
 interface IQAChatBotTableProps extends ITableProps<IQAChatbotItem> {
   isDeleteLoading?: boolean;
   openModal: boolean;
@@ -69,7 +70,9 @@ const QAChatBotTable: React.FC<IQAChatBotTableProps> = ({
       dataIndex: 'createdAt',
       key: 'createdAt',
       width: 200,
-      render: (value: string) => <CTableParagraph children={value} />,
+      render: (value: string) => (
+        <CTableParagraph children={dayFormat(value)} />
+      ),
     },
     {
       title: 'Created By',
