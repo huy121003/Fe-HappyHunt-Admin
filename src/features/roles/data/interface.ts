@@ -10,9 +10,14 @@ export interface IRoleItem {
   _id: number;
   name: string;
   description?: string;
+  version: number;
   createdAt: string;
   updatedAt: string;
   createdBy: {
+    _id: number;
+    name: string;
+  };
+  updatedBy: {
     _id: number;
     name: string;
   };

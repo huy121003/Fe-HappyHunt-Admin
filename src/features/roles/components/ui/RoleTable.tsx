@@ -60,6 +60,13 @@ const RoleTable: React.FC<IRoleTableProps> = ({
         />
       ),
     },
+    {
+      title: 'Version',
+      dataIndex: 'version',
+      key: 'version',
+      render: (value: number) => <CTableParagraph children={value} />,
+      width: 200,
+    },
 
     {
       title: 'Created At',
@@ -68,7 +75,7 @@ const RoleTable: React.FC<IRoleTableProps> = ({
       render: (value: string) => (
         <CTableParagraph children={dayFormat(value)} />
       ),
-      width: 100,
+      width: 200,
     },
     {
       title: 'Created By',
@@ -76,6 +83,24 @@ const RoleTable: React.FC<IRoleTableProps> = ({
       key: 'createdBy',
       render: (_: any, record: IRoleItem) => (
         <CTableParagraph children={record.createdBy?.name} />
+      ),
+      width: 200,
+    },
+    {
+      title: 'Last Updated At',
+      dataIndex: 'updatedAt',
+      key: 'updatedAt',
+      render: (value: string) => (
+        <CTableParagraph children={dayFormat(value)} />
+      ),
+      width: 200,
+    },
+    {
+      title: 'Updated By',
+      dataIndex: 'updatedBy',
+      key: 'updatedBy',
+      render: (_: any, record: IRoleItem) => (
+        <CTableParagraph children={record.updatedBy?.name} />
       ),
       width: 200,
     },

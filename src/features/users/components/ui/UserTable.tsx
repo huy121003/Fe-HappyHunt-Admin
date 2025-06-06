@@ -1,6 +1,5 @@
 import { ITableProps } from '@/interfaces';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import {
   Avatar,
   Badge,
@@ -38,7 +37,6 @@ const UserTable: React.FC<IUserTableProps> = ({
   setOpenActiveModal,
 }) => {
   const [record, setRecord] = useState<IUserItem | null>(null);
-  const navigate = useNavigate();
   const columns: TableColumnsType<IUserItem> = [
     {
       title: 'No.',
@@ -179,6 +177,15 @@ const UserTable: React.FC<IUserTableProps> = ({
       title: 'Created At',
       dataIndex: 'createdAt',
       key: 'createdAt',
+      width: 200,
+      render: (value: string) => (
+        <CTableParagraph children={dayFormat(value)} />
+      ),
+    },
+    {
+      title: 'Last Updated At',
+      dataIndex: 'updatedAt',
+      key: 'updatedAt',
       width: 200,
       render: (value: string) => (
         <CTableParagraph children={dayFormat(value)} />

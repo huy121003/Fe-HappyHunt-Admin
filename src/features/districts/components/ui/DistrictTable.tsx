@@ -103,6 +103,25 @@ const DistrictTable: React.FC<IDistrictTableProps> = ({
         <CTableParagraph children={record.createdBy?.name} />
       ),
     },
+
+    {
+      title: 'Last Updated At',
+      dataIndex: 'updatedAt',
+      key: 'updatedAt',
+      width: 200,
+      render: (value: string) => (
+        <CTableParagraph children={dayFormat(value)} />
+      ),
+    },
+    {
+      title: 'Updated By',
+      dataIndex: 'updatedBy',
+      key: 'updatedBy',
+      width: 200,
+      render: (_: any, record: IDistrictItem) => (
+        <CTableParagraph children={record.updatedBy?.name} />
+      ),
+    },
     {
       title: 'Action',
       key: 'action',

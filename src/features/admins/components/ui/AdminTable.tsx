@@ -120,7 +120,7 @@ const AdminTable: React.FC<IAdminTableProps> = ({
       title: 'Created At',
       dataIndex: 'createdAt',
       key: 'createdAt',
-      width: 150,
+      width: 200,
       render: (_: any, record: IAdminItem) => (
         <CTableParagraph children={dayFormat(record.createdAt)} />
       ),
@@ -135,6 +135,24 @@ const AdminTable: React.FC<IAdminTableProps> = ({
       ),
     },
 
+    {
+      title: 'Last Updated At',
+      dataIndex: 'updatedAt',
+      key: 'updatedAt',
+      width: 200,
+      render: (_: any, record: IAdminItem) => (
+        <CTableParagraph children={dayFormat(record?.updatedAt)} />
+      ),
+    },
+    {
+      title: 'Updated By',
+      dataIndex: 'updatedBy',
+      key: 'updatedBy',
+      width: 200,
+      render: (_: any, record: IAdminItem) => (
+        <CTableParagraph children={record.updatedBy?.name} />
+      ),
+    },
     {
       title: 'Action',
       dataIndex: 'action',
@@ -196,7 +214,7 @@ const AdminTable: React.FC<IAdminTableProps> = ({
       {setOpenActiveModal && (
         <CDeleteModal
           message={`Are you sure you want to ${
-            record?.isBanned ? 'unban' : 'ban'
+            record?.isBanned ? 'ban' : 'unban'
           } this admin?`}
           open={openActiveModal ?? false}
           setOpen={setOpenActiveModal}
