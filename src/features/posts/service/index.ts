@@ -3,7 +3,6 @@ import { EMethod } from '@/constants';
 import { ICommonResponse, IPagedResponse } from '@/interfaces';
 import {
   ICountSold,
-  ICountStatus,
   IPost,
   IPostItem,
   ISearchPost,
@@ -13,15 +12,7 @@ import {
 class PostService {
   private static baseUrl = '/post';
 
-  static countStatus = (
-    idUser: number
-  ): Promise<ICommonResponse<ICountStatus>> => {
-    return apiRequest(
-      EMethod.GET,
-      `${PostService.baseUrl}/count-status/${idUser}`,
-      false
-    );
-  };
+
   static updateStatus = (
     id: number,
     status: string

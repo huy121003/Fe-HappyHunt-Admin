@@ -131,13 +131,7 @@ export interface ISearchPost extends ISearchParams {
   maxPrice?: number;
   name?: string;
 }
-export interface ICountStatus {
-  SELLING: number;
-  SOLD: number;
-  REJECTED: number;
-  WAITING: number;
-  HIDDEN: number;
-}
+
 export interface ICountSold {
   selling: number;
   sold: number;

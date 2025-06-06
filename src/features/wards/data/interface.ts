@@ -28,8 +28,12 @@ export interface IWardItem {
   codeName: string;
   shortCodeName: string;
   createdAt: string;
-  updatedAt?: string;
+  updatedAt: string;
   createdBy?: {
+    _id: number;
+    name: string;
+  };
+  updatedBy?: {
     _id: number;
     name: string;
   };

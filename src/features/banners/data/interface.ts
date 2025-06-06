@@ -14,8 +14,12 @@ export interface IBannerItem {
   image: string;
   isShow: boolean;
   createdAt: string;
-  updatedAt?: string;
+  updatedAt: string;
   createdBy?: {
+    _id: number;
+    name: string;
+  };
+  updatedBy?: {
     _id: number;
     name: string;
   };

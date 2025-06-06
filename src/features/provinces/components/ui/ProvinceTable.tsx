@@ -96,6 +96,24 @@ const ProvinceTable: React.FC<IProvinceTableProps> = ({
       ),
       width: 200,
     },
+    {
+      title: 'Last Updated At',
+      dataIndex: 'updatedAt',
+      key: 'updatedAt',
+      render: (value: string) => (
+        <CTableParagraph children={dayFormat(value)} />
+      ),
+      width: 200,
+    },
+    {
+      title: 'Updated By',
+      dataIndex: 'updatedBy',
+      key: 'updatedBy',
+      render: (_: any, record: IProvinceItem) => (
+        <CTableParagraph children={record.updatedBy?.name} />
+      ),
+      width: 200,
+    },
 
     {
       title: 'Action',

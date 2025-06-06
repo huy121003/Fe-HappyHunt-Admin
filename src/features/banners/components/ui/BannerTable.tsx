@@ -100,7 +100,7 @@ const BannerTable: React.FC<IBannerTableProps> = ({
       title: 'Created At',
       dataIndex: 'createdAt',
       key: 'createdAt',
-      width: 150,
+      width: 200,
       render: (value: string) => (
         <CTableParagraph children={dayFormat(value)} />
       ),
@@ -112,6 +112,24 @@ const BannerTable: React.FC<IBannerTableProps> = ({
       width: 200,
       render: (_: any, record: IBannerItem) => (
         <CTableParagraph children={record.createdBy?.name} />
+      ),
+    },
+    {
+      title: 'Last Updated At',
+      dataIndex: 'updatedAt',
+      key: 'updatedAt',
+      width: 200,
+      render: (value: string) => (
+        <CTableParagraph children={dayFormat(value)} />
+      ),
+    },
+    {
+      title: 'Updated By',
+      dataIndex: 'updatedBy',
+      key: 'updatedBy',
+      width: 200,
+      render: (_: any, record: IBannerItem) => (
+        <CTableParagraph children={record.updatedBy?.name} />
       ),
     },
     {

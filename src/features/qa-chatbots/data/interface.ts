@@ -14,6 +14,10 @@ export interface IQAChatbotItem {
     _id: number;
     name: string;
   };
+  updatedBy: {
+    _id: number;
+    name: string;
+  };
 }
 
 export interface IQAChatbotPayload {

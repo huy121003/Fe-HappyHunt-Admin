@@ -84,6 +84,26 @@ const QAChatBotTable: React.FC<IQAChatBotTableProps> = ({
       ),
     },
     {
+      title: 'Last Updated At',
+      dataIndex: 'updatedAt',
+      key: 'updatedAt',
+      width: 200,
+      render: (value: string) => (
+        <CTableParagraph children={dayFormat(value)} />
+      ),
+    },
+
+    {
+      title: 'Updated By',
+      dataIndex: 'updatedBy',
+      key: 'updatedBy',
+      width: 200,
+      render: (_, record: IQAChatbotItem) => (
+        <CTableParagraph children={record.updatedBy?.name} />
+      ),
+    },
+
+    {
       title: 'Action',
       dataIndex: 'action',
       key: 'action',

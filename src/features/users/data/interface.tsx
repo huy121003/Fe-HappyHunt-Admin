@@ -38,7 +38,7 @@ export interface IUserItem {
   avatar?: string;
   email?: string;
   createdAt: string;
-  updatedAt?: string;
+  updatedAt: string;
   address: {
     province: {
       _id: number;

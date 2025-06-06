@@ -74,7 +74,7 @@ const WardTable: React.FC<IWardTableProps> = ({
       title: 'Short Code Name',
       dataIndex: 'shortCodeName',
       key: 'shortCodeName',
-      width: 100,
+      width: 200,
       render: (_: any, record: IWardItem) => (
         <CTableParagraph children={record.shortCodeName} />
       ),
@@ -83,7 +83,7 @@ const WardTable: React.FC<IWardTableProps> = ({
       title: 'Province - District',
       dataIndex: 'ward',
       key: 'ward',
-      width: 200,
+      width: 400,
       render: (_, record) => (
         <CTableParagraph
           children={`${record?.district?.name} - ${record?.province?.name}`}
@@ -108,6 +108,24 @@ const WardTable: React.FC<IWardTableProps> = ({
         <CTableParagraph children={record.createdBy?.name} />
       ),
       width: 200,
+    },
+    {
+      title: 'Last Updated At',
+      dataIndex: 'updatedAt',
+      key: 'updatedAt',
+      width: 200,
+      render: (value: string) => (
+        <CTableParagraph children={dayFormat(value)} />
+      ),
+    },
+    {
+      title: 'Updated By',
+      dataIndex: 'updatedBy',
+      key: 'updatedBy',
+      width: 200,
+      render: (_value, record: IWardItem) => (
+        <CTableParagraph children={record.updatedBy?.name} />
+      ),
     },
     {
       title: 'Action',

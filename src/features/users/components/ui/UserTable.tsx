@@ -183,6 +183,15 @@ const UserTable: React.FC<IUserTableProps> = ({
       ),
     },
     {
+      title: 'Last Updated At',
+      dataIndex: 'updatedAt',
+      key: 'updatedAt',
+      width: 200,
+      render: (value: string) => (
+        <CTableParagraph children={dayFormat(value)} />
+      ),
+    },
+    {
       title: 'Action',
       key: 'action',
       width: 100,
