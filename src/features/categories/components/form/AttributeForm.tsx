@@ -1,6 +1,6 @@
 import CInput from '@/components/CInput';
 import CSelect from '@/components/CSelect';
-import { Button, Checkbox, Flex, Form, Typography } from 'antd';
+import { Button, Checkbox, Flex, Form, Select, Typography } from 'antd';
 import { Type } from '../../data/constant';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import CButton from '@/components/buttons/CButton';
@@ -92,7 +92,7 @@ function AttributeForm() {
                               },
                             ]}
                           >
-                            <CSelect
+                            <Select
                               mode="tags"
                               placeholder="Input attribute values"
                               style={{ minWidth: 200 }}

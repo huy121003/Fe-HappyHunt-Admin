@@ -2,6 +2,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import React from 'react';
 import { API_KEY, EStatus, ETargetType } from '../../data/constant';
 import ReportService from '../../service';
+
 import {
   Avatar,
   Image,
@@ -25,6 +26,11 @@ import {
   ExclamationCircleOutlined,
 } from '@ant-design/icons';
 import useReportState from '../../hooks/useReportState';
+import useCheckPermission from '@/hooks/useCheckPermission';
+import {
+  IPERMISSION_CODE_NAME,
+  IPERMISSION_TYPE,
+} from '@/features/permissions/data/constant';
 
 const frontendUrl = import.meta.env.VITE_PUBLIC_FRONTEND_URL;
 const { Title, Text } = Typography;
@@ -37,7 +43,10 @@ interface IReportModalProps {
 
 function ReportModal({ open, setOpen, reportId }: IReportModalProps) {
   const { onSuccess } = useReportState();
-
+  const checkPermission = useCheckPermission(
+    IPERMISSION_CODE_NAME.REPORTS,
+    IPERMISSION_TYPE.UPDATE
+  );
   const { data, isLoading } = useQuery({
     queryKey: [API_KEY.REPORT_DETAIL, reportId],
     queryFn: async () => {
@@ -401,6 +410,7 @@ function ReportModal({ open, setOpen, reportId }: IReportModalProps) {
                     icon={<ExclamationCircleOutlined />}
                     onClick={() => handleCheck(EStatus.SPAM)}
                     loading={isPending}
+                    hidden={!checkPermission}
                   >
                     Mark as Spam
                   </Button>
@@ -411,6 +421,7 @@ function ReportModal({ open, setOpen, reportId }: IReportModalProps) {
                     icon={<CloseCircleOutlined />}
                     onClick={() => handleCheck(EStatus.REJECTED)}
                     loading={isPending}
+                    hidden={!checkPermission}
                   >
                     Reject Report
                   </Button>
@@ -421,6 +432,7 @@ function ReportModal({ open, setOpen, reportId }: IReportModalProps) {
                     icon={<CheckCircleOutlined />}
                     onClick={() => handleCheck(EStatus.APPROVED)}
                     loading={isPending}
+                    hidden={!checkPermission}
                   >
                     Approve Report
                   </Button>
